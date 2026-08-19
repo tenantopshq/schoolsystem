@@ -10,12 +10,12 @@ The SIS module owns student identity records, guardians and family relationships
 |---|---|---|---|---|
 | Scoped staff with `students.view` | Read | No | Read | Read staff-visible |
 | Scoped staff with `students.edit` | Read/write | Write | Read/write | Requires document permission |
-| Scoped staff with `students.sensitive_view` | Read | Read | Read | Visibility still applies |
+| Scoped staff with ordinary visibility plus `students.sensitive_view` | Read | Read | Read | Visibility still applies |
 | Linked guardian with portal access | Linked children | Read | Read | Guardian/student-visible |
 | Student with login | Self | Read | Read | Student-visible |
 | Unrelated or cross-tenant user | Denied | Denied | Denied | Denied |
 
-Ordinary authenticated users cannot hard-delete SIS records. Archival uses status transitions. Every application service that mutates SIS data must append an `audit_log` row and the appropriate `event_outbox` record in the same transaction.
+Authenticated clients have read-only access to SIS tables, governed by RLS. They cannot insert, update, or hard-delete SIS records directly. Mutations cross audited command-function boundaries; until a command exists for an operation, the operation is denied. Archival is available only through `app_auth.archive_student`, which requires scoped `students.archive`, owns actor attribution, and appends `audit_log` and `event_outbox` records atomically.
 
 ## Public events
 
@@ -34,5 +34,5 @@ Events are contracts for later modules; the database migration creates no busine
 - Student/guardian links cannot cross tenants.
 - A student has at most one active primary guardian.
 - Identifiers, addresses, contacts, and documents inherit tenant scope through composite foreign keys.
+- Campus-leading student indexes support both composite campus foreign-key paths and scoped campus lookups.
 - Document metadata is relational; file bytes remain in protected storage.
-

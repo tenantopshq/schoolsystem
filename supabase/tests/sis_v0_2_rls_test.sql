@@ -1,13 +1,16 @@
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(24);
+select plan(29);
 
 insert into auth.users (id, instance_id, aud, role, email, encrypted_password, created_at, updated_at)
 values
   ('31000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'sis-admin@example.test', '', now(), now()),
   ('32000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'sis-guardian@example.test', '', now(), now()),
   ('33000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'sis-student@example.test', '', now(), now()),
-  ('34000000-0000-0000-0000-000000000004', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'sis-other@example.test', '', now(), now());
+  ('34000000-0000-0000-0000-000000000004', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'sis-other@example.test', '', now(), now()),
+  ('35000000-0000-0000-0000-000000000005', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'sis-org-viewer@example.test', '', now(), now()),
+  ('36000000-0000-0000-0000-000000000006', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'sis-sensitive-only@example.test', '', now(), now()),
+  ('37000000-0000-0000-0000-000000000007', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'sis-sensitive-reader@example.test', '', now(), now());
 
 insert into public.organizations (id, name, slug) values
   ('c0000000-0000-0000-0000-000000000001', 'SIS Tenant A', 'sis-tenant-a'),
@@ -17,16 +20,32 @@ insert into public.schools (id, organization_id, name, code) values
   ('d1000000-0000-0000-0000-000000000002', 'd0000000-0000-0000-0000-000000000002', 'School B', 'B');
 insert into public.campuses (id, organization_id, school_id, name, code) values
   ('c2000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', 'c1000000-0000-0000-0000-000000000001', 'Campus A', 'MAIN'),
+  ('c2000000-0000-0000-0000-000000000002', 'c0000000-0000-0000-0000-000000000001', 'c1000000-0000-0000-0000-000000000001', 'Campus B', 'SECONDARY'),
   ('d2000000-0000-0000-0000-000000000002', 'd0000000-0000-0000-0000-000000000002', 'd1000000-0000-0000-0000-000000000002', 'Campus B', 'MAIN');
 
 insert into public.organization_memberships (id, organization_id, user_id, status, joined_at)
-values ('c3000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', '31000000-0000-0000-0000-000000000001', 'active', now());
+values
+  ('c3000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', '31000000-0000-0000-0000-000000000001', 'active', now()),
+  ('c3000000-0000-0000-0000-000000000002', 'c0000000-0000-0000-0000-000000000001', '35000000-0000-0000-0000-000000000005', 'active', now()),
+  ('c3000000-0000-0000-0000-000000000003', 'c0000000-0000-0000-0000-000000000001', '36000000-0000-0000-0000-000000000006', 'active', now()),
+  ('c3000000-0000-0000-0000-000000000004', 'c0000000-0000-0000-0000-000000000001', '37000000-0000-0000-0000-000000000007', 'active', now());
 insert into public.roles (id, organization_id, code, name)
-values ('c4000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', 'SIS_ADMIN', 'SIS Administrator');
+values
+  ('c4000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', 'SIS_ADMIN', 'SIS Administrator'),
+  ('c4000000-0000-0000-0000-000000000002', 'c0000000-0000-0000-0000-000000000001', 'SENSITIVE_ONLY', 'Sensitive Only'),
+  ('c4000000-0000-0000-0000-000000000003', 'c0000000-0000-0000-0000-000000000001', 'SENSITIVE_READER', 'Sensitive Reader');
 insert into public.role_permissions (organization_id, role_id, permission_id)
 select 'c0000000-0000-0000-0000-000000000001', 'c4000000-0000-0000-0000-000000000001', id
 from public.permissions
 where code in ('students.view', 'students.create', 'students.edit', 'student_documents.manage');
+insert into public.role_permissions (organization_id, role_id, permission_id)
+select 'c0000000-0000-0000-0000-000000000001', 'c4000000-0000-0000-0000-000000000002', id
+from public.permissions
+where code = 'students.sensitive_view';
+insert into public.role_permissions (organization_id, role_id, permission_id)
+select 'c0000000-0000-0000-0000-000000000001', 'c4000000-0000-0000-0000-000000000003', id
+from public.permissions
+where code in ('students.view', 'students.sensitive_view');
 insert into public.role_assignments (
   organization_id, organization_membership_id, role_id, school_id, campus_id
 ) values (
@@ -35,6 +54,24 @@ insert into public.role_assignments (
   'c4000000-0000-0000-0000-000000000001',
   'c1000000-0000-0000-0000-000000000001',
   'c2000000-0000-0000-0000-000000000001'
+), (
+  'c0000000-0000-0000-0000-000000000001',
+  'c3000000-0000-0000-0000-000000000002',
+  'c4000000-0000-0000-0000-000000000001',
+  null,
+  null
+), (
+  'c0000000-0000-0000-0000-000000000001',
+  'c3000000-0000-0000-0000-000000000003',
+  'c4000000-0000-0000-0000-000000000002',
+  null,
+  null
+), (
+  'c0000000-0000-0000-0000-000000000001',
+  'c3000000-0000-0000-0000-000000000004',
+  'c4000000-0000-0000-0000-000000000003',
+  null,
+  null
 );
 
 insert into public.students (
@@ -43,6 +80,7 @@ insert into public.students (
 ) values
   ('c5000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', 'c1000000-0000-0000-0000-000000000001', 'c2000000-0000-0000-0000-000000000001', '33000000-0000-0000-0000-000000000003', 'A-001', 'Ada', 'Student', '2014-01-01'),
   ('c5000000-0000-0000-0000-000000000002', 'c0000000-0000-0000-0000-000000000001', 'c1000000-0000-0000-0000-000000000001', 'c2000000-0000-0000-0000-000000000001', null, 'A-002', 'Ben', 'Student', '2014-02-01'),
+  ('c5000000-0000-0000-0000-000000000003', 'c0000000-0000-0000-0000-000000000001', 'c1000000-0000-0000-0000-000000000001', 'c2000000-0000-0000-0000-000000000002', null, 'A-003', 'Campus', 'Restricted', '2014-02-15'),
   ('d5000000-0000-0000-0000-000000000003', 'd0000000-0000-0000-0000-000000000002', 'd1000000-0000-0000-0000-000000000002', 'd2000000-0000-0000-0000-000000000002', null, 'B-001', 'Cross', 'Tenant', '2014-03-01');
 insert into public.guardians (
   id, organization_id, user_id, first_name, last_name, email
@@ -94,25 +132,33 @@ insert into public.student_documents (
 set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"31000000-0000-0000-0000-000000000001","role":"authenticated"}', true);
 select is((select count(*)::integer from public.students), 2, 'scoped staff sees only own tenant and campus students');
+select ok(
+  not app_auth.can_view_student('c0000000-0000-0000-0000-000000000001', 'c5000000-0000-0000-0000-000000000003'),
+  'Campus A role cannot access the Campus B student'
+);
 select is((select count(*)::integer from public.student_identifiers), 0, 'staff without sensitive permission cannot see identifiers');
 select ok(app_auth.can_edit_student('c0000000-0000-0000-0000-000000000001', 'c5000000-0000-0000-0000-000000000001'), 'scoped editor can edit assigned student');
 select ok(not app_auth.can_edit_student('d0000000-0000-0000-0000-000000000002', 'd5000000-0000-0000-0000-000000000003'), 'staff cannot edit cross-tenant student');
 select is((select count(*)::integer from public.student_documents), 4, 'document manager sees all assigned student documents');
-select lives_ok(
+select throws_ok(
   $$insert into public.guardians (id, organization_id, first_name, last_name, created_by) values ('c6000000-0000-0000-0000-000000000002', 'c0000000-0000-0000-0000-000000000001', 'New', 'Guardian', '31000000-0000-0000-0000-000000000001')$$,
-  'scoped editor can create guardian for later linking'
+  '42501',
+  'permission denied for table guardians',
+  'scoped editor cannot bypass the command-only guardian write boundary'
 );
-select is((select count(*)::integer from public.guardians), 2, 'creator can read newly created unlinked guardian');
-select lives_ok(
+select is((select count(*)::integer from public.guardians), 1, 'denied guardian insert creates no row');
+select throws_ok(
   $$update public.students set preferred_name = 'Ada Updated' where id = 'c5000000-0000-0000-0000-000000000001'$$,
-  'scoped staff update succeeds'
+  '42501',
+  'permission denied for table students',
+  'scoped editor cannot bypass the command-only student write boundary'
 );
-select is((select preferred_name from public.students where id = 'c5000000-0000-0000-0000-000000000001'), 'Ada Updated', 'staff update persisted');
+select is((select preferred_name from public.students where id = 'c5000000-0000-0000-0000-000000000001'), null::text, 'denied student update makes no change');
 select throws_ok(
   $$insert into public.students (organization_id, school_id, campus_id, student_number, first_name, last_name, date_of_birth) values ('d0000000-0000-0000-0000-000000000002', 'd1000000-0000-0000-0000-000000000002', 'd2000000-0000-0000-0000-000000000002', 'B-002', 'Blocked', 'Insert', '2014-04-01')$$,
   '42501',
-  'new row violates row-level security policy for table "students"',
-  'cross-tenant insert is rejected'
+  'permission denied for table students',
+  'cross-tenant insert is rejected by the command-only boundary'
 );
 
 select set_config('request.jwt.claims', '{"sub":"32000000-0000-0000-0000-000000000002","role":"authenticated"}', true);
@@ -132,6 +178,23 @@ select is((select count(*)::integer from public.student_documents), 1, 'student 
 
 select set_config('request.jwt.claims', '{"sub":"34000000-0000-0000-0000-000000000004","role":"authenticated"}', true);
 select is((select count(*)::integer from public.students), 0, 'unrelated authenticated user sees no students');
+
+select set_config('request.jwt.claims', '{"sub":"35000000-0000-0000-0000-000000000005","role":"authenticated"}', true);
+select is((select count(*)::integer from public.students), 3, 'organization-scoped role sees students in both Tenant A campuses');
+
+select set_config('request.jwt.claims', '{"sub":"36000000-0000-0000-0000-000000000006","role":"authenticated"}', true);
+select is((select count(*)::integer from public.student_identifiers), 0, 'sensitive permission alone cannot read identifiers');
+
+select set_config('request.jwt.claims', '{"sub":"37000000-0000-0000-0000-000000000007","role":"authenticated"}', true);
+select is((select count(*)::integer from public.student_identifiers), 1, 'ordinary visibility plus sensitive permission can read identifiers');
+
+reset role;
+update public.organization_memberships
+set status = 'suspended'
+where id = 'c3000000-0000-0000-0000-000000000001';
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"31000000-0000-0000-0000-000000000001","role":"authenticated"}', true);
+select is((select count(*)::integer from public.students), 0, 'suspended staff membership denies student access');
 
 reset role;
 update public.student_guardians set status = 'inactive' where id = 'c7000000-0000-0000-0000-000000000001';
