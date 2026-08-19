@@ -1,6 +1,6 @@
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(27);
+select plan(28);
 
 select has_table('public', 'students', 'students exists');
 select has_table('public', 'guardians', 'guardians exists');
@@ -36,6 +36,7 @@ select function_returns('app_auth', 'is_linked_guardian', array['uuid'], 'boolea
 select function_returns('app_auth', 'can_view_student_sensitive', array['uuid','uuid'], 'boolean', 'sensitive helper returns boolean');
 select function_returns('app_auth', 'can_manage_student_documents', array['uuid','uuid'], 'boolean', 'document helper returns boolean');
 select function_returns('app_auth', 'archive_student', array['uuid','text'], 'uuid', 'archive command returns the archived student id');
+select function_returns('public', 'archive_student', array['uuid','text'], 'uuid', 'public archive RPC returns the archived student id');
 
 select * from finish();
 rollback;

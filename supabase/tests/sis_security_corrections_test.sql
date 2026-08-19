@@ -1,6 +1,6 @@
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(23);
+select plan(27);
 
 insert into auth.users (id, instance_id, aud, role, email, encrypted_password, created_at, updated_at)
 values
@@ -93,6 +93,26 @@ select ok(not has_table_privilege('authenticated', 'public.student_emergency_con
 select ok(not has_table_privilege('authenticated', 'public.student_emergency_contacts', 'UPDATE'), 'authenticated cannot update emergency contacts');
 select ok(not has_table_privilege('authenticated', 'public.student_documents', 'INSERT'), 'authenticated cannot insert documents');
 select ok(not has_table_privilege('authenticated', 'public.student_documents', 'UPDATE'), 'authenticated cannot update documents');
+select ok(
+  has_function_privilege('authenticated', 'public.archive_student(uuid,text)', 'EXECUTE'),
+  'authenticated can execute the public archive RPC wrapper'
+);
+select ok(
+  has_function_privilege('service_role', 'public.archive_student(uuid,text)', 'EXECUTE'),
+  'service role can execute the public archive RPC wrapper'
+);
+select ok(
+  not has_function_privilege('anon', 'public.archive_student(uuid,text)', 'EXECUTE'),
+  'anonymous cannot execute the public archive RPC wrapper'
+);
+
+set local role anon;
+select throws_ok(
+  $$select public.archive_student('e5000000-0000-0000-0000-000000000001', 'anonymous attempted archive')$$,
+  '42501',
+  'permission denied for function archive_student',
+  'anonymous archive RPC execution is denied'
+);
 
 set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"41000000-0000-0000-0000-000000000001","role":"authenticated"}', true);
@@ -109,7 +129,7 @@ select throws_ok(
   'direct update cannot spoof updated_by'
 );
 select throws_ok(
-  $$select app_auth.archive_student('e5000000-0000-0000-0000-000000000001', 'editor attempted archive')$$,
+  $$select public.archive_student('e5000000-0000-0000-0000-000000000001', 'editor attempted archive')$$,
   '42501',
   'students.archive permission is required',
   'students.edit alone cannot archive a student'
@@ -117,13 +137,13 @@ select throws_ok(
 
 select set_config('request.jwt.claims', '{"sub":"42000000-0000-0000-0000-000000000002","role":"authenticated"}', true);
 select throws_ok(
-  $$select app_auth.archive_student('e5000000-0000-0000-0000-000000000001', '   ')$$,
+  $$select public.archive_student('e5000000-0000-0000-0000-000000000001', '   ')$$,
   '22023',
   'archive reason must not be empty',
   'archive command rejects an empty reason'
 );
 select lives_ok(
-  $$select app_auth.archive_student('e5000000-0000-0000-0000-000000000001', 'Transferred to another school')$$,
+  $$select public.archive_student('e5000000-0000-0000-0000-000000000001', 'Transferred to another school')$$,
   'scoped archive permission can archive a student'
 );
 select is(

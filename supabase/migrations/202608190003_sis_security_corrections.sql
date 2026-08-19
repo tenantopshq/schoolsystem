@@ -164,4 +164,19 @@ $$;
 revoke all on function app_auth.archive_student(uuid, text) from public, anon;
 grant execute on function app_auth.archive_student(uuid, text) to authenticated, service_role;
 
+create or replace function public.archive_student(
+  target_student_id uuid,
+  archive_reason text
+)
+returns uuid
+language sql
+security invoker
+set search_path = ''
+as $$
+  select app_auth.archive_student(target_student_id, archive_reason);
+$$;
+
+revoke all on function public.archive_student(uuid, text) from public, anon;
+grant execute on function public.archive_student(uuid, text) to authenticated, service_role;
+
 commit;
