@@ -13,6 +13,7 @@
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
     "db:test": "supabase test db",
+    "db:types": "supabase gen types typescript --local --schema public | sed -e '${/^$/d;}' > src/platform/database/database.types.ts",
     "verify": "npm run typecheck && npm run build"
   },
   "dependencies": {
