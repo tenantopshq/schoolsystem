@@ -13,6 +13,14 @@ The platform starts as a modular monolith: one deployable Next.js application an
 
 Modules never query another module's private tables as an integration shortcut. Cross-domain effects are invoked through public services or recorded in the transactional event outbox.
 
+The academics module owns staff employment profiles and academic structure
+(buildings, rooms, grade levels, subjects, and sections). Academic periods remain a
+shared academic primitive but now mutate through audited academics RPCs. Typed
+public commands form the module boundary: new-aggregate wrappers use two unexposed
+private dispatchers, while period commands implement equivalent validation directly.
+Each successful mutation emits one correlated audit record and transactional outbox
+event for downstream modules.
+
 ## Security boundary
 
 Access requires both an application permission check and a database RLS decision. Tenant identity is derived from authenticated membership; client-supplied organization identifiers are never trusted on their own. Service-role credentials are server-only and may not be used for ordinary user requests.
@@ -20,4 +28,3 @@ Access requires both an application permission check and a database RLS decision
 ## Source of truth
 
 All schema, grants, RLS policies, functions, seeds, and database tests are committed under `supabase/`. Dashboard-only schema changes are prohibited.
-

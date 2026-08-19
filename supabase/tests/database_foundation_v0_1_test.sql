@@ -17,7 +17,11 @@ select is(
   (
     select count(*)::integer
     from public.permissions
-    where module in ('organizations', 'identity', 'academics', 'audit')
+    where code in (
+      'organizations.view','organizations.manage','schools.view','schools.manage',
+      'memberships.view','memberships.manage','roles.view','roles.manage',
+      'academic_periods.view','academic_periods.manage','audit.view'
+    )
   ),
   11,
   'foundation permission catalog is seeded'
