@@ -27,3 +27,27 @@ and outbox event atomically. Public functions and private helpers have deliberat
 owners, empty search paths, schema-qualified references, and explicit signature
 grants. Authenticated users retain SELECT-only table access through forced,
 operation-specific RLS and cannot mutate academic tables directly.
+
+SIS Command Layer v0.4 applies the command-only boundary to students, guardians,
+relationships, identifiers, addresses, emergency contacts, and document metadata.
+Its 21 typed public RPCs accept no organization, actor, identity-link, audit/event,
+arbitrary JSON, or storage-path authority. Student scope is derived from locked
+authoritative rows. Identifier mutation requires both `students.edit` and
+`students.sensitive_manage`; document metadata mutation requires both
+`students.edit` and `student_documents.manage`.
+
+The SIS lock order is organization, sorted schools, sorted campuses, sorted
+students, guardian, then sorted links/children. Guardian commands re-read the locked
+link set and raise SQLSTATE `40001` if it changed concurrently; callers may retry the
+complete command with bounded backoff. Status transitions cannot be combined with
+business/scope edits. Archived records are terminal, hard deletes are not exposed,
+and cleanup remains authorized from stored scope so parent lifecycle does not strand
+history.
+
+Document creation consumes a locked server-created upload intent. Browser roles
+have no intent-table access and cannot assert a storage path. `upload_intent_id` and
+document storage/sensitive metadata are excluded from outbox payloads. Identifier
+values are replaced with `[REDACTED]` before audit serialization and excluded from
+outbox payloads. Every successful SIS command writes its domain change, protected
+audit record, and minimal outbox event atomically; failure rolls back all effects,
+including intent consumption.
