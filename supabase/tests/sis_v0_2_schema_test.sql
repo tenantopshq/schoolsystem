@@ -27,8 +27,8 @@ select has_index('public', 'students', 'students_school_campus_idx', 'school-cam
 
 select is(
   (select count(*)::integer from public.permissions where module = 'students'),
-  6,
-  'SIS permission catalog is seeded'
+  7,
+  'SIS permission catalog includes the v0.4 sensitive-manage permission'
 );
 select function_returns('app_auth', 'can_view_student', array['uuid','uuid'], 'boolean', 'student access helper returns boolean');
 select function_returns('app_auth', 'can_edit_student', array['uuid','uuid'], 'boolean', 'student edit helper returns boolean');

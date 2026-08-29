@@ -1,40 +1,138 @@
-# Student Information System v0.2
+# Student Information System v0.4
 
 ## Boundary
 
-The SIS module owns student identity records, guardians and family relationships, identifiers, addresses, emergency contacts, and student-document metadata. It does not own academic placement. School and campus fields on `students` are administrative security scope; historical grade and section placement will be represented by enrollment records.
+The SIS module owns students, guardians and family relationships, identifiers,
+addresses, emergency contacts, and student-document metadata. It does not own
+authentication linkage, academic placement, or storage upload authorization.
+`students.user_id` and `guardians.user_id` are intentionally immutable in v0.4.
+School/campus fields on students are administrative security scope; enrollment owns
+historical academic placement.
 
-## Access matrix
+Authenticated clients have SELECT-only table access through forced RLS. All writes
+use one of 21 typed `public` RPCs. The RPCs derive `auth.uid()`, organization, school,
+and campus from locked authoritative rows; clients cannot provide tenant,
+attribution, audit, event, command, or storage-path fields. Private `app_auth`
+dispatchers and helpers are not executable by browser roles.
 
-| Actor | Student profile | Identifier | Address/contact | Document |
-|---|---|---|---|---|
-| Scoped staff with `students.view` | Read | No | Read | Read staff-visible |
-| Scoped staff with `students.edit` | Read; mutation requires an implemented audited command | No direct write | Read; mutation requires an implemented audited command | Requires a document command and permission |
-| Scoped staff with ordinary visibility plus `students.sensitive_view` | Read | Read | Read | Visibility still applies |
-| Linked guardian with portal access | Linked children | Read | Read | Guardian/student-visible |
-| Student with login | Self | Read | Read | Student-visible |
-| Unrelated or cross-tenant user | Denied | Denied | Denied | Denied |
+## Permissions and reads
 
-Authenticated clients have read-only access to SIS tables, governed by RLS. They cannot insert, update, or hard-delete SIS records directly. A permission such as `students.edit` describes authorization scope but does not itself make a mutation available: every mutation also requires an implemented audited command, and operations without one are denied.
+| Permission | Capability |
+|---|---|
+| `students.view` | Read ordinary student profiles in assigned scope |
+| `students.create` | Create students in assigned active school/campus scope |
+| `students.edit` | Mutate ordinary SIS records through commands in student scope |
+| `students.archive` | Archive students in scope after active children are cleared |
+| `students.sensitive_view` | Read identifiers for an otherwise visible student |
+| `students.sensitive_manage` | Mutate identifiers; also requires `students.edit` |
+| `student_documents.manage` | Mutate document metadata; also requires `students.edit` |
 
-Archival is currently the only implemented SIS mutation command. PostgREST exposes the narrow `public.archive_student` RPC wrapper, which invokes the private `app_auth.archive_student` implementation. The command requires scoped `students.archive`, owns actor attribution, and appends `audit_log` and `event_outbox` records atomically. The `app_auth` schema remains outside the exposed PostgREST schema list.
+Linked guardians with portal access can read linked students; logged-in students can
+read themselves. Identifier reads retain their separate sensitive-view relationship
+rules. Document reads also apply visibility. None of these read relationships grants
+mutation authority.
 
-## Public events
+Inactive, suspended, invited, left, not-yet-started, or expired membership/role
+assignments do not authorize commands. Organization-, school-, and campus-scoped
+roles operate only inside their authoritative scope. Student moves require
+`students.edit` over both old and new scope. Guardian updates require edit authority
+over every active linked student; guardian archive uses every historical linked
+student's stored scope after active links are cleared.
 
-- `student.created`
-- `student.updated`
-- `student.archived`
-- `student.guardian_linked`
-- `student.document_added`
+## Public command inventory
 
-Events are contracts for later modules; the database migration creates no business-logic triggers.
+| Aggregate | RPCs |
+|---|---|
+| Student | `create_student`, `update_student`, `archive_student` |
+| Guardian | `create_guardian_for_student`, `update_guardian`, `archive_guardian` |
+| Guardian link | `link_guardian_to_student`, `update_student_guardian`, `archive_student_guardian` |
+| Identifier | `create_student_identifier`, `update_student_identifier`, `archive_student_identifier` |
+| Address | `create_student_address`, `update_student_address`, `archive_student_address` |
+| Emergency contact | `create_student_emergency_contact`, `update_student_emergency_contact`, `archive_student_emergency_contact` |
+| Document metadata | `create_student_document`, `update_student_document`, `archive_student_document` |
 
-## Invariants
+`create_guardian_for_student` atomically creates the guardian and initial link and
+returns `{ guardian_id, student_guardian_id }`. `archive_student(uuid,text)` retains
+its published signature. Archive commands require a nonblank reason and expose no
+hard-delete or reactivation-from-archived path.
 
-- Student numbers are unique within an organization.
-- A login maps to at most one student and one guardian profile per organization.
-- Student/guardian links cannot cross tenants.
-- A student has at most one active primary guardian.
-- Identifiers, addresses, contacts, and documents inherit tenant scope through composite foreign keys.
-- Campus-leading student indexes support both composite campus foreign-key paths and scoped campus lookups.
-- Document metadata is relational; file bytes remain in protected storage.
+The generated database types in `src/platform/database/database.types.ts` are the
+adapter-level RPC contract. `src/modules/students/index.ts` exports strict camelCase
+Zod command schemas, inferred application input types, the 21-name RPC union, typed
+RPC argument/result aliases, event and permission unions, and `SisCommandService`.
+
+## Lifecycle and concurrency
+
+Active and inactive are reversible; archived is terminal. A status transition must
+leave every business and scope field equal to the locked current row. Inactive links
+and child rows may only reactivate or archive. Reactivation and new child creation
+require active authoritative parents. Deactivation never cascades. Cleanup archives
+remain available from stored student scope even when a parent is inactive or
+archived, so history cannot become stranded.
+
+Commands lock in this order:
+
+```text
+organization -> sorted schools -> sorted campuses -> sorted students
+  -> guardian -> sorted links/children
+```
+
+Guardian commands discover, lock, and re-read their complete relevant link set. If
+scope or links change concurrently, the command aborts with SQLSTATE `40001`; callers
+may retry the complete command with bounded backoff. Constraint conflicts and
+validation/authorization errors are not automatically retryable.
+
+## Document upload capability
+
+Document commands manage metadata only. A trusted storage service creates a
+single-use, expiring upload intent after separate upload authorization. The create
+RPC accepts only `upload_intent_id`, locks and consumes it atomically, and derives
+the student, tenant, and immutable `storage_path`. Browser roles cannot create,
+read, change, or reuse intents. The SIS command never uploads, probes, moves, signs,
+or deletes storage objects.
+
+`upload_intent_id`, `storage_path`, title, MIME type, and file size never appear in
+document outbox payloads. The protected document audit snapshot may retain the
+immutable storage path; the capability ID is not part of the domain snapshot.
+
+## Audit and public events
+
+Every successful single-aggregate command writes the domain row, exactly one
+actor-attributed `audit_log` row, and exactly one `event_outbox` row in one
+transaction. Guardian-plus-initial-link creation writes two audit rows and two
+events sharing one server-generated `command_id`. Any failure rolls back domain,
+audit, outbox, and upload-intent consumption effects.
+
+Identifier audit snapshots replace `identifier_value` with `[REDACTED]`; neither
+audit nor outbox contains raw, partial, encoded, hashed, or fingerprinted identifier
+values. Outbox payloads contain identifiers and minimal lifecycle/scope facts, not
+personal record snapshots.
+
+Public events:
+
+- `student.created`, `student.updated`, `student.archived`
+- `guardian.created`, `guardian.updated`, `guardian.archived`
+- `student.guardian_linked`, `student.guardian_updated`, `student.guardian_unlinked`
+- `student.identifier_added`, `student.identifier_updated`, `student.identifier_archived`
+- `student.address_added`, `student.address_updated`, `student.address_archived`
+- `student.emergency_contact_added`, `student.emergency_contact_updated`, `student.emergency_contact_archived`
+- `student.document_added`, `student.document_updated`, `student.document_archived`
+
+## Core invariants
+
+- Student numbers are normalized and unique within an organization.
+- A login maps to at most one student and guardian profile per organization; v0.4
+  cannot change those links.
+- Every tenant relationship is enforced by composite foreign keys.
+- Student/guardian relationships cannot cross tenants; one active primary guardian
+  exists per student, and endpoint IDs are immutable.
+- Guardian creation always includes its initial student link. Guardian updates lock
+  and authorize the complete active linked-student set.
+- Non-archived identifiers are unique by normalized type/value per student.
+- One active primary address exists per normalized type and one active emergency
+  priority exists per student.
+- Emergency-contact guardian references use the effective stored/requested guardian
+  and require an active same-tenant link whenever the contact is active.
+- Document storage paths are organization-unique and immutable across metadata
+  history; archived paths and consumed intents cannot be rebound.
+- No SIS hard-delete RPC exists; archived history is immutable.

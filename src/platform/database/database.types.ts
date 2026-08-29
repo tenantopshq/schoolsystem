@@ -1205,6 +1205,7 @@ export type Database = {
           organization_id: string
           postal_code: string | null
           state_region: string | null
+          status: Database["public"]["Enums"]["record_status"]
           student_id: string
           updated_at: string
           updated_by: string | null
@@ -1222,6 +1223,7 @@ export type Database = {
           organization_id: string
           postal_code?: string | null
           state_region?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
           student_id: string
           updated_at?: string
           updated_by?: string | null
@@ -1239,6 +1241,7 @@ export type Database = {
           organization_id?: string
           postal_code?: string | null
           state_region?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
           student_id?: string
           updated_at?: string
           updated_by?: string | null
@@ -1253,6 +1256,57 @@ export type Database = {
           },
           {
             foreignKeyName: "student_addresses_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      student_document_upload_intents: {
+        Row: {
+          consumed_at: string | null
+          consumed_by: string | null
+          created_at: string
+          created_by: string
+          expires_at: string
+          id: string
+          organization_id: string
+          storage_path: string
+          student_id: string
+        }
+        Insert: {
+          consumed_at?: string | null
+          consumed_by?: string | null
+          created_at?: string
+          created_by: string
+          expires_at: string
+          id?: string
+          organization_id: string
+          storage_path: string
+          student_id: string
+        }
+        Update: {
+          consumed_at?: string | null
+          consumed_by?: string | null
+          created_at?: string
+          created_by?: string
+          expires_at?: string
+          id?: string
+          organization_id?: string
+          storage_path?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_document_upload_intents_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_document_upload_intents_organization_id_student_id_fkey"
             columns: ["organization_id", "student_id"]
             isOneToOne: false
             referencedRelation: "students"
@@ -1344,6 +1398,7 @@ export type Database = {
           phone: string
           priority: number
           relationship: string
+          status: Database["public"]["Enums"]["record_status"]
           student_id: string
           updated_at: string
           updated_by: string | null
@@ -1359,6 +1414,7 @@ export type Database = {
           phone: string
           priority: number
           relationship: string
+          status?: Database["public"]["Enums"]["record_status"]
           student_id: string
           updated_at?: string
           updated_by?: string | null
@@ -1374,6 +1430,7 @@ export type Database = {
           phone?: string
           priority?: number
           relationship?: string
+          status?: Database["public"]["Enums"]["record_status"]
           student_id?: string
           updated_at?: string
           updated_by?: string | null
@@ -1492,6 +1549,7 @@ export type Database = {
           identifier_value: string
           issued_at: string | null
           organization_id: string
+          status: Database["public"]["Enums"]["record_status"]
           student_id: string
           updated_at: string
           updated_by: string | null
@@ -1506,6 +1564,7 @@ export type Database = {
           identifier_value: string
           issued_at?: string | null
           organization_id: string
+          status?: Database["public"]["Enums"]["record_status"]
           student_id: string
           updated_at?: string
           updated_by?: string | null
@@ -1520,6 +1579,7 @@ export type Database = {
           identifier_value?: string
           issued_at?: string | null
           organization_id?: string
+          status?: Database["public"]["Enums"]["record_status"]
           student_id?: string
           updated_at?: string
           updated_by?: string | null
@@ -1702,11 +1762,35 @@ export type Database = {
     Functions: {
       archive_building: { Args: { id: string }; Returns: string }
       archive_grade_level: { Args: { id: string }; Returns: string }
+      archive_guardian: {
+        Args: { archive_reason: string; id: string }
+        Returns: string
+      }
       archive_room: { Args: { id: string }; Returns: string }
       archive_section: { Args: { id: string }; Returns: string }
       archive_staff_profile: { Args: { id: string }; Returns: string }
       archive_student: {
         Args: { archive_reason: string; target_student_id: string }
+        Returns: string
+      }
+      archive_student_address: {
+        Args: { archive_reason: string; id: string }
+        Returns: string
+      }
+      archive_student_document: {
+        Args: { archive_reason: string; id: string }
+        Returns: string
+      }
+      archive_student_emergency_contact: {
+        Args: { archive_reason: string; id: string }
+        Returns: string
+      }
+      archive_student_guardian: {
+        Args: { archive_reason: string; id: string }
+        Returns: string
+      }
+      archive_student_identifier: {
+        Args: { archive_reason: string; id: string }
         Returns: string
       }
       archive_subject: { Args: { id: string }; Returns: string }
@@ -1753,6 +1837,30 @@ export type Database = {
         }
         Returns: string
       }
+      create_guardian_for_student: {
+        Args: {
+          alternate_phone: string
+          email: string
+          financial_responsibility: boolean
+          first_name: string
+          has_portal_access: boolean
+          is_primary: boolean
+          last_name: string
+          middle_name: string
+          occupation: string
+          phone: string
+          pickup_authorized: boolean
+          preferred_language: string
+          receives_academic_updates: boolean
+          receives_attendance_alerts: boolean
+          relationship_type: string
+          student_id: string
+        }
+        Returns: {
+          guardian_id: string
+          student_guardian_id: string
+        }[]
+      }
       create_room: {
         Args: {
           building_id: string
@@ -1794,6 +1902,80 @@ export type Database = {
         }
         Returns: string
       }
+      create_student: {
+        Args: {
+          admission_date: string
+          campus_id: string
+          date_of_birth: string
+          exit_date: string
+          first_name: string
+          gender: string
+          last_name: string
+          middle_name: string
+          nationality_code: string
+          photo_path: string
+          preferred_name: string
+          primary_language: string
+          school_id: string
+          status?: Database["public"]["Enums"]["record_status"]
+          student_number: string
+        }
+        Returns: string
+      }
+      create_student_address: {
+        Args: {
+          address_type: string
+          city: string
+          country_code: string
+          is_primary: boolean
+          line_1: string
+          line_2: string
+          postal_code: string
+          state_region: string
+          status?: Database["public"]["Enums"]["record_status"]
+          student_id: string
+        }
+        Returns: string
+      }
+      create_student_document: {
+        Args: {
+          document_type: string
+          expires_at: string
+          file_size: number
+          issued_at: string
+          mime_type: string
+          status?: Database["public"]["Enums"]["record_status"]
+          title: string
+          upload_intent_id: string
+          visibility: Database["public"]["Enums"]["student_document_visibility"]
+        }
+        Returns: string
+      }
+      create_student_emergency_contact: {
+        Args: {
+          alternate_phone: string
+          guardian_id: string
+          name: string
+          phone: string
+          priority: number
+          relationship: string
+          status?: Database["public"]["Enums"]["record_status"]
+          student_id: string
+        }
+        Returns: string
+      }
+      create_student_identifier: {
+        Args: {
+          country_code: string
+          expires_at: string
+          identifier_type: string
+          identifier_value: string
+          issued_at: string
+          status?: Database["public"]["Enums"]["record_status"]
+          student_id: string
+        }
+        Returns: string
+      }
       create_subject: {
         Args: {
           code: string
@@ -1801,6 +1983,20 @@ export type Database = {
           name: string
           school_id: string
           status?: Database["public"]["Enums"]["record_status"]
+        }
+        Returns: string
+      }
+      link_guardian_to_student: {
+        Args: {
+          financial_responsibility: boolean
+          guardian_id: string
+          has_portal_access: boolean
+          is_primary: boolean
+          pickup_authorized: boolean
+          receives_academic_updates: boolean
+          receives_attendance_alerts: boolean
+          relationship_type: string
+          student_id: string
         }
         Returns: string
       }
@@ -1859,6 +2055,27 @@ export type Database = {
         }
         Returns: string
       }
+      update_guardian: {
+        Args: {
+          alternate_phone: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          middle_name: string
+          occupation: string
+          phone: string
+          preferred_language: string
+          set_alternate_phone: boolean
+          set_email: boolean
+          set_middle_name: boolean
+          set_occupation: boolean
+          set_phone: boolean
+          set_preferred_language: boolean
+          status: Database["public"]["Enums"]["record_status"]
+        }
+        Returns: string
+      }
       update_room: {
         Args: {
           capacity: number
@@ -1906,6 +2123,117 @@ export type Database = {
           staff_number: string
           status: Database["public"]["Enums"]["record_status"]
           termination_date?: string
+        }
+        Returns: string
+      }
+      update_student: {
+        Args: {
+          admission_date: string
+          campus_id: string
+          date_of_birth: string
+          exit_date: string
+          first_name: string
+          gender: string
+          id: string
+          last_name: string
+          middle_name: string
+          nationality_code: string
+          photo_path: string
+          preferred_name: string
+          primary_language: string
+          school_id: string
+          set_admission_date: boolean
+          set_campus_id: boolean
+          set_exit_date: boolean
+          set_gender: boolean
+          set_middle_name: boolean
+          set_nationality_code: boolean
+          set_photo_path: boolean
+          set_preferred_name: boolean
+          set_primary_language: boolean
+          set_school_id: boolean
+          status: Database["public"]["Enums"]["record_status"]
+          student_number: string
+        }
+        Returns: string
+      }
+      update_student_address: {
+        Args: {
+          address_type: string
+          city: string
+          country_code: string
+          id: string
+          is_primary: boolean
+          line_1: string
+          line_2: string
+          postal_code: string
+          set_line_2: boolean
+          set_postal_code: boolean
+          set_state_region: boolean
+          state_region: string
+          status: Database["public"]["Enums"]["record_status"]
+        }
+        Returns: string
+      }
+      update_student_document: {
+        Args: {
+          document_type: string
+          expires_at: string
+          file_size: number
+          id: string
+          issued_at: string
+          mime_type: string
+          set_expires_at: boolean
+          set_file_size: boolean
+          set_issued_at: boolean
+          set_mime_type: boolean
+          status: Database["public"]["Enums"]["record_status"]
+          title: string
+          visibility: Database["public"]["Enums"]["student_document_visibility"]
+        }
+        Returns: string
+      }
+      update_student_emergency_contact: {
+        Args: {
+          alternate_phone: string
+          guardian_id: string
+          id: string
+          name: string
+          phone: string
+          priority: number
+          relationship: string
+          set_alternate_phone: boolean
+          set_guardian_id: boolean
+          status: Database["public"]["Enums"]["record_status"]
+        }
+        Returns: string
+      }
+      update_student_guardian: {
+        Args: {
+          financial_responsibility: boolean
+          has_portal_access: boolean
+          id: string
+          is_primary: boolean
+          pickup_authorized: boolean
+          receives_academic_updates: boolean
+          receives_attendance_alerts: boolean
+          relationship_type: string
+          status: Database["public"]["Enums"]["record_status"]
+        }
+        Returns: string
+      }
+      update_student_identifier: {
+        Args: {
+          country_code: string
+          expires_at: string
+          id: string
+          identifier_type: string
+          identifier_value: string
+          issued_at: string
+          set_country_code: boolean
+          set_expires_at: boolean
+          set_issued_at: boolean
+          status: Database["public"]["Enums"]["record_status"]
         }
         Returns: string
       }

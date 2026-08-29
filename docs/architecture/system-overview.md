@@ -21,6 +21,18 @@ private dispatchers, while period commands implement equivalent validation direc
 Each successful mutation emits one correlated audit record and transactional outbox
 event for downstream modules.
 
+The SIS module exposes 21 typed student/guardian/child-record RPCs. Ordinary clients
+retain SELECT-only table access; private command helpers derive tenant and actor,
+lock authoritative scope parent-first, enforce transition-only lifecycle changes,
+and write audit/outbox effects atomically. Guardian creation is the deliberate
+multi-aggregate exception: guardian and initial-link audit/events share one command
+ID. Concurrent guardian scope/link changes abort with retryable SQLSTATE `40001`.
+
+Document upload authorization remains a storage-platform responsibility. That
+service creates a single-use intent; SIS consumes the intent and derives the
+immutable storage path when creating metadata. Capability IDs and storage details
+are excluded from integration events.
+
 ## Security boundary
 
 Access requires both an application permission check and a database RLS decision. Tenant identity is derived from authenticated membership; client-supplied organization identifiers are never trusted on their own. Service-role credentials are server-only and may not be used for ordinary user requests.
