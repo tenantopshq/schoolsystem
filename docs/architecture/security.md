@@ -51,3 +51,11 @@ values are replaced with `[REDACTED]` before audit serialization and excluded fr
 outbox payloads. Every successful SIS command writes its domain change, protected
 audit record, and minimal outbox event atomically; failure rolls back all effects,
 including intent consumption.
+
+Enrollment v0.5 adds forced-RLS, SELECT-only enrollment and placement tables. Nine
+typed security-definer RPCs derive student and academic scope from locked rows and
+require `enrollments.manage`; corrections additionally require
+`enrollments.correct`. Cross-school commands check administrative source and
+academic destination authority. Student and active portal-guardian relationships
+grant reads only. Domain, audit, and minimal outbox writes share one transaction and
+server-generated command ID; discovery drift raises retryable SQLSTATE `40001`.
