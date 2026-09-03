@@ -1459,6 +1459,98 @@ export type Database = {
           },
         ]
       }
+      student_enrollments: {
+        Row: {
+          academic_year_id: string
+          correction_reason: string | null
+          created_at: string
+          created_by: string
+          end_reason: string | null
+          ended_on: string | null
+          enrolled_on: string
+          enrollment_range: unknown
+          grade_level_id: string
+          id: string
+          organization_id: string
+          scheduled_end_on: string
+          school_id: string
+          status: Database["public"]["Enums"]["enrollment_status"]
+          student_id: string
+          supersedes_enrollment_id: string | null
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          academic_year_id: string
+          correction_reason?: string | null
+          created_at?: string
+          created_by: string
+          end_reason?: string | null
+          ended_on?: string | null
+          enrolled_on: string
+          enrollment_range: unknown
+          grade_level_id: string
+          id?: string
+          organization_id: string
+          scheduled_end_on: string
+          school_id: string
+          status?: Database["public"]["Enums"]["enrollment_status"]
+          student_id: string
+          supersedes_enrollment_id?: string | null
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          academic_year_id?: string
+          correction_reason?: string | null
+          created_at?: string
+          created_by?: string
+          end_reason?: string | null
+          ended_on?: string | null
+          enrolled_on?: string
+          enrollment_range?: unknown
+          grade_level_id?: string
+          id?: string
+          organization_id?: string
+          scheduled_end_on?: string
+          school_id?: string
+          status?: Database["public"]["Enums"]["enrollment_status"]
+          student_id?: string
+          supersedes_enrollment_id?: string | null
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_enrollments_organization_id_school_id_academic_yea_fkey"
+            columns: ["organization_id", "school_id", "academic_year_id"]
+            isOneToOne: false
+            referencedRelation: "academic_years"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "student_enrollments_organization_id_school_id_grade_level__fkey"
+            columns: ["organization_id", "school_id", "grade_level_id"]
+            isOneToOne: false
+            referencedRelation: "grade_levels"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "student_enrollments_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "student_enrollments_organization_id_supersedes_enrollment__fkey"
+            columns: ["organization_id", "supersedes_enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "student_enrollments"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
       student_guardians: {
         Row: {
           created_at: string
@@ -1597,6 +1689,125 @@ export type Database = {
             columns: ["organization_id", "student_id"]
             isOneToOne: false
             referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      student_section_placements: {
+        Row: {
+          academic_year_id: string
+          campus_id: string
+          correction_reason: string | null
+          created_at: string
+          created_by: string
+          end_reason: string | null
+          ends_on: string | null
+          id: string
+          organization_id: string
+          school_id: string
+          section_id: string
+          starts_on: string
+          status: Database["public"]["Enums"]["section_placement_status"]
+          student_enrollment_id: string
+          student_id: string
+          supersedes_placement_id: string | null
+          transfer_to_placement_id: string | null
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          academic_year_id: string
+          campus_id: string
+          correction_reason?: string | null
+          created_at?: string
+          created_by: string
+          end_reason?: string | null
+          ends_on?: string | null
+          id?: string
+          organization_id: string
+          school_id: string
+          section_id: string
+          starts_on: string
+          status?: Database["public"]["Enums"]["section_placement_status"]
+          student_enrollment_id: string
+          student_id: string
+          supersedes_placement_id?: string | null
+          transfer_to_placement_id?: string | null
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          academic_year_id?: string
+          campus_id?: string
+          correction_reason?: string | null
+          created_at?: string
+          created_by?: string
+          end_reason?: string | null
+          ends_on?: string | null
+          id?: string
+          organization_id?: string
+          school_id?: string
+          section_id?: string
+          starts_on?: string
+          status?: Database["public"]["Enums"]["section_placement_status"]
+          student_enrollment_id?: string
+          student_id?: string
+          supersedes_placement_id?: string | null
+          transfer_to_placement_id?: string | null
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_section_placements_organization_id_school_id_acade_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "academic_year_id",
+              "student_id",
+              "student_enrollment_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "student_enrollments"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "academic_year_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "student_section_placements_organization_id_school_id_campu_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "student_section_placements_organization_id_supersedes_plac_fkey"
+            columns: ["organization_id", "supersedes_placement_id"]
+            isOneToOne: false
+            referencedRelation: "student_section_placements"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "student_section_placements_organization_id_transfer_to_pla_fkey"
+            columns: ["organization_id", "transfer_to_placement_id"]
+            isOneToOne: false
+            referencedRelation: "student_section_placements"
             referencedColumns: ["organization_id", "id"]
           },
         ]
@@ -1794,6 +2005,47 @@ export type Database = {
         Returns: string
       }
       archive_subject: { Args: { id: string }; Returns: string }
+      complete_student_enrollment: {
+        Args: { ended_on: string; id: string; reason: string }
+        Returns: string
+      }
+      complete_student_section_placement: {
+        Args: { ended_on: string; id: string; reason: string }
+        Returns: string
+      }
+      correct_student_enrollment: {
+        Args: {
+          correction_reason: string
+          create_replacement: boolean
+          id: string
+          replacement_academic_year_id: string
+          replacement_end_reason: string
+          replacement_ended_on: string
+          replacement_enrolled_on: string
+          replacement_grade_level_id: string
+          replacement_status: Database["public"]["Enums"]["enrollment_status"]
+        }
+        Returns: {
+          corrected_enrollment_id: string
+          replacement_enrollment_id: string
+        }[]
+      }
+      correct_student_section_placement: {
+        Args: {
+          correction_reason: string
+          create_replacement: boolean
+          id: string
+          replacement_end_reason: string
+          replacement_ends_on: string
+          replacement_section_id: string
+          replacement_starts_on: string
+          replacement_status: Database["public"]["Enums"]["section_placement_status"]
+        }
+        Returns: {
+          corrected_placement_id: string
+          replacement_placement_id: string
+        }[]
+      }
       create_academic_term: {
         Args: {
           academic_year_id: string
@@ -1986,6 +2238,15 @@ export type Database = {
         }
         Returns: string
       }
+      enroll_student: {
+        Args: {
+          academic_year_id: string
+          enrolled_on: string
+          grade_level_id: string
+          student_id: string
+        }
+        Returns: string
+      }
       link_guardian_to_student: {
         Args: {
           financial_responsibility: boolean
@@ -1999,6 +2260,26 @@ export type Database = {
           student_id: string
         }
         Returns: string
+      }
+      place_student_in_section: {
+        Args: {
+          section_id: string
+          starts_on: string
+          student_enrollment_id: string
+        }
+        Returns: string
+      }
+      transfer_student_section: {
+        Args: {
+          destination_section_id: string
+          id: string
+          reason: string
+          transfer_on: string
+        }
+        Returns: {
+          from_placement_id: string
+          to_placement_id: string
+        }[]
       }
       transition_academic_term_status: {
         Args: {
@@ -2248,13 +2529,28 @@ export type Database = {
         }
         Returns: string
       }
+      withdraw_student_enrollment: {
+        Args: { ended_on: string; id: string; reason: string }
+        Returns: string
+      }
+      withdraw_student_section_placement: {
+        Args: { ended_on: string; id: string; reason: string }
+        Returns: string
+      }
     }
     Enums: {
       academic_period_status: "draft" | "active" | "closed" | "archived"
+      enrollment_status: "active" | "withdrawn" | "completed" | "corrected"
       membership_status: "invited" | "active" | "suspended" | "left"
       outbox_status: "pending" | "processing" | "processed" | "failed"
       record_status: "active" | "inactive" | "archived"
       role_assignment_status: "active" | "inactive"
+      section_placement_status:
+        | "active"
+        | "withdrawn"
+        | "completed"
+        | "transferred"
+        | "corrected"
       student_document_visibility:
         | "admin_only"
         | "staff"
@@ -2388,10 +2684,18 @@ export const Constants = {
   public: {
     Enums: {
       academic_period_status: ["draft", "active", "closed", "archived"],
+      enrollment_status: ["active", "withdrawn", "completed", "corrected"],
       membership_status: ["invited", "active", "suspended", "left"],
       outbox_status: ["pending", "processing", "processed", "failed"],
       record_status: ["active", "inactive", "archived"],
       role_assignment_status: ["active", "inactive"],
+      section_placement_status: [
+        "active",
+        "withdrawn",
+        "completed",
+        "transferred",
+        "corrected",
+      ],
       student_document_visibility: [
         "admin_only",
         "staff",

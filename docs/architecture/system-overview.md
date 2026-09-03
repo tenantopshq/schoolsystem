@@ -40,3 +40,9 @@ Access requires both an application permission check and a database RLS decision
 ## Source of truth
 
 All schema, grants, RLS policies, functions, seeds, and database tests are committed under `supabase/`. Dashboard-only schema changes are prohibited.
+
+Enrollment & Section Placement v0.5 owns effective-dated academic enrollment and
+homeroom-section history. Same-tenant enrollment can differ from SIS administrative
+scope, while exclusion constraints prohibit overlapping non-corrected ranges.
+Placement workflows preserve immutable history under capacity-aware deterministic
+locks and transactional audit/outbox.
