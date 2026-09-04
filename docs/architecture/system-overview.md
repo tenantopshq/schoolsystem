@@ -46,3 +46,8 @@ homeroom-section history. Same-tenant enrollment can differ from SIS administrat
 scope, while exclusion constraints prohibit overlapping non-corrected ranges.
 Placement workflows preserve immutable history under capacity-aware deterministic
 locks and transactional audit/outbox.
+
+Teaching Assignments v0.6 owns effective-dated staff responsibility for sections
+and optional subjects. Typed commands preserve assignment and reassignment history.
+Current assignments provide a narrow read-only relationship to current rosters;
+they never confer SIS or enrollment mutation authority or sensitive-record access.

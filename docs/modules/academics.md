@@ -77,3 +77,8 @@ commands.
   section code and name, staff number, and term name in their documented scopes.
 - Lock order is organization, school, campus, building, academic year, grade level,
   academic term, room, then section; peer rows use deterministic identifier order.
+
+Teaching assignments are owned by their separate module. Academics continues to
+own assignment parents. Active assignments block section archival/inactivation and
+academic-year close/archive, and parent date changes cannot exclude non-corrected
+assignment history.
