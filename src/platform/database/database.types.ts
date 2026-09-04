@@ -121,6 +121,395 @@ export type Database = {
           },
         ]
       }
+      attendance_absence_reasons: {
+        Row: {
+          campus_id: string | null
+          code: string
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          name: string
+          organization_id: string
+          school_id: string
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          campus_id?: string | null
+          code: string
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          name: string
+          organization_id: string
+          school_id: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          campus_id?: string | null
+          code?: string
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          name?: string
+          organization_id?: string
+          school_id?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_absence_reasons_organization_id_campus_id_fkey"
+            columns: ["organization_id", "campus_id"]
+            isOneToOne: false
+            referencedRelation: "campuses"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "attendance_absence_reasons_organization_id_school_id_fkey"
+            columns: ["organization_id", "school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "attendance_absence_reasons_school_id_campus_id_fkey"
+            columns: ["school_id", "campus_id"]
+            isOneToOne: false
+            referencedRelation: "campuses"
+            referencedColumns: ["school_id", "id"]
+          },
+        ]
+      }
+      attendance_marks: {
+        Row: {
+          absence_reason_id: string | null
+          academic_year_id: string
+          arrival_time: string | null
+          campus_id: string
+          created_at: string
+          created_by: string
+          id: string
+          mark: Database["public"]["Enums"]["attendance_mark_status"]
+          note: string | null
+          organization_id: string
+          school_id: string
+          section_id: string
+          session_id: string
+          session_student_id: string
+          student_id: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          absence_reason_id?: string | null
+          academic_year_id: string
+          arrival_time?: string | null
+          campus_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          mark: Database["public"]["Enums"]["attendance_mark_status"]
+          note?: string | null
+          organization_id: string
+          school_id: string
+          section_id: string
+          session_id: string
+          session_student_id: string
+          student_id: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          absence_reason_id?: string | null
+          academic_year_id?: string
+          arrival_time?: string | null
+          campus_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          mark?: Database["public"]["Enums"]["attendance_mark_status"]
+          note?: string | null
+          organization_id?: string
+          school_id?: string
+          section_id?: string
+          session_id?: string
+          session_student_id?: string
+          student_id?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_marks_organization_id_school_id_absence_reason__fkey"
+            columns: ["organization_id", "school_id", "absence_reason_id"]
+            isOneToOne: false
+            referencedRelation: "attendance_absence_reasons"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "attendance_marks_organization_id_school_id_campus_id_acad_fkey1"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "session_id",
+              "student_id",
+              "session_student_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "attendance_session_students"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "session_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "attendance_marks_organization_id_school_id_campus_id_acade_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "session_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "attendance_sessions"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "id",
+            ]
+          },
+        ]
+      }
+      attendance_session_students: {
+        Row: {
+          academic_year_id: string
+          campus_id: string
+          created_at: string
+          created_by: string
+          id: string
+          organization_id: string
+          school_id: string
+          section_id: string
+          session_id: string
+          student_enrollment_id: string
+          student_id: string
+          student_section_placement_id: string
+        }
+        Insert: {
+          academic_year_id: string
+          campus_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          organization_id: string
+          school_id: string
+          section_id: string
+          session_id: string
+          student_enrollment_id: string
+          student_id: string
+          student_section_placement_id: string
+        }
+        Update: {
+          academic_year_id?: string
+          campus_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          organization_id?: string
+          school_id?: string
+          section_id?: string
+          session_id?: string
+          student_enrollment_id?: string
+          student_id?: string
+          student_section_placement_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_session_students_organization_id_school_id_acad_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "academic_year_id",
+              "student_id",
+              "student_enrollment_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "student_enrollments"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "academic_year_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "attendance_session_students_organization_id_school_id_cam_fkey1"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "student_id",
+              "student_enrollment_id",
+              "student_section_placement_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "student_section_placements"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "student_id",
+              "student_enrollment_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "attendance_session_students_organization_id_school_id_camp_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "session_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "attendance_sessions"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "attendance_session_students_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      attendance_sessions: {
+        Row: {
+          academic_year_id: string
+          campus_id: string
+          correction_reason: string | null
+          created_at: string
+          created_by: string
+          finalized_at: string | null
+          finalized_by: string | null
+          id: string
+          organization_id: string
+          school_id: string
+          section_id: string
+          session_date: string
+          status: Database["public"]["Enums"]["attendance_session_status"]
+          submitted_at: string | null
+          submitted_by: string | null
+          supersedes_session_id: string | null
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          academic_year_id: string
+          campus_id: string
+          correction_reason?: string | null
+          created_at?: string
+          created_by: string
+          finalized_at?: string | null
+          finalized_by?: string | null
+          id?: string
+          organization_id: string
+          school_id: string
+          section_id: string
+          session_date: string
+          status?: Database["public"]["Enums"]["attendance_session_status"]
+          submitted_at?: string | null
+          submitted_by?: string | null
+          supersedes_session_id?: string | null
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          academic_year_id?: string
+          campus_id?: string
+          correction_reason?: string | null
+          created_at?: string
+          created_by?: string
+          finalized_at?: string | null
+          finalized_by?: string | null
+          id?: string
+          organization_id?: string
+          school_id?: string
+          section_id?: string
+          session_date?: string
+          status?: Database["public"]["Enums"]["attendance_session_status"]
+          submitted_at?: string | null
+          submitted_by?: string | null
+          supersedes_session_id?: string | null
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_sessions_organization_id_school_id_campus_id_ac_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "attendance_sessions_organization_id_supersedes_session_id_fkey"
+            columns: ["organization_id", "supersedes_session_id"]
+            isOneToOne: false
+            referencedRelation: "attendance_sessions"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
       audit_log: {
         Row: {
           action: string
@@ -2094,6 +2483,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      archive_attendance_absence_reason: {
+        Args: { id: string }
+        Returns: string
+      }
       archive_building: { Args: { id: string }; Returns: string }
       archive_grade_level: { Args: { id: string }; Returns: string }
       archive_guardian: {
@@ -2135,6 +2528,17 @@ export type Database = {
       complete_student_section_placement: {
         Args: { ended_on: string; id: string; reason: string }
         Returns: string
+      }
+      correct_attendance_session: {
+        Args: {
+          correction_reason: string
+          id: string
+          marks: Database["public"]["CompositeTypes"]["attendance_mark_input"][]
+        }
+        Returns: {
+          corrected_session_id: string
+          replacement_session_id: string
+        }[]
       }
       correct_student_enrollment: {
         Args: {
@@ -2204,6 +2608,16 @@ export type Database = {
           school_id: string
           start_date: string
           status?: Database["public"]["Enums"]["academic_period_status"]
+        }
+        Returns: string
+      }
+      create_attendance_absence_reason: {
+        Args: {
+          campus_id: string
+          code: string
+          description: string
+          name: string
+          school_id: string
         }
         Returns: string
       }
@@ -2402,6 +2816,7 @@ export type Database = {
         }
         Returns: string
       }
+      finalize_attendance_session: { Args: { id: string }; Returns: string }
       link_guardian_to_student: {
         Args: {
           financial_responsibility: boolean
@@ -2414,6 +2829,10 @@ export type Database = {
           relationship_type: string
           student_id: string
         }
+        Returns: string
+      }
+      open_attendance_session: {
+        Args: { section_id: string; session_date: string }
         Returns: string
       }
       place_student_in_section: {
@@ -2437,6 +2856,13 @@ export type Database = {
           from_assignment_id: string
           to_assignment_id: string
         }[]
+      }
+      submit_attendance_session: {
+        Args: {
+          id: string
+          marks: Database["public"]["CompositeTypes"]["attendance_mark_input"][]
+        }
+        Returns: string
       }
       transfer_student_section: {
         Args: {
@@ -2476,6 +2902,17 @@ export type Database = {
       }
       update_academic_year: {
         Args: { end_date: string; id: string; name: string; start_date: string }
+        Returns: string
+      }
+      update_attendance_absence_reason: {
+        Args: {
+          code: string
+          description: string
+          id: string
+          name: string
+          set_description?: boolean
+          status: Database["public"]["Enums"]["record_status"]
+        }
         Returns: string
       }
       update_building: {
@@ -2709,6 +3146,12 @@ export type Database = {
     }
     Enums: {
       academic_period_status: "draft" | "active" | "closed" | "archived"
+      attendance_mark_status: "present" | "absent" | "late" | "excused"
+      attendance_session_status:
+        | "open"
+        | "submitted"
+        | "finalized"
+        | "corrected"
       enrollment_status: "active" | "withdrawn" | "completed" | "corrected"
       membership_status: "invited" | "active" | "suspended" | "left"
       outbox_status: "pending" | "processing" | "processed" | "failed"
@@ -2737,7 +3180,13 @@ export type Database = {
         | "corrected"
     }
     CompositeTypes: {
-      [_ in never]: never
+      attendance_mark_input: {
+        student_id: string | null
+        mark: Database["public"]["Enums"]["attendance_mark_status"] | null
+        arrival_time: string | null
+        absence_reason_id: string | null
+        note: string | null
+      }
     }
   }
 }
@@ -2863,6 +3312,13 @@ export const Constants = {
   public: {
     Enums: {
       academic_period_status: ["draft", "active", "closed", "archived"],
+      attendance_mark_status: ["present", "absent", "late", "excused"],
+      attendance_session_status: [
+        "open",
+        "submitted",
+        "finalized",
+        "corrected",
+      ],
       enrollment_status: ["active", "withdrawn", "completed", "corrected"],
       membership_status: ["invited", "active", "suspended", "left"],
       outbox_status: ["pending", "processing", "processed", "failed"],

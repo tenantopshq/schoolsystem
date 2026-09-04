@@ -51,3 +51,10 @@ Teaching Assignments v0.6 owns effective-dated staff responsibility for sections
 and optional subjects. Typed commands preserve assignment and reassignment history.
 Current assignments provide a narrow read-only relationship to current rosters;
 they never confer SIS or enrollment mutation authority or sensitive-record access.
+
+Attendance Foundation v0.7 owns daily section sessions, immutable open-time roster
+snapshots, student marks, and scoped absence reasons. Typed commands prohibit
+future sessions, distinguish current teacher relationships from scoped management,
+and preserve finalized history with whole-session append-and-supersede mark
+correction. Snapshot provenance does not prevent later enrollment or placement
+correction.

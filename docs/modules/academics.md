@@ -82,3 +82,9 @@ Teaching assignments are owned by their separate module. Academics continues to
 own assignment parents. Active assignments block section archival/inactivation and
 academic-year close/archive, and parent date changes cannot exclude non-corrected
 assignment history.
+
+Attendance is owned by its separate module. Non-corrected attendance dates remain
+inside their section and academic year. Attendance history blocks incompatible
+section date/status changes and year date changes; unfinished sessions block year
+close/archive. Finalized attendance does not otherwise move or rewrite academic
+structure.
