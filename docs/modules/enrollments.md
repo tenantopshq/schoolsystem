@@ -57,3 +57,9 @@ Teaching Assignments v0.6 adds no enrollment mutation path. Its current-assignee
 relationship may read only currently effective, non-corrected enrollment and
 placement rows for the assigned section. Future or ended assignments and historical
 roster rows do not qualify.
+
+Attendance Foundation v0.7 snapshots the qualifying enrollment and placement IDs
+when a daily session opens. That snapshot records what the system observed; it is
+not a continuing assertion that the source facts are correct. Later append-only
+enrollment or placement correction proceeds normally, retains referenced corrected
+rows through restrictive foreign keys, and never rewrites attendance history.

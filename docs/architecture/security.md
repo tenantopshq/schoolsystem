@@ -67,3 +67,13 @@ give currently effective assignees read-only access to current, non-corrected ro
 rows. Every command implementation helper remains denied to browser and service
 roles. Assignment relationships never satisfy mutation permissions or reveal
 sensitive SIS, guardian, document, audit, or outbox data.
+
+Attendance Foundation v0.7 adds four forced-RLS, SELECT-only tables and seven typed
+commands. Administrative authorization follows authoritative section or reason
+scope. Current lead, co-teacher, and substitute relationships may open or submit
+only today's attendance; assistants are contextual readers only. Finalization and
+correction remain permission-only. Finalized correction appends a replacement and
+preserves the original roster and marks. Roster snapshots are observations at open
+time, so later append-only enrollment or placement correction is not blocked.
+Private helpers remain denied except for exact authenticated-only relationship
+helpers, and every command correlates atomic audit/outbox effects.

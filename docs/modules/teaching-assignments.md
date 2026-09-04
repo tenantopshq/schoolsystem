@@ -43,3 +43,9 @@ implementation helpers remain inaccessible.
 Assignment dates are inclusive and bounded by both section and academic year.
 Active assignments block section archival/inactivation and academic-year
 close/archive. Parent date changes cannot exclude non-corrected assignment history.
+
+Attendance Foundation v0.7 uses currently effective lead, co-teacher, and
+substitute assignments to authorize opening and submitting today's daily session.
+Assistants receive contextual attendance reads only. Assignment end, reassignment,
+or correction ends relationship-derived attendance access without rewriting stored
+attendance attribution or history.
