@@ -136,3 +136,8 @@ Public events:
 - Document storage paths are organization-unique and immutable across metadata
   history; archived paths and consumed intents cannot be rebound.
 - No SIS hard-delete RPC exists; archived history is immutable.
+
+Teaching Assignments v0.6 adds a read-only contextual path to ordinary `students`
+rows for currently effective rosters. It does not extend access to identifiers,
+guardians or links, addresses, emergency contacts, documents, or any SIS mutation
+command.

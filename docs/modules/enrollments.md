@@ -52,3 +52,8 @@ Events: `student.enrolled`, `student.enrollment_withdrawn`,
 `student.section_placed`, `student.section_transferred_out`,
 `student.section_transferred_in`, `student.section_withdrawn`,
 `student.section_completed`, and `student.section_placement_corrected`.
+
+Teaching Assignments v0.6 adds no enrollment mutation path. Its current-assignee
+relationship may read only currently effective, non-corrected enrollment and
+placement rows for the assigned section. Future or ended assignments and historical
+roster rows do not qualify.

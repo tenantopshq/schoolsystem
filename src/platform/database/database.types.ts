@@ -1966,6 +1966,129 @@ export type Database = {
           },
         ]
       }
+      teaching_assignments: {
+        Row: {
+          academic_year_id: string
+          campus_id: string
+          correction_reason: string | null
+          created_at: string
+          created_by: string
+          effective_range: unknown
+          end_reason: string | null
+          ended_on: string | null
+          id: string
+          organization_id: string
+          reassigned_to_assignment_id: string | null
+          role: Database["public"]["Enums"]["teaching_assignment_role"]
+          scheduled_ends_on: string
+          school_id: string
+          section_id: string
+          staff_profile_id: string
+          starts_on: string
+          status: Database["public"]["Enums"]["teaching_assignment_status"]
+          subject_id: string | null
+          supersedes_assignment_id: string | null
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          academic_year_id: string
+          campus_id: string
+          correction_reason?: string | null
+          created_at?: string
+          created_by: string
+          effective_range: unknown
+          end_reason?: string | null
+          ended_on?: string | null
+          id?: string
+          organization_id: string
+          reassigned_to_assignment_id?: string | null
+          role: Database["public"]["Enums"]["teaching_assignment_role"]
+          scheduled_ends_on: string
+          school_id: string
+          section_id: string
+          staff_profile_id: string
+          starts_on: string
+          status?: Database["public"]["Enums"]["teaching_assignment_status"]
+          subject_id?: string | null
+          supersedes_assignment_id?: string | null
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          academic_year_id?: string
+          campus_id?: string
+          correction_reason?: string | null
+          created_at?: string
+          created_by?: string
+          effective_range?: unknown
+          end_reason?: string | null
+          ended_on?: string | null
+          id?: string
+          organization_id?: string
+          reassigned_to_assignment_id?: string | null
+          role?: Database["public"]["Enums"]["teaching_assignment_role"]
+          scheduled_ends_on?: string
+          school_id?: string
+          section_id?: string
+          staff_profile_id?: string
+          starts_on?: string
+          status?: Database["public"]["Enums"]["teaching_assignment_status"]
+          subject_id?: string | null
+          supersedes_assignment_id?: string | null
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teaching_assignments_organization_id_reassigned_to_assignm_fkey"
+            columns: ["organization_id", "reassigned_to_assignment_id"]
+            isOneToOne: false
+            referencedRelation: "teaching_assignments"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "teaching_assignments_organization_id_school_id_campus_id_a_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "teaching_assignments_organization_id_school_id_subject_id_fkey"
+            columns: ["organization_id", "school_id", "subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "teaching_assignments_organization_id_staff_profile_id_fkey"
+            columns: ["organization_id", "staff_profile_id"]
+            isOneToOne: false
+            referencedRelation: "staff_profiles"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "teaching_assignments_organization_id_supersedes_assignment_fkey"
+            columns: ["organization_id", "supersedes_assignment_id"]
+            isOneToOne: false
+            referencedRelation: "teaching_assignments"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -2044,6 +2167,23 @@ export type Database = {
         Returns: {
           corrected_placement_id: string
           replacement_placement_id: string
+        }[]
+      }
+      correct_teaching_assignment: {
+        Args: {
+          correction_reason: string
+          create_replacement: boolean
+          id: string
+          replacement_role: Database["public"]["Enums"]["teaching_assignment_role"]
+          replacement_scheduled_ends_on: string
+          replacement_section_id: string
+          replacement_staff_profile_id: string
+          replacement_starts_on: string
+          replacement_subject_id: string
+        }
+        Returns: {
+          corrected_assignment_id: string
+          replacement_assignment_id: string
         }[]
       }
       create_academic_term: {
@@ -2238,6 +2378,21 @@ export type Database = {
         }
         Returns: string
       }
+      create_teaching_assignment: {
+        Args: {
+          role: Database["public"]["Enums"]["teaching_assignment_role"]
+          scheduled_ends_on: string
+          section_id: string
+          staff_profile_id: string
+          starts_on: string
+          subject_id: string
+        }
+        Returns: string
+      }
+      end_teaching_assignment: {
+        Args: { ended_on: string; id: string; reason: string }
+        Returns: string
+      }
       enroll_student: {
         Args: {
           academic_year_id: string
@@ -2268,6 +2423,20 @@ export type Database = {
           student_enrollment_id: string
         }
         Returns: string
+      }
+      reassign_teaching_assignment: {
+        Args: {
+          id: string
+          reason: string
+          reassign_on: string
+          replacement_role: Database["public"]["Enums"]["teaching_assignment_role"]
+          replacement_scheduled_ends_on: string
+          replacement_staff_profile_id: string
+        }
+        Returns: {
+          from_assignment_id: string
+          to_assignment_id: string
+        }[]
       }
       transfer_student_section: {
         Args: {
@@ -2556,6 +2725,16 @@ export type Database = {
         | "staff"
         | "guardian"
         | "student"
+      teaching_assignment_role:
+        | "lead"
+        | "co_teacher"
+        | "assistant"
+        | "substitute"
+      teaching_assignment_status:
+        | "active"
+        | "ended"
+        | "reassigned"
+        | "corrected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2701,6 +2880,18 @@ export const Constants = {
         "staff",
         "guardian",
         "student",
+      ],
+      teaching_assignment_role: [
+        "lead",
+        "co_teacher",
+        "assistant",
+        "substitute",
+      ],
+      teaching_assignment_status: [
+        "active",
+        "ended",
+        "reassigned",
+        "corrected",
       ],
     },
   },

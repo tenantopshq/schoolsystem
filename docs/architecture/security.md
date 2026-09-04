@@ -59,3 +59,11 @@ require `enrollments.manage`; corrections additionally require
 academic destination authority. Student and active portal-guardian relationships
 grant reads only. Domain, audit, and minimal outbox writes share one transaction and
 server-generated command ID; discovery drift raises retryable SQLSTATE `40001`.
+
+Teaching Assignments v0.6 adds a forced-RLS, SELECT-only assignment table and four
+typed commands. Management follows destination-section scope. Three non-recursive
+relationship helpers have exact authenticated-only execution grants so policies can
+give currently effective assignees read-only access to current, non-corrected roster
+rows. Every command implementation helper remains denied to browser and service
+roles. Assignment relationships never satisfy mutation permissions or reveal
+sensitive SIS, guardian, document, audit, or outbox data.
