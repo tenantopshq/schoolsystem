@@ -121,6 +121,377 @@ export type Database = {
           },
         ]
       }
+      assessment_results: {
+        Row: {
+          academic_term_id: string
+          academic_year_id: string
+          assessment_id: string
+          assessment_student_id: string
+          campus_id: string
+          created_at: string
+          created_by: string
+          id: string
+          organization_id: string
+          school_id: string
+          score: number | null
+          section_id: string
+          student_id: string
+          teacher_comment: string | null
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          academic_term_id: string
+          academic_year_id: string
+          assessment_id: string
+          assessment_student_id: string
+          campus_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          organization_id: string
+          school_id: string
+          score?: number | null
+          section_id: string
+          student_id: string
+          teacher_comment?: string | null
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          academic_term_id?: string
+          academic_year_id?: string
+          assessment_id?: string
+          assessment_student_id?: string
+          campus_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          organization_id?: string
+          school_id?: string
+          score?: number | null
+          section_id?: string
+          student_id?: string
+          teacher_comment?: string | null
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessment_results_organization_id_school_id_campus_id_ac_fkey1"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "assessment_id",
+              "student_id",
+              "assessment_student_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "assessment_students"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "assessment_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "assessment_results_organization_id_school_id_campus_id_aca_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "assessment_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "assessments"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "id",
+            ]
+          },
+        ]
+      }
+      assessment_students: {
+        Row: {
+          academic_term_id: string
+          academic_year_id: string
+          assessment_id: string
+          campus_id: string
+          created_at: string
+          created_by: string
+          id: string
+          organization_id: string
+          school_id: string
+          section_id: string
+          student_enrollment_id: string
+          student_id: string
+          student_section_placement_id: string
+        }
+        Insert: {
+          academic_term_id: string
+          academic_year_id: string
+          assessment_id: string
+          campus_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          organization_id: string
+          school_id: string
+          section_id: string
+          student_enrollment_id: string
+          student_id: string
+          student_section_placement_id: string
+        }
+        Update: {
+          academic_term_id?: string
+          academic_year_id?: string
+          assessment_id?: string
+          campus_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          organization_id?: string
+          school_id?: string
+          section_id?: string
+          student_enrollment_id?: string
+          student_id?: string
+          student_section_placement_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessment_students_organization_id_school_id_academic_yea_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "academic_year_id",
+              "student_id",
+              "student_enrollment_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "student_enrollments"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "academic_year_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "assessment_students_organization_id_school_id_campus_id_a_fkey1"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "student_id",
+              "student_enrollment_id",
+              "student_section_placement_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "student_section_placements"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "student_id",
+              "student_enrollment_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "assessment_students_organization_id_school_id_campus_id_ac_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "assessment_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "assessments"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "assessment_students_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      assessments: {
+        Row: {
+          academic_term_id: string
+          academic_year_id: string
+          assessment_date: string
+          assessment_type: Database["public"]["Enums"]["assessment_type"]
+          campus_id: string
+          cancellation_reason: string | null
+          cancelled_at: string | null
+          cancelled_by: string | null
+          correction_reason: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          due_date: string | null
+          finalized_at: string | null
+          finalized_by: string | null
+          id: string
+          lifecycle_status: Database["public"]["Enums"]["assessment_lifecycle_status"]
+          maximum_score: number
+          organization_id: string
+          publication_state: Database["public"]["Enums"]["assessment_publication_state"]
+          published_at: string | null
+          published_by: string | null
+          school_id: string
+          section_id: string
+          subject_id: string | null
+          supersedes_assessment_id: string | null
+          title: string
+          updated_at: string
+          updated_by: string
+          weight: number | null
+        }
+        Insert: {
+          academic_term_id: string
+          academic_year_id: string
+          assessment_date: string
+          assessment_type: Database["public"]["Enums"]["assessment_type"]
+          campus_id: string
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          correction_reason?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          due_date?: string | null
+          finalized_at?: string | null
+          finalized_by?: string | null
+          id?: string
+          lifecycle_status?: Database["public"]["Enums"]["assessment_lifecycle_status"]
+          maximum_score: number
+          organization_id: string
+          publication_state?: Database["public"]["Enums"]["assessment_publication_state"]
+          published_at?: string | null
+          published_by?: string | null
+          school_id: string
+          section_id: string
+          subject_id?: string | null
+          supersedes_assessment_id?: string | null
+          title: string
+          updated_at?: string
+          updated_by: string
+          weight?: number | null
+        }
+        Update: {
+          academic_term_id?: string
+          academic_year_id?: string
+          assessment_date?: string
+          assessment_type?: Database["public"]["Enums"]["assessment_type"]
+          campus_id?: string
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          correction_reason?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          due_date?: string | null
+          finalized_at?: string | null
+          finalized_by?: string | null
+          id?: string
+          lifecycle_status?: Database["public"]["Enums"]["assessment_lifecycle_status"]
+          maximum_score?: number
+          organization_id?: string
+          publication_state?: Database["public"]["Enums"]["assessment_publication_state"]
+          published_at?: string | null
+          published_by?: string | null
+          school_id?: string
+          section_id?: string
+          subject_id?: string | null
+          supersedes_assessment_id?: string | null
+          title?: string
+          updated_at?: string
+          updated_by?: string
+          weight?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessments_organization_id_academic_year_id_academic_term_fkey"
+            columns: ["organization_id", "academic_year_id", "academic_term_id"]
+            isOneToOne: false
+            referencedRelation: "academic_terms"
+            referencedColumns: ["organization_id", "academic_year_id", "id"]
+          },
+          {
+            foreignKeyName: "assessments_organization_id_school_id_campus_id_academic_y_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "assessments_organization_id_school_id_subject_id_fkey"
+            columns: ["organization_id", "school_id", "subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "assessments_organization_id_supersedes_assessment_id_fkey"
+            columns: ["organization_id", "supersedes_assessment_id"]
+            isOneToOne: false
+            referencedRelation: "assessments"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
       attendance_absence_reasons: {
         Row: {
           campus_id: string | null
@@ -2521,6 +2892,10 @@ export type Database = {
         Returns: string
       }
       archive_subject: { Args: { id: string }; Returns: string }
+      cancel_draft_assessment: {
+        Args: { cancellation_reason: string; id: string }
+        Returns: string
+      }
       complete_student_enrollment: {
         Args: { ended_on: string; id: string; reason: string }
         Returns: string
@@ -2528,6 +2903,25 @@ export type Database = {
       complete_student_section_placement: {
         Args: { ended_on: string; id: string; reason: string }
         Returns: string
+      }
+      correct_assessment: {
+        Args: {
+          correction_reason: string
+          id: string
+          replacement_assessment_date: string
+          replacement_assessment_type: Database["public"]["Enums"]["assessment_type"]
+          replacement_description: string
+          replacement_due_date: string
+          replacement_maximum_score: number
+          replacement_results: Database["public"]["CompositeTypes"]["assessment_result_input"][]
+          replacement_subject_id: string
+          replacement_title: string
+          replacement_weight: number
+        }
+        Returns: {
+          corrected_assessment_id: string
+          replacement_assessment_id: string
+        }[]
       }
       correct_attendance_session: {
         Args: {
@@ -2608,6 +3002,21 @@ export type Database = {
           school_id: string
           start_date: string
           status?: Database["public"]["Enums"]["academic_period_status"]
+        }
+        Returns: string
+      }
+      create_assessment: {
+        Args: {
+          academic_term_id: string
+          assessment_date: string
+          assessment_type: Database["public"]["Enums"]["assessment_type"]
+          description: string
+          due_date: string
+          maximum_score: number
+          section_id: string
+          subject_id: string
+          title: string
+          weight: number
         }
         Returns: string
       }
@@ -2816,6 +3225,7 @@ export type Database = {
         }
         Returns: string
       }
+      finalize_assessment: { Args: { id: string }; Returns: string }
       finalize_attendance_session: { Args: { id: string }; Returns: string }
       link_guardian_to_student: {
         Args: {
@@ -2843,6 +3253,7 @@ export type Database = {
         }
         Returns: string
       }
+      publish_assessment: { Args: { id: string }; Returns: string }
       reassign_teaching_assignment: {
         Args: {
           id: string
@@ -2856,6 +3267,13 @@ export type Database = {
           from_assignment_id: string
           to_assignment_id: string
         }[]
+      }
+      record_assessment_results: {
+        Args: {
+          id: string
+          results: Database["public"]["CompositeTypes"]["assessment_result_input"][]
+        }
+        Returns: string
       }
       submit_attendance_session: {
         Args: {
@@ -2902,6 +3320,18 @@ export type Database = {
       }
       update_academic_year: {
         Args: { end_date: string; id: string; name: string; start_date: string }
+        Returns: string
+      }
+      update_assessment: {
+        Args: {
+          assessment_type: Database["public"]["Enums"]["assessment_type"]
+          description: string
+          due_date: string
+          id: string
+          set_description?: boolean
+          set_due_date?: boolean
+          title: string
+        }
         Returns: string
       }
       update_attendance_absence_reason: {
@@ -3146,6 +3576,18 @@ export type Database = {
     }
     Enums: {
       academic_period_status: "draft" | "active" | "closed" | "archived"
+      assessment_lifecycle_status:
+        | "draft"
+        | "finalized"
+        | "corrected"
+        | "cancelled"
+      assessment_publication_state: "unpublished" | "published"
+      assessment_type:
+        | "assignment"
+        | "quiz"
+        | "exam"
+        | "project"
+        | "participation"
       attendance_mark_status: "present" | "absent" | "late" | "excused"
       attendance_session_status:
         | "open"
@@ -3180,6 +3622,11 @@ export type Database = {
         | "corrected"
     }
     CompositeTypes: {
+      assessment_result_input: {
+        student_id: string | null
+        score: number | null
+        teacher_comment: string | null
+      }
       attendance_mark_input: {
         student_id: string | null
         mark: Database["public"]["Enums"]["attendance_mark_status"] | null
@@ -3312,6 +3759,20 @@ export const Constants = {
   public: {
     Enums: {
       academic_period_status: ["draft", "active", "closed", "archived"],
+      assessment_lifecycle_status: [
+        "draft",
+        "finalized",
+        "corrected",
+        "cancelled",
+      ],
+      assessment_publication_state: ["unpublished", "published"],
+      assessment_type: [
+        "assignment",
+        "quiz",
+        "exam",
+        "project",
+        "participation",
+      ],
       attendance_mark_status: ["present", "absent", "late", "excused"],
       attendance_session_status: [
         "open",

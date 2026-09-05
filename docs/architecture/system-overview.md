@@ -58,3 +58,10 @@ future sessions, distinguish current teacher relationships from scoped managemen
 and preserve finalized history with whole-session append-and-supersede mark
 correction. Snapshot provenance does not prevent later enrollment or placement
 correction.
+
+Assessment & Gradebook Foundation v0.8 owns section-and-term assessments,
+assessment-date roster snapshots, student results, independent publication and
+finalization, terminal draft cancellation, and append-and-supersede finalized
+correction. It consumes academic, enrollment, placement, teaching-assignment, and
+student/guardian relationship contracts without importing those modules' private
+persistence interfaces.

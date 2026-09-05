@@ -49,3 +49,9 @@ substitute assignments to authorize opening and submitting today's daily session
 Assistants receive contextual attendance reads only. Assignment end, reassignment,
 or correction ends relationship-derived attendance access without rewriting stored
 attendance attribution or history.
+
+Assessment Foundation v0.8 consumes current assignment context with exact null-safe
+section/subject matching. Lead teachers, co-teachers, and effective substitutes may
+manage drafts; assistants read only. Assignment end, reassignment, or correction
+ends contextual access immediately without rewriting assessment attribution or
+history.

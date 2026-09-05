@@ -77,3 +77,12 @@ preserves the original roster and marks. Roster snapshots are observations at op
 time, so later append-only enrollment or placement correction is not blocked.
 Private helpers remain denied except for exact authenticated-only relationship
 helpers, and every command correlates atomic audit/outbox effects.
+
+Assessment & Gradebook Foundation v0.8 adds three forced-RLS, SELECT-only tables
+and seven typed commands. Scoped RBAC and exact effective section/subject teaching
+relationships authorize staff; assistants remain contextual readers. Students and
+active portal guardians see only their own live published score and teacher comment.
+Finalization freezes academic content independently of publication. Unpublished
+draft cancellation is terminal, while finalized correction appends a successor with
+the original immutable roster. Private mutation helpers remain denied and every
+command writes correlated audit/outbox effects atomically.

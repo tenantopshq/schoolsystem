@@ -63,3 +63,7 @@ when a daily session opens. That snapshot records what the system observed; it i
 not a continuing assertion that the source facts are correct. Later append-only
 enrollment or placement correction proceeds normally, retains referenced corrected
 rows through restrictive foreign keys, and never rewrites attendance history.
+
+Assessment Foundation v0.8 snapshots the same enrollment and placement provenance
+at `assessment_date`. Later append-only withdrawal, transfer, completion, or
+correction does not rewrite, invalidate, or get blocked by an assessment snapshot.
