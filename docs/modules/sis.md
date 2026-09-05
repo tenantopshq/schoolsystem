@@ -141,3 +141,9 @@ Teaching Assignments v0.6 adds a read-only contextual path to ordinary `students
 rows for currently effective rosters. It does not extend access to identifiers,
 guardians or links, addresses, emergency contacts, documents, or any SIS mutation
 command.
+
+Assessment Foundation v0.8 snapshots student, enrollment, and placement provenance
+at the assessment date. Later student or guardian lifecycle changes do not rewrite
+assessment history. Active students and active linked guardians with portal access
+may read only the applicable student's live published assessment result and teacher
+comment; this relationship grants no broader SIS or assessment mutation access.

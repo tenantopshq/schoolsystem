@@ -88,3 +88,9 @@ inside their section and academic year. Attendance history blocks incompatible
 section date/status changes and year date changes; unfinished sessions block year
 close/archive. Finalized attendance does not otherwise move or rewrite academic
 structure.
+
+Assessments are owned by their separate module. Live assessment and due dates must
+remain inside section, term, and academic-year dates. Non-cancelled drafts block
+incompatible parent lifecycle changes; finalized history remains attached but does
+not otherwise prevent closure. Cancelled drafts impose no parent blocker. Assessment
+history is never rewritten when academic parents transition.
