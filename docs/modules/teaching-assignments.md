@@ -55,3 +55,7 @@ section/subject matching. Lead teachers, co-teachers, and effective substitutes 
 manage drafts; assistants read only. Assignment end, reassignment, or correction
 ends contextual access immediately without rewriting assessment attribution or
 history.
+
+Term Grades v0.9 applies the same exact null-safe relationship: current lead and
+co-teachers and effective substitutes manage through finalization, assistants read
+only, and relationship authority never permits correction.

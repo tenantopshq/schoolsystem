@@ -1184,6 +1184,142 @@ export type Database = {
           },
         ]
       }
+      grade_scale_bands: {
+        Row: {
+          created_at: string
+          created_by: string
+          grade_scale_id: string
+          id: string
+          label: string
+          lower_units: number
+          organization_id: string
+          percentage_range: unknown
+          result_state: Database["public"]["Enums"]["grade_result_state"]
+          school_id: string
+          sequence: number
+          upper_units: number
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          grade_scale_id: string
+          id?: string
+          label: string
+          lower_units: number
+          organization_id: string
+          percentage_range?: unknown
+          result_state: Database["public"]["Enums"]["grade_result_state"]
+          school_id: string
+          sequence: number
+          upper_units: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          grade_scale_id?: string
+          id?: string
+          label?: string
+          lower_units?: number
+          organization_id?: string
+          percentage_range?: unknown
+          result_state?: Database["public"]["Enums"]["grade_result_state"]
+          school_id?: string
+          sequence?: number
+          upper_units?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "grade_scale_bands_organization_id_school_id_grade_scale_id_fkey"
+            columns: ["organization_id", "school_id", "grade_scale_id"]
+            isOneToOne: false
+            referencedRelation: "grade_scales"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+        ]
+      }
+      grade_scales: {
+        Row: {
+          academic_year_id: string | null
+          activated_at: string | null
+          activated_by: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          name: string
+          organization_id: string
+          retired_at: string | null
+          retired_by: string | null
+          school_id: string
+          status: Database["public"]["Enums"]["grade_scale_status"]
+          supersedes_grade_scale_id: string | null
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          academic_year_id?: string | null
+          activated_at?: string | null
+          activated_by?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          name: string
+          organization_id: string
+          retired_at?: string | null
+          retired_by?: string | null
+          school_id: string
+          status?: Database["public"]["Enums"]["grade_scale_status"]
+          supersedes_grade_scale_id?: string | null
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          academic_year_id?: string | null
+          activated_at?: string | null
+          activated_by?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          name?: string
+          organization_id?: string
+          retired_at?: string | null
+          retired_by?: string | null
+          school_id?: string
+          status?: Database["public"]["Enums"]["grade_scale_status"]
+          supersedes_grade_scale_id?: string | null
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "grade_scales_organization_id_school_id_academic_year_id_fkey"
+            columns: ["organization_id", "school_id", "academic_year_id"]
+            isOneToOne: false
+            referencedRelation: "academic_years"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "grade_scales_organization_id_school_id_fkey"
+            columns: ["organization_id", "school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "grade_scales_organization_id_school_id_supersedes_grade_sc_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "supersedes_grade_scale_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "grade_scales"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+        ]
+      }
       guardians: {
         Row: {
           alternate_phone: string | null
@@ -2849,11 +2985,581 @@ export type Database = {
           },
         ]
       }
+      term_grade_calculation_sources: {
+        Row: {
+          assessment_id: string
+          assessment_result_id: string
+          assessment_root_id: string
+          assessment_student_id: string
+          assessment_version_id: string
+          assessment_weight: number
+          created_at: string
+          created_by: string
+          effective_weight: number
+          id: string
+          maximum_score: number
+          organization_id: string
+          score: number
+          score_ratio: number
+          student_id: string
+          term_grade_calculation_id: string
+          weighted_points: number
+        }
+        Insert: {
+          assessment_id: string
+          assessment_result_id: string
+          assessment_root_id: string
+          assessment_student_id: string
+          assessment_version_id: string
+          assessment_weight: number
+          created_at?: string
+          created_by: string
+          effective_weight: number
+          id?: string
+          maximum_score: number
+          organization_id: string
+          score: number
+          score_ratio: number
+          student_id: string
+          term_grade_calculation_id: string
+          weighted_points: number
+        }
+        Update: {
+          assessment_id?: string
+          assessment_result_id?: string
+          assessment_root_id?: string
+          assessment_student_id?: string
+          assessment_version_id?: string
+          assessment_weight?: number
+          created_at?: string
+          created_by?: string
+          effective_weight?: number
+          id?: string
+          maximum_score?: number
+          organization_id?: string
+          score?: number
+          score_ratio?: number
+          student_id?: string
+          term_grade_calculation_id?: string
+          weighted_points?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "term_grade_calculation_source_organization_id_assessment_i_fkey"
+            columns: ["organization_id", "assessment_id"]
+            isOneToOne: false
+            referencedRelation: "assessments"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "term_grade_calculation_source_organization_id_assessment_r_fkey"
+            columns: ["organization_id", "assessment_result_id"]
+            isOneToOne: false
+            referencedRelation: "assessment_results"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "term_grade_calculation_source_organization_id_assessment_s_fkey"
+            columns: ["organization_id", "assessment_student_id"]
+            isOneToOne: false
+            referencedRelation: "assessment_students"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "term_grade_calculation_source_organization_id_term_grade_c_fkey"
+            columns: ["organization_id", "term_grade_calculation_id"]
+            isOneToOne: false
+            referencedRelation: "term_grade_calculations"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "term_grade_sources_exact_calculation_fk"
+            columns: [
+              "organization_id",
+              "term_grade_calculation_id",
+              "student_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "term_grade_calculations"
+            referencedColumns: ["organization_id", "id", "student_id"]
+          },
+          {
+            foreignKeyName: "term_grade_sources_exact_result_fk"
+            columns: [
+              "organization_id",
+              "assessment_id",
+              "student_id",
+              "assessment_student_id",
+              "assessment_result_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "assessment_results"
+            referencedColumns: [
+              "organization_id",
+              "assessment_id",
+              "student_id",
+              "assessment_student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "term_grade_sources_exact_snapshot_fk"
+            columns: [
+              "organization_id",
+              "assessment_id",
+              "student_id",
+              "assessment_student_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "assessment_students"
+            referencedColumns: [
+              "organization_id",
+              "assessment_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "term_grade_sources_root_fk"
+            columns: ["organization_id", "assessment_root_id"]
+            isOneToOne: false
+            referencedRelation: "assessments"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "term_grade_sources_version_fk"
+            columns: ["organization_id", "assessment_version_id"]
+            isOneToOne: false
+            referencedRelation: "assessments"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      term_grade_calculations: {
+        Row: {
+          calculated_at: string
+          calculated_by: string
+          calculation_sequence: number
+          contributing_assessment_count: number
+          grade_label: string
+          grade_scale_band_id: string
+          grade_scale_id: string
+          id: string
+          organization_id: string
+          raw_percentage: number
+          result_state: Database["public"]["Enums"]["grade_result_state"]
+          rounded_percentage: number
+          student_id: string
+          term_grade_record_id: string
+          term_grade_set_id: string
+          weight_total: number
+        }
+        Insert: {
+          calculated_at?: string
+          calculated_by: string
+          calculation_sequence: number
+          contributing_assessment_count: number
+          grade_label: string
+          grade_scale_band_id: string
+          grade_scale_id: string
+          id?: string
+          organization_id: string
+          raw_percentage: number
+          result_state: Database["public"]["Enums"]["grade_result_state"]
+          rounded_percentage: number
+          student_id: string
+          term_grade_record_id: string
+          term_grade_set_id: string
+          weight_total: number
+        }
+        Update: {
+          calculated_at?: string
+          calculated_by?: string
+          calculation_sequence?: number
+          contributing_assessment_count?: number
+          grade_label?: string
+          grade_scale_band_id?: string
+          grade_scale_id?: string
+          id?: string
+          organization_id?: string
+          raw_percentage?: number
+          result_state?: Database["public"]["Enums"]["grade_result_state"]
+          rounded_percentage?: number
+          student_id?: string
+          term_grade_record_id?: string
+          term_grade_set_id?: string
+          weight_total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "term_grade_calculations_exact_record_fk"
+            columns: [
+              "organization_id",
+              "term_grade_set_id",
+              "student_id",
+              "calculation_sequence",
+              "term_grade_record_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "term_grade_records"
+            referencedColumns: [
+              "organization_id",
+              "term_grade_set_id",
+              "student_id",
+              "calculation_sequence",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "term_grade_calculations_organization_id_grade_scale_id_gra_fkey"
+            columns: [
+              "organization_id",
+              "grade_scale_id",
+              "grade_scale_band_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "grade_scale_bands"
+            referencedColumns: ["organization_id", "grade_scale_id", "id"]
+          },
+          {
+            foreignKeyName: "term_grade_calculations_organization_id_term_grade_record__fkey"
+            columns: ["organization_id", "term_grade_record_id"]
+            isOneToOne: false
+            referencedRelation: "term_grade_records"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      term_grade_records: {
+        Row: {
+          academic_term_id: string
+          academic_year_id: string
+          calculation_sequence: number
+          campus_id: string
+          created_at: string
+          created_by: string
+          id: string
+          organization_id: string
+          school_id: string
+          section_id: string
+          student_id: string
+          subject_id: string | null
+          term_grade_set_id: string
+          term_grading_configuration_id: string
+        }
+        Insert: {
+          academic_term_id: string
+          academic_year_id: string
+          calculation_sequence: number
+          campus_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          organization_id: string
+          school_id: string
+          section_id: string
+          student_id: string
+          subject_id?: string | null
+          term_grade_set_id: string
+          term_grading_configuration_id: string
+        }
+        Update: {
+          academic_term_id?: string
+          academic_year_id?: string
+          calculation_sequence?: number
+          campus_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          organization_id?: string
+          school_id?: string
+          section_id?: string
+          student_id?: string
+          subject_id?: string | null
+          term_grade_set_id?: string
+          term_grading_configuration_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "term_grade_records_organization_id_school_id_campus_id_aca_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "term_grade_set_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "term_grade_sets"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "term_grade_records_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      term_grade_sets: {
+        Row: {
+          academic_term_id: string
+          academic_year_id: string
+          calculation_sequence: number
+          campus_id: string
+          cancellation_reason: string | null
+          cancelled_at: string | null
+          cancelled_by: string | null
+          correction_reason: string | null
+          created_at: string
+          created_by: string
+          finalized_at: string | null
+          finalized_by: string | null
+          id: string
+          lifecycle_status: Database["public"]["Enums"]["term_grade_lifecycle_status"]
+          organization_id: string
+          publication_state: Database["public"]["Enums"]["term_grade_publication_state"]
+          published_at: string | null
+          published_by: string | null
+          school_id: string
+          section_id: string
+          source_fingerprint: string
+          subject_id: string | null
+          supersedes_term_grade_set_id: string | null
+          term_grading_configuration_id: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          academic_term_id: string
+          academic_year_id: string
+          calculation_sequence?: number
+          campus_id: string
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          correction_reason?: string | null
+          created_at?: string
+          created_by: string
+          finalized_at?: string | null
+          finalized_by?: string | null
+          id?: string
+          lifecycle_status?: Database["public"]["Enums"]["term_grade_lifecycle_status"]
+          organization_id: string
+          publication_state?: Database["public"]["Enums"]["term_grade_publication_state"]
+          published_at?: string | null
+          published_by?: string | null
+          school_id: string
+          section_id: string
+          source_fingerprint: string
+          subject_id?: string | null
+          supersedes_term_grade_set_id?: string | null
+          term_grading_configuration_id: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          academic_term_id?: string
+          academic_year_id?: string
+          calculation_sequence?: number
+          campus_id?: string
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          correction_reason?: string | null
+          created_at?: string
+          created_by?: string
+          finalized_at?: string | null
+          finalized_by?: string | null
+          id?: string
+          lifecycle_status?: Database["public"]["Enums"]["term_grade_lifecycle_status"]
+          organization_id?: string
+          publication_state?: Database["public"]["Enums"]["term_grade_publication_state"]
+          published_at?: string | null
+          published_by?: string | null
+          school_id?: string
+          section_id?: string
+          source_fingerprint?: string
+          subject_id?: string | null
+          supersedes_term_grade_set_id?: string | null
+          term_grading_configuration_id?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "term_grade_sets_organization_id_school_id_campus_id_academ_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "term_grading_configuration_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "term_grading_configurations"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "term_grade_sets_organization_id_supersedes_term_grade_set__fkey"
+            columns: ["organization_id", "supersedes_term_grade_set_id"]
+            isOneToOne: false
+            referencedRelation: "term_grade_sets"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      term_grading_configurations: {
+        Row: {
+          academic_term_id: string
+          academic_year_id: string
+          activated_at: string | null
+          activated_by: string | null
+          campus_id: string
+          created_at: string
+          created_by: string
+          grade_scale_id: string
+          id: string
+          include_unpublished_finalized: boolean
+          organization_id: string
+          require_weights_total_100: boolean
+          retired_at: string | null
+          retired_by: string | null
+          school_id: string
+          section_id: string
+          status: Database["public"]["Enums"]["term_grading_configuration_status"]
+          subject_id: string | null
+          supersedes_configuration_id: string | null
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          academic_term_id: string
+          academic_year_id: string
+          activated_at?: string | null
+          activated_by?: string | null
+          campus_id: string
+          created_at?: string
+          created_by: string
+          grade_scale_id: string
+          id?: string
+          include_unpublished_finalized?: boolean
+          organization_id: string
+          require_weights_total_100?: boolean
+          retired_at?: string | null
+          retired_by?: string | null
+          school_id: string
+          section_id: string
+          status?: Database["public"]["Enums"]["term_grading_configuration_status"]
+          subject_id?: string | null
+          supersedes_configuration_id?: string | null
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          academic_term_id?: string
+          academic_year_id?: string
+          activated_at?: string | null
+          activated_by?: string | null
+          campus_id?: string
+          created_at?: string
+          created_by?: string
+          grade_scale_id?: string
+          id?: string
+          include_unpublished_finalized?: boolean
+          organization_id?: string
+          require_weights_total_100?: boolean
+          retired_at?: string | null
+          retired_by?: string | null
+          school_id?: string
+          section_id?: string
+          status?: Database["public"]["Enums"]["term_grading_configuration_status"]
+          subject_id?: string | null
+          supersedes_configuration_id?: string | null
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "term_grading_configurations_organization_id_academic_year__fkey"
+            columns: ["organization_id", "academic_year_id", "academic_term_id"]
+            isOneToOne: false
+            referencedRelation: "academic_terms"
+            referencedColumns: ["organization_id", "academic_year_id", "id"]
+          },
+          {
+            foreignKeyName: "term_grading_configurations_organization_id_school_id_camp_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "term_grading_configurations_organization_id_school_id_grad_fkey"
+            columns: ["organization_id", "school_id", "grade_scale_id"]
+            isOneToOne: false
+            referencedRelation: "grade_scales"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "term_grading_configurations_organization_id_school_id_subj_fkey"
+            columns: ["organization_id", "school_id", "subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "term_grading_configurations_organization_id_supersedes_con_fkey"
+            columns: ["organization_id", "supersedes_configuration_id"]
+            isOneToOne: false
+            referencedRelation: "term_grading_configurations"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      activate_grade_scale: { Args: { id: string }; Returns: string }
+      activate_term_grading_configuration: {
+        Args: { id: string }
+        Returns: string
+      }
       archive_attendance_absence_reason: {
         Args: { id: string }
         Returns: string
@@ -2865,7 +3571,8 @@ export type Database = {
         Returns: string
       }
       archive_room: { Args: { id: string }; Returns: string }
-      archive_section: { Args: { id: string }; Returns: string }
+      archive_section: { Args: { p_id: string }; Returns: string }
+      archive_section_v0_8_impl: { Args: { id: string }; Returns: string }
       archive_staff_profile: { Args: { id: string }; Returns: string }
       archive_student: {
         Args: { archive_reason: string; target_student_id: string }
@@ -2892,8 +3599,19 @@ export type Database = {
         Returns: string
       }
       archive_subject: { Args: { id: string }; Returns: string }
+      calculate_term_grades: {
+        Args: { term_grading_configuration_id: string }
+        Returns: {
+          grade_count: number
+          term_grade_set_id: string
+        }[]
+      }
       cancel_draft_assessment: {
         Args: { cancellation_reason: string; id: string }
+        Returns: string
+      }
+      cancel_draft_term_grades: {
+        Args: { cancellation_reason: string; term_grade_set_id: string }
         Returns: string
       }
       complete_student_enrollment: {
@@ -2984,6 +3702,13 @@ export type Database = {
           replacement_assignment_id: string
         }[]
       }
+      correct_term_grades: {
+        Args: { correction_reason: string; term_grade_set_id: string }
+        Returns: {
+          corrected_term_grade_set_id: string
+          replacement_term_grade_set_id: string
+        }[]
+      }
       create_academic_term: {
         Args: {
           academic_year_id: string
@@ -3049,6 +3774,16 @@ export type Database = {
           school_id: string
           sequence: number
           status?: Database["public"]["Enums"]["record_status"]
+        }
+        Returns: string
+      }
+      create_grade_scale: {
+        Args: {
+          academic_year_id: string
+          bands: Database["public"]["CompositeTypes"]["grade_scale_band_input"][]
+          description: string
+          name: string
+          school_id: string
         }
         Returns: string
       }
@@ -3212,6 +3947,17 @@ export type Database = {
         }
         Returns: string
       }
+      create_term_grading_configuration: {
+        Args: {
+          academic_term_id: string
+          grade_scale_id: string
+          include_unpublished_finalized: boolean
+          require_weights_total_100: boolean
+          section_id: string
+          subject_id: string
+        }
+        Returns: string
+      }
       end_teaching_assignment: {
         Args: { ended_on: string; id: string; reason: string }
         Returns: string
@@ -3227,6 +3973,10 @@ export type Database = {
       }
       finalize_assessment: { Args: { id: string }; Returns: string }
       finalize_attendance_session: { Args: { id: string }; Returns: string }
+      finalize_term_grades: {
+        Args: { term_grade_set_id: string }
+        Returns: string
+      }
       link_guardian_to_student: {
         Args: {
           financial_responsibility: boolean
@@ -3254,6 +4004,10 @@ export type Database = {
         Returns: string
       }
       publish_assessment: { Args: { id: string }; Returns: string }
+      publish_term_grades: {
+        Args: { term_grade_set_id: string }
+        Returns: string
+      }
       reassign_teaching_assignment: {
         Args: {
           id: string
@@ -3268,10 +4022,41 @@ export type Database = {
           to_assignment_id: string
         }[]
       }
+      recalculate_draft_term_grades: {
+        Args: { id: string }
+        Returns: {
+          calculation_sequence: number
+          grade_count: number
+          term_grade_set_id: string
+        }[]
+      }
       record_assessment_results: {
         Args: {
           id: string
           results: Database["public"]["CompositeTypes"]["assessment_result_input"][]
+        }
+        Returns: string
+      }
+      retire_grade_scale: { Args: { id: string }; Returns: string }
+      retire_term_grading_configuration: {
+        Args: { id: string }
+        Returns: string
+      }
+      revise_grade_scale: {
+        Args: {
+          id: string
+          replacement_bands: Database["public"]["CompositeTypes"]["grade_scale_band_input"][]
+          replacement_description: string
+          replacement_name: string
+        }
+        Returns: string
+      }
+      revise_term_grading_configuration: {
+        Args: {
+          id: string
+          replacement_grade_scale_id: string
+          replacement_include_unpublished_finalized: boolean
+          replacement_require_weights_total_100: boolean
         }
         Returns: string
       }
@@ -3358,6 +4143,25 @@ export type Database = {
         }
         Returns: string
       }
+      update_draft_grade_scale: {
+        Args: {
+          bands: Database["public"]["CompositeTypes"]["grade_scale_band_input"][]
+          description: string
+          id: string
+          name: string
+          set_description: boolean
+        }
+        Returns: string
+      }
+      update_draft_term_grading_configuration: {
+        Args: {
+          grade_scale_id: string
+          id: string
+          include_unpublished_finalized: boolean
+          require_weights_total_100: boolean
+        }
+        Returns: string
+      }
       update_grade_level: {
         Args: {
           code: string
@@ -3407,6 +4211,22 @@ export type Database = {
         Returns: string
       }
       update_section: {
+        Args: {
+          academic_term_id: string
+          capacity: number
+          code: string
+          end_date: string
+          homeroom_room_id: string
+          id: string
+          name: string
+          set_academic_term_id?: boolean
+          set_homeroom_room_id?: boolean
+          start_date: string
+          status: Database["public"]["Enums"]["record_status"]
+        }
+        Returns: string
+      }
+      update_section_v0_8_impl: {
         Args: {
           academic_term_id: string
           capacity: number
@@ -3595,6 +4415,8 @@ export type Database = {
         | "finalized"
         | "corrected"
       enrollment_status: "active" | "withdrawn" | "completed" | "corrected"
+      grade_result_state: "pass" | "fail"
+      grade_scale_status: "draft" | "active" | "retired"
       membership_status: "invited" | "active" | "suspended" | "left"
       outbox_status: "pending" | "processing" | "processed" | "failed"
       record_status: "active" | "inactive" | "archived"
@@ -3620,6 +4442,13 @@ export type Database = {
         | "ended"
         | "reassigned"
         | "corrected"
+      term_grade_lifecycle_status:
+        | "draft"
+        | "finalized"
+        | "corrected"
+        | "cancelled"
+      term_grade_publication_state: "unpublished" | "published"
+      term_grading_configuration_status: "draft" | "active" | "retired"
     }
     CompositeTypes: {
       assessment_result_input: {
@@ -3633,6 +4462,13 @@ export type Database = {
         arrival_time: string | null
         absence_reason_id: string | null
         note: string | null
+      }
+      grade_scale_band_input: {
+        sequence: number | null
+        lower_bound: number | null
+        upper_bound: number | null
+        label: string | null
+        result_state: Database["public"]["Enums"]["grade_result_state"] | null
       }
     }
   }
@@ -3781,6 +4617,8 @@ export const Constants = {
         "corrected",
       ],
       enrollment_status: ["active", "withdrawn", "completed", "corrected"],
+      grade_result_state: ["pass", "fail"],
+      grade_scale_status: ["draft", "active", "retired"],
       membership_status: ["invited", "active", "suspended", "left"],
       outbox_status: ["pending", "processing", "processed", "failed"],
       record_status: ["active", "inactive", "archived"],
@@ -3810,6 +4648,14 @@ export const Constants = {
         "reassigned",
         "corrected",
       ],
+      term_grade_lifecycle_status: [
+        "draft",
+        "finalized",
+        "corrected",
+        "cancelled",
+      ],
+      term_grade_publication_state: ["unpublished", "published"],
+      term_grading_configuration_status: ["draft", "active", "retired"],
     },
   },
 } as const

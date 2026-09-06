@@ -13,7 +13,7 @@
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
     "db:test": "supabase test db",
-    "db:types": "supabase gen types typescript --local --schema public | sed -e '${/^$/d;}' > src/platform/database/database.types.ts",
+    "db:types": "mkdir -p .supabase-cli-config && DO_NOT_TRACK=1 XDG_CONFIG_HOME=.supabase-cli-config supabase gen types typescript --local --schema public > src/platform/database/database.types.ts.tmp && sed -e '${/^$/d;}' src/platform/database/database.types.ts.tmp > src/platform/database/database.types.ts && rm -f src/platform/database/database.types.ts.tmp",
     "verify": "npm run typecheck && npm run build"
   },
   "dependencies": {

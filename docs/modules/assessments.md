@@ -66,3 +66,7 @@ Every command uses a server-generated command ID. Changed domain rows receive au
 records; allow-listed events omit descriptions, scores, and comments. Roster and
 placeholder-result initialization are audit-only. Multi-row result and correction
 events share their command ID.
+
+Term Grades v0.9 consumes only published finalized live assessment heads. Source
+correction never rewrites term-grade history; it makes drafts stale and finalized
+grades change only through whole-set term-grade correction.

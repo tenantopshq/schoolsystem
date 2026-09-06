@@ -67,3 +67,7 @@ rows through restrictive foreign keys, and never rewrites attendance history.
 Assessment Foundation v0.8 snapshots the same enrollment and placement provenance
 at `assessment_date`. Later append-only withdrawal, transfer, completion, or
 correction does not rewrite, invalidate, or get blocked by an assessment snapshot.
+
+Term grades consume that preserved assessment snapshot provenance rather than
+current enrollment or placement heads. Later correction never rewrites a grade
+calculation or source row.

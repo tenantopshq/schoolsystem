@@ -94,3 +94,7 @@ remain inside section, term, and academic-year dates. Non-cancelled drafts block
 incompatible parent lifecycle changes; finalized history remains attached but does
 not otherwise prevent closure. Cancelled drafts impose no parent blocker. Assessment
 history is never rewritten when academic parents transition.
+
+Term-grade drafts block incompatible section/term/year/subject lifecycle changes.
+Finalized history remains attached; active scale and configuration versions are
+immutable.
