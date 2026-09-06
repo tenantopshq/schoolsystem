@@ -10,3 +10,4 @@ coverage/
 .DS_Store
 supabase/.branches/
 supabase/.temp/
+.supabase-cli-config/

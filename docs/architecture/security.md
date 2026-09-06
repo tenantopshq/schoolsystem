@@ -86,3 +86,8 @@ Finalization freezes academic content independently of publication. Unpublished
 draft cancellation is terminal, while finalized correction appends a successor with
 the original immutable roster. Private mutation helpers remain denied and every
 command writes correlated audit/outbox effects atomically.
+
+Term Grades v0.9 adds seven forced-RLS, SELECT-only tables and sixteen typed
+commands. Contextual lead/co-teacher/substitute authority manages calculation,
+publication, and finalization; assistants read only and correction always requires
+scoped manage plus correct. Student/guardian access is own-current-published only.

@@ -65,3 +65,8 @@ finalization, terminal draft cancellation, and append-and-supersede finalized
 correction. It consumes academic, enrollment, placement, teaching-assignment, and
 student/guardian relationship contracts without importing those modules' private
 persistence interfaces.
+
+Term Grades & Grade Scales v0.9 owns immutable school grade-scale versions,
+exact-context grading configuration, whole-set term-grade lifecycle, deterministic
+assessment aggregation, and calculation provenance. Draft recalculation appends a
+generation; finalized correction appends and supersedes the entire set.

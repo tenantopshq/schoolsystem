@@ -147,3 +147,6 @@ at the assessment date. Later student or guardian lifecycle changes do not rewri
 assessment history. Active students and active linked guardians with portal access
 may read only the applicable student's live published assessment result and teacher
 comment; this relationship grants no broader SIS or assessment mutation access.
+
+Term-grade portal visibility reuses those active relationships and exposes only the
+applicable current published grade child, never provenance or classmates.
