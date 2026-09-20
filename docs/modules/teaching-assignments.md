@@ -1,5 +1,8 @@
 # Teaching Assignments v0.6
 
+Report-card child reads are exact-subject; null-subject lead/co homeroom teachers have
+card-wide reads. Attribution retains assignment IDs after assignment changes.
+
 ## Boundary
 
 The teaching-assignments module owns effective-dated staff responsibility for an

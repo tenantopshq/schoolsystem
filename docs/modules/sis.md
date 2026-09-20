@@ -1,5 +1,9 @@
 # Student Information System v0.4
 
+Report cards snapshot only approved display identity. Later edits stale drafts;
+issued display remains frozen. Current student and guardian-link status gates portal
+access.
+
 ## Boundary
 
 The SIS module owns students, guardians and family relationships, identifiers,

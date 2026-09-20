@@ -1,5 +1,10 @@
 # Term Grades
 
+Report Cards v1.0 derives required context keys from active configurations but may
+snapshot a live finalized set retaining an older immutable configuration version.
+Publication is not required. Grade correction stales drafts and never rewrites issued
+cards.
+
 ## Boundary
 
 Term Grades owns school grade-scale versions and bands, exact section/subject/term configurations, whole-set term-grade lifecycle, immutable student calculation generations, and exact assessment-result provenance. It does not own assessments, rosters, teaching assignments, student/guardian relationships, GPA, transcripts, or report cards.

@@ -1,5 +1,8 @@
 # Assessment & Gradebook Foundation v0.8
 
+Report-card provenance retains the exact assessment identities already frozen by Term
+Grades. Assessment correction never rewrites report-card history.
+
 ## Boundary
 
 Assessments owns section assessments, assessment-date roster snapshots, one result

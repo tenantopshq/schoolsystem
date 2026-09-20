@@ -70,3 +70,8 @@ Term Grades & Grade Scales v0.9 owns immutable school grade-scale versions,
 exact-context grading configuration, whole-set term-grade lifecycle, deterministic
 assessment aggregation, and calculation provenance. Draft recalculation appends a
 generation; finalized correction appends and supersedes the entire set.
+
+Report Cards v1.0 consumes finalized term-grade and attendance heads into immutable,
+provenance-complete term snapshots. It owns lifecycle, comments, attribution
+sign-offs, numbering, linear correction lineage, and bounded review batches, but not
+rendering or delivery.
