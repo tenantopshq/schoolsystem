@@ -91,3 +91,10 @@ Term Grades v0.9 adds seven forced-RLS, SELECT-only tables and sixteen typed
 commands. Contextual lead/co-teacher/substitute authority manages calculation,
 publication, and finalization; assistants read only and correction always requires
 scoped manage plus correct. Student/guardian access is own-current-published only.
+
+Report Cards v1.0 adds nine forced-RLS, SELECT-only tables and twelve typed commands.
+Subject relationships are limited to exact-subject children and grade provenance;
+null-subject lead/co homeroom teachers have broader reviewed contextual reads.
+Whole-card lifecycle is administrative, correction requires manage plus correct, and
+successors carry an atomic administrator correction certification. Portal users see
+only their own live published card and no provenance.

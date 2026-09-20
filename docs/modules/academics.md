@@ -1,5 +1,8 @@
 # Academic Foundation v0.3
 
+Report-card drafts block incompatible parent lifecycle changes. Issued cards retain
+exact academic scope and display provenance through restrictive foreign keys.
+
 ## Boundary
 
 The academics module owns staff employment profiles, buildings, rooms, grade-level

@@ -1,5 +1,8 @@
 # Enrollment & Section Placement v0.5
 
+Report cards retain exact enrollment/placement provenance. Corrections stale affected
+drafts but never rewrite issued history.
+
 ## Boundary
 
 The enrollment module owns academic-year enrollment and effective-dated section

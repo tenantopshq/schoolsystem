@@ -1,5 +1,8 @@
 # Attendance Foundation v0.7
 
+Report Cards v1.0 summarizes live finalized heads over exact inclusive term dates.
+In-range attendance correction or finalization stales drafts; issued cards are frozen.
+
 ## Boundary
 
 Attendance owns daily section sessions, immutable open-time roster snapshots,

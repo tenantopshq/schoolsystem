@@ -1557,6 +1557,1357 @@ export type Database = {
         }
         Relationships: []
       }
+      report_card_attendance_snapshots: {
+        Row: {
+          absent_count: number
+          academic_term_id: string
+          academic_year_id: string
+          calculated_at: string
+          campus_id: string
+          created_at: string
+          created_by: string
+          excused_count: number
+          id: string
+          late_count: number
+          organization_id: string
+          present_count: number
+          range_end_date: string
+          range_start_date: string
+          report_card_id: string
+          school_id: string
+          section_id: string
+          source_fingerprint: string
+          student_id: string
+          total_session_count: number
+        }
+        Insert: {
+          absent_count: number
+          academic_term_id: string
+          academic_year_id: string
+          calculated_at?: string
+          campus_id: string
+          created_at?: string
+          created_by: string
+          excused_count: number
+          id?: string
+          late_count: number
+          organization_id: string
+          present_count: number
+          range_end_date: string
+          range_start_date: string
+          report_card_id: string
+          school_id: string
+          section_id: string
+          source_fingerprint: string
+          student_id: string
+          total_session_count: number
+        }
+        Update: {
+          absent_count?: number
+          academic_term_id?: string
+          academic_year_id?: string
+          calculated_at?: string
+          campus_id?: string
+          created_at?: string
+          created_by?: string
+          excused_count?: number
+          id?: string
+          late_count?: number
+          organization_id?: string
+          present_count?: number
+          range_end_date?: string
+          range_start_date?: string
+          report_card_id?: string
+          school_id?: string
+          section_id?: string
+          source_fingerprint?: string
+          student_id?: string
+          total_session_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_card_attendance_snapsh_organization_id_school_id_ca_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "student_id",
+              "report_card_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "report_cards"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "student_id",
+              "id",
+            ]
+          },
+        ]
+      }
+      report_card_attendance_sources: {
+        Row: {
+          absence_reason_id: string | null
+          academic_year_id: string
+          attendance_mark_id: string
+          attendance_session_id: string
+          attendance_session_student_id: string
+          campus_id: string
+          created_at: string
+          created_by: string
+          id: string
+          mark: Database["public"]["Enums"]["attendance_mark_status"]
+          organization_id: string
+          report_card_attendance_snapshot_id: string
+          report_card_id: string
+          school_id: string
+          section_id: string
+          session_date: string
+          student_id: string
+        }
+        Insert: {
+          absence_reason_id?: string | null
+          academic_year_id: string
+          attendance_mark_id: string
+          attendance_session_id: string
+          attendance_session_student_id: string
+          campus_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          mark: Database["public"]["Enums"]["attendance_mark_status"]
+          organization_id: string
+          report_card_attendance_snapshot_id: string
+          report_card_id: string
+          school_id: string
+          section_id: string
+          session_date: string
+          student_id: string
+        }
+        Update: {
+          absence_reason_id?: string | null
+          academic_year_id?: string
+          attendance_mark_id?: string
+          attendance_session_id?: string
+          attendance_session_student_id?: string
+          campus_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          mark?: Database["public"]["Enums"]["attendance_mark_status"]
+          organization_id?: string
+          report_card_attendance_snapshot_id?: string
+          report_card_id?: string
+          school_id?: string
+          section_id?: string
+          session_date?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_card_attendance_sourc_organization_id_school_id_ca_fkey1"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "attendance_session_id",
+              "student_id",
+              "attendance_session_student_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "attendance_session_students"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "session_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_attendance_sourc_organization_id_school_id_ca_fkey2"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "attendance_session_id",
+              "student_id",
+              "attendance_session_student_id",
+              "attendance_mark_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "attendance_marks"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "session_id",
+              "student_id",
+              "session_student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_attendance_source_organization_id_report_card__fkey"
+            columns: [
+              "organization_id",
+              "report_card_id",
+              "student_id",
+              "report_card_attendance_snapshot_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "report_card_attendance_snapshots"
+            referencedColumns: [
+              "organization_id",
+              "report_card_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_attendance_source_organization_id_school_id_ab_fkey"
+            columns: ["organization_id", "school_id", "absence_reason_id"]
+            isOneToOne: false
+            referencedRelation: "attendance_absence_reasons"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "report_card_attendance_source_organization_id_school_id_ca_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "attendance_session_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "attendance_sessions"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "id",
+            ]
+          },
+        ]
+      }
+      report_card_batch_items: {
+        Row: {
+          academic_term_id: string
+          academic_year_id: string
+          campus_id: string
+          created_at: string
+          created_by: string
+          id: string
+          organization_id: string
+          report_card_batch_id: string
+          report_card_id: string
+          school_id: string
+          section_id: string
+          student_id: string
+        }
+        Insert: {
+          academic_term_id: string
+          academic_year_id: string
+          campus_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          organization_id: string
+          report_card_batch_id: string
+          report_card_id: string
+          school_id: string
+          section_id: string
+          student_id: string
+        }
+        Update: {
+          academic_term_id?: string
+          academic_year_id?: string
+          campus_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          organization_id?: string
+          report_card_batch_id?: string
+          report_card_id?: string
+          school_id?: string
+          section_id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_card_batch_items_organization_id_school_id_campus__fkey1"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "student_id",
+              "report_card_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "report_cards"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_batch_items_organization_id_school_id_campus_i_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "report_card_batch_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "report_card_batches"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "id",
+            ]
+          },
+        ]
+      }
+      report_card_batches: {
+        Row: {
+          academic_term_id: string
+          academic_year_id: string
+          campus_id: string
+          cancellation_reason: string | null
+          cancelled_at: string | null
+          cancelled_by: string | null
+          created_at: string
+          created_by: string
+          id: string
+          organization_id: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          school_id: string
+          section_id: string
+          status: Database["public"]["Enums"]["report_card_batch_status"]
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          academic_term_id: string
+          academic_year_id: string
+          campus_id: string
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          created_at?: string
+          created_by: string
+          id?: string
+          organization_id: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          school_id: string
+          section_id: string
+          status?: Database["public"]["Enums"]["report_card_batch_status"]
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          academic_term_id?: string
+          academic_year_id?: string
+          campus_id?: string
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          organization_id?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          school_id?: string
+          section_id?: string
+          status?: Database["public"]["Enums"]["report_card_batch_status"]
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_card_batches_organization_id_academic_year_id_acade_fkey"
+            columns: ["organization_id", "academic_year_id", "academic_term_id"]
+            isOneToOne: false
+            referencedRelation: "academic_terms"
+            referencedColumns: ["organization_id", "academic_year_id", "id"]
+          },
+          {
+            foreignKeyName: "report_card_batches_organization_id_school_id_campus_id_ac_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "id",
+            ]
+          },
+        ]
+      }
+      report_card_comments: {
+        Row: {
+          academic_term_id: string
+          academic_year_id: string
+          author_membership_id: string
+          author_staff_profile_id: string | null
+          author_teaching_assignment_id: string | null
+          author_user_id: string
+          body: string
+          campus_id: string
+          comment_type: Database["public"]["Enums"]["report_card_comment_type"]
+          created_at: string
+          created_by: string
+          id: string
+          organization_id: string
+          report_card_id: string
+          school_id: string
+          section_id: string
+          status: Database["public"]["Enums"]["report_card_comment_status"]
+          student_id: string
+          subject_id: string | null
+          withdrawal_reason: string | null
+          withdrawn_at: string | null
+          withdrawn_by: string | null
+        }
+        Insert: {
+          academic_term_id: string
+          academic_year_id: string
+          author_membership_id: string
+          author_staff_profile_id?: string | null
+          author_teaching_assignment_id?: string | null
+          author_user_id: string
+          body: string
+          campus_id: string
+          comment_type: Database["public"]["Enums"]["report_card_comment_type"]
+          created_at?: string
+          created_by: string
+          id?: string
+          organization_id: string
+          report_card_id: string
+          school_id: string
+          section_id: string
+          status?: Database["public"]["Enums"]["report_card_comment_status"]
+          student_id: string
+          subject_id?: string | null
+          withdrawal_reason?: string | null
+          withdrawn_at?: string | null
+          withdrawn_by?: string | null
+        }
+        Update: {
+          academic_term_id?: string
+          academic_year_id?: string
+          author_membership_id?: string
+          author_staff_profile_id?: string | null
+          author_teaching_assignment_id?: string | null
+          author_user_id?: string
+          body?: string
+          campus_id?: string
+          comment_type?: Database["public"]["Enums"]["report_card_comment_type"]
+          created_at?: string
+          created_by?: string
+          id?: string
+          organization_id?: string
+          report_card_id?: string
+          school_id?: string
+          section_id?: string
+          status?: Database["public"]["Enums"]["report_card_comment_status"]
+          student_id?: string
+          subject_id?: string | null
+          withdrawal_reason?: string | null
+          withdrawn_at?: string | null
+          withdrawn_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_card_comments_organization_id_author_membership_id__fkey"
+            columns: [
+              "organization_id",
+              "author_membership_id",
+              "author_staff_profile_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "staff_profiles"
+            referencedColumns: [
+              "organization_id",
+              "organization_membership_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_comments_organization_id_author_user_id_author_fkey"
+            columns: [
+              "organization_id",
+              "author_user_id",
+              "author_membership_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "organization_memberships"
+            referencedColumns: ["organization_id", "user_id", "id"]
+          },
+          {
+            foreignKeyName: "report_card_comments_organization_id_school_id_campus_id__fkey1"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "subject_id",
+              "author_staff_profile_id",
+              "author_teaching_assignment_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "teaching_assignments"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "subject_id",
+              "staff_profile_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_comments_organization_id_school_id_campus_id_a_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "student_id",
+              "report_card_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "report_cards"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_comments_organization_id_school_id_subject_id_fkey"
+            columns: ["organization_id", "school_id", "subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+        ]
+      }
+      report_card_grade_snapshots: {
+        Row: {
+          academic_term_id: string
+          academic_year_id: string
+          campus_id: string
+          contributing_assessment_count: number
+          created_at: string
+          created_by: string
+          grade_label: string
+          grade_scale_band_id: string
+          grade_scale_id: string
+          id: string
+          organization_id: string
+          raw_percentage: number
+          report_card_id: string
+          result_state: Database["public"]["Enums"]["grade_result_state"]
+          rounded_percentage: number
+          school_id: string
+          section_id: string
+          source_term_grade_fingerprint: string
+          student_id: string
+          subject_code: string | null
+          subject_id: string | null
+          subject_name: string | null
+          term_grade_calculation_id: string
+          term_grade_calculation_sequence: number
+          term_grade_record_id: string
+          term_grade_set_id: string
+          term_grading_configuration_id: string
+          weight_total: number
+        }
+        Insert: {
+          academic_term_id: string
+          academic_year_id: string
+          campus_id: string
+          contributing_assessment_count: number
+          created_at?: string
+          created_by: string
+          grade_label: string
+          grade_scale_band_id: string
+          grade_scale_id: string
+          id?: string
+          organization_id: string
+          raw_percentage: number
+          report_card_id: string
+          result_state: Database["public"]["Enums"]["grade_result_state"]
+          rounded_percentage: number
+          school_id: string
+          section_id: string
+          source_term_grade_fingerprint: string
+          student_id: string
+          subject_code?: string | null
+          subject_id?: string | null
+          subject_name?: string | null
+          term_grade_calculation_id: string
+          term_grade_calculation_sequence: number
+          term_grade_record_id: string
+          term_grade_set_id: string
+          term_grading_configuration_id: string
+          weight_total: number
+        }
+        Update: {
+          academic_term_id?: string
+          academic_year_id?: string
+          campus_id?: string
+          contributing_assessment_count?: number
+          created_at?: string
+          created_by?: string
+          grade_label?: string
+          grade_scale_band_id?: string
+          grade_scale_id?: string
+          id?: string
+          organization_id?: string
+          raw_percentage?: number
+          report_card_id?: string
+          result_state?: Database["public"]["Enums"]["grade_result_state"]
+          rounded_percentage?: number
+          school_id?: string
+          section_id?: string
+          source_term_grade_fingerprint?: string
+          student_id?: string
+          subject_code?: string | null
+          subject_id?: string | null
+          subject_name?: string | null
+          term_grade_calculation_id?: string
+          term_grade_calculation_sequence?: number
+          term_grade_record_id?: string
+          term_grade_set_id?: string
+          term_grading_configuration_id?: string
+          weight_total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_card_grade_snapshots_organization_id_grade_scale_id_fkey"
+            columns: [
+              "organization_id",
+              "grade_scale_id",
+              "grade_scale_band_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "grade_scale_bands"
+            referencedColumns: ["organization_id", "grade_scale_id", "id"]
+          },
+          {
+            foreignKeyName: "report_card_grade_snapshots_organization_id_school_id_cam_fkey1"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "term_grade_set_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "term_grade_sets"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_grade_snapshots_organization_id_school_id_camp_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "student_id",
+              "report_card_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "report_cards"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_grade_snapshots_organization_id_school_id_subj_fkey"
+            columns: ["organization_id", "school_id", "subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "report_card_grade_snapshots_organization_id_term_grade_se_fkey1"
+            columns: [
+              "organization_id",
+              "term_grade_set_id",
+              "student_id",
+              "term_grade_calculation_sequence",
+              "term_grade_record_id",
+              "term_grade_calculation_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "term_grade_calculations"
+            referencedColumns: [
+              "organization_id",
+              "term_grade_set_id",
+              "student_id",
+              "calculation_sequence",
+              "term_grade_record_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_grade_snapshots_organization_id_term_grade_set_fkey"
+            columns: [
+              "organization_id",
+              "term_grade_set_id",
+              "student_id",
+              "term_grade_calculation_sequence",
+              "term_grade_record_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "term_grade_records"
+            referencedColumns: [
+              "organization_id",
+              "term_grade_set_id",
+              "student_id",
+              "calculation_sequence",
+              "id",
+            ]
+          },
+        ]
+      }
+      report_card_grade_sources: {
+        Row: {
+          assessment_id: string
+          assessment_result_id: string
+          assessment_root_id: string
+          assessment_student_id: string
+          assessment_version_id: string
+          assessment_weight: number
+          created_at: string
+          created_by: string
+          effective_weight: number
+          id: string
+          maximum_score: number
+          organization_id: string
+          report_card_grade_snapshot_id: string
+          report_card_id: string
+          score: number
+          score_ratio: number
+          student_id: string
+          term_grade_calculation_source_id: string
+          weighted_points: number
+        }
+        Insert: {
+          assessment_id: string
+          assessment_result_id: string
+          assessment_root_id: string
+          assessment_student_id: string
+          assessment_version_id: string
+          assessment_weight: number
+          created_at?: string
+          created_by: string
+          effective_weight: number
+          id?: string
+          maximum_score: number
+          organization_id: string
+          report_card_grade_snapshot_id: string
+          report_card_id: string
+          score: number
+          score_ratio: number
+          student_id: string
+          term_grade_calculation_source_id: string
+          weighted_points: number
+        }
+        Update: {
+          assessment_id?: string
+          assessment_result_id?: string
+          assessment_root_id?: string
+          assessment_student_id?: string
+          assessment_version_id?: string
+          assessment_weight?: number
+          created_at?: string
+          created_by?: string
+          effective_weight?: number
+          id?: string
+          maximum_score?: number
+          organization_id?: string
+          report_card_grade_snapshot_id?: string
+          report_card_id?: string
+          score?: number
+          score_ratio?: number
+          student_id?: string
+          term_grade_calculation_source_id?: string
+          weighted_points?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_card_grade_sources_organization_id_assessment_id_s_fkey1"
+            columns: [
+              "organization_id",
+              "assessment_id",
+              "student_id",
+              "assessment_student_id",
+              "assessment_result_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "assessment_results"
+            referencedColumns: [
+              "organization_id",
+              "assessment_id",
+              "student_id",
+              "assessment_student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_grade_sources_organization_id_assessment_id_st_fkey"
+            columns: [
+              "organization_id",
+              "assessment_id",
+              "student_id",
+              "assessment_student_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "assessment_students"
+            referencedColumns: [
+              "organization_id",
+              "assessment_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_grade_sources_organization_id_assessment_root__fkey"
+            columns: ["organization_id", "assessment_root_id"]
+            isOneToOne: false
+            referencedRelation: "assessments"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "report_card_grade_sources_organization_id_assessment_versi_fkey"
+            columns: ["organization_id", "assessment_version_id"]
+            isOneToOne: false
+            referencedRelation: "assessments"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "report_card_grade_sources_organization_id_report_card_id_s_fkey"
+            columns: [
+              "organization_id",
+              "report_card_id",
+              "student_id",
+              "report_card_grade_snapshot_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "report_card_grade_snapshots"
+            referencedColumns: [
+              "organization_id",
+              "report_card_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_grade_sources_organization_id_term_grade_calcu_fkey"
+            columns: ["organization_id", "term_grade_calculation_source_id"]
+            isOneToOne: false
+            referencedRelation: "term_grade_calculation_sources"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      report_card_signoffs: {
+        Row: {
+          academic_term_id: string
+          academic_year_id: string
+          campus_id: string
+          created_at: string
+          created_by: string
+          id: string
+          organization_id: string
+          report_card_id: string
+          revocation_reason: string | null
+          revoked_at: string | null
+          revoked_by: string | null
+          school_id: string
+          section_id: string
+          signed_at: string
+          signer_membership_id: string
+          signer_staff_profile_id: string | null
+          signer_user_id: string
+          signoff_type: Database["public"]["Enums"]["report_card_signoff_type"]
+          status: Database["public"]["Enums"]["report_card_signoff_status"]
+          student_id: string
+          subject_id: string | null
+          teaching_assignment_id: string | null
+        }
+        Insert: {
+          academic_term_id: string
+          academic_year_id: string
+          campus_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          organization_id: string
+          report_card_id: string
+          revocation_reason?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          school_id: string
+          section_id: string
+          signed_at?: string
+          signer_membership_id: string
+          signer_staff_profile_id?: string | null
+          signer_user_id: string
+          signoff_type: Database["public"]["Enums"]["report_card_signoff_type"]
+          status?: Database["public"]["Enums"]["report_card_signoff_status"]
+          student_id: string
+          subject_id?: string | null
+          teaching_assignment_id?: string | null
+        }
+        Update: {
+          academic_term_id?: string
+          academic_year_id?: string
+          campus_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          organization_id?: string
+          report_card_id?: string
+          revocation_reason?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          school_id?: string
+          section_id?: string
+          signed_at?: string
+          signer_membership_id?: string
+          signer_staff_profile_id?: string | null
+          signer_user_id?: string
+          signoff_type?: Database["public"]["Enums"]["report_card_signoff_type"]
+          status?: Database["public"]["Enums"]["report_card_signoff_status"]
+          student_id?: string
+          subject_id?: string | null
+          teaching_assignment_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_card_signoffs_organization_id_school_id_campus_id__fkey1"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "subject_id",
+              "signer_staff_profile_id",
+              "teaching_assignment_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "teaching_assignments"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "subject_id",
+              "staff_profile_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_signoffs_organization_id_school_id_campus_id_a_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "student_id",
+              "report_card_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "report_cards"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_signoffs_organization_id_school_id_subject_id_fkey"
+            columns: ["organization_id", "school_id", "subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "report_card_signoffs_organization_id_signer_membership_id__fkey"
+            columns: [
+              "organization_id",
+              "signer_membership_id",
+              "signer_staff_profile_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "staff_profiles"
+            referencedColumns: [
+              "organization_id",
+              "organization_membership_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_card_signoffs_organization_id_signer_user_id_signer_fkey"
+            columns: [
+              "organization_id",
+              "signer_user_id",
+              "signer_membership_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "organization_memberships"
+            referencedColumns: ["organization_id", "user_id", "id"]
+          },
+        ]
+      }
+      report_cards: {
+        Row: {
+          academic_term_id: string
+          academic_term_name: string
+          academic_term_sequence: number
+          academic_year_id: string
+          academic_year_name: string
+          campus_code: string
+          campus_id: string
+          campus_name: string
+          cancellation_reason: string | null
+          cancelled_at: string | null
+          cancelled_by: string | null
+          corrected_at: string | null
+          corrected_by: string | null
+          correction_reason: string | null
+          created_at: string
+          created_by: string
+          finalized_at: string | null
+          finalized_by: string | null
+          grade_level_code: string
+          grade_level_name: string
+          id: string
+          lineage_id: string
+          organization_id: string
+          published_at: string | null
+          published_by: string | null
+          report_card_batch_id: string | null
+          report_card_number: number
+          school_code: string
+          school_id: string
+          school_name: string
+          section_code: string
+          section_id: string
+          section_name: string
+          snapshot_taken_at: string
+          source_fingerprint: string
+          status: Database["public"]["Enums"]["report_card_status"]
+          student_display_name: string
+          student_enrollment_id: string
+          student_id: string
+          student_number: string
+          student_section_placement_id: string
+          supersedes_report_card_id: string | null
+          term_end_date: string
+          term_start_date: string
+          updated_at: string
+          updated_by: string
+          version: number
+        }
+        Insert: {
+          academic_term_id: string
+          academic_term_name: string
+          academic_term_sequence: number
+          academic_year_id: string
+          academic_year_name: string
+          campus_code: string
+          campus_id: string
+          campus_name: string
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          corrected_at?: string | null
+          corrected_by?: string | null
+          correction_reason?: string | null
+          created_at?: string
+          created_by: string
+          finalized_at?: string | null
+          finalized_by?: string | null
+          grade_level_code: string
+          grade_level_name: string
+          id?: string
+          lineage_id: string
+          organization_id: string
+          published_at?: string | null
+          published_by?: string | null
+          report_card_batch_id?: string | null
+          report_card_number: number
+          school_code: string
+          school_id: string
+          school_name: string
+          section_code: string
+          section_id: string
+          section_name: string
+          snapshot_taken_at?: string
+          source_fingerprint: string
+          status?: Database["public"]["Enums"]["report_card_status"]
+          student_display_name: string
+          student_enrollment_id: string
+          student_id: string
+          student_number: string
+          student_section_placement_id: string
+          supersedes_report_card_id?: string | null
+          term_end_date: string
+          term_start_date: string
+          updated_at?: string
+          updated_by: string
+          version: number
+        }
+        Update: {
+          academic_term_id?: string
+          academic_term_name?: string
+          academic_term_sequence?: number
+          academic_year_id?: string
+          academic_year_name?: string
+          campus_code?: string
+          campus_id?: string
+          campus_name?: string
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          corrected_at?: string | null
+          corrected_by?: string | null
+          correction_reason?: string | null
+          created_at?: string
+          created_by?: string
+          finalized_at?: string | null
+          finalized_by?: string | null
+          grade_level_code?: string
+          grade_level_name?: string
+          id?: string
+          lineage_id?: string
+          organization_id?: string
+          published_at?: string | null
+          published_by?: string | null
+          report_card_batch_id?: string | null
+          report_card_number?: number
+          school_code?: string
+          school_id?: string
+          school_name?: string
+          section_code?: string
+          section_id?: string
+          section_name?: string
+          snapshot_taken_at?: string
+          source_fingerprint?: string
+          status?: Database["public"]["Enums"]["report_card_status"]
+          student_display_name?: string
+          student_enrollment_id?: string
+          student_id?: string
+          student_number?: string
+          student_section_placement_id?: string
+          supersedes_report_card_id?: string | null
+          term_end_date?: string
+          term_start_date?: string
+          updated_at?: string
+          updated_by?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_cards_organization_id_academic_year_id_academic_ter_fkey"
+            columns: ["organization_id", "academic_year_id", "academic_term_id"]
+            isOneToOne: false
+            referencedRelation: "academic_terms"
+            referencedColumns: ["organization_id", "academic_year_id", "id"]
+          },
+          {
+            foreignKeyName: "report_cards_organization_id_school_id_academic_year_id_st_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "academic_year_id",
+              "student_id",
+              "student_enrollment_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "student_enrollments"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "academic_year_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_cards_organization_id_school_id_campus_id_academic__fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_cards_organization_id_school_id_campus_id_academic_fkey1"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "student_id",
+              "student_enrollment_id",
+              "student_section_placement_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "student_section_placements"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "section_id",
+              "student_id",
+              "student_enrollment_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_cards_organization_id_school_id_campus_id_academic_fkey2"
+            columns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "report_card_batch_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "report_card_batches"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "report_cards_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "report_cards_organization_id_supersedes_report_card_id_fkey"
+            columns: ["organization_id", "supersedes_report_card_id"]
+            isOneToOne: false
+            referencedRelation: "report_cards"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
       role_assignments: {
         Row: {
           campus_id: string | null
@@ -3610,8 +4961,16 @@ export type Database = {
         Args: { cancellation_reason: string; id: string }
         Returns: string
       }
+      cancel_draft_report_card: {
+        Args: { cancellation_reason: string; report_card_id: string }
+        Returns: string
+      }
       cancel_draft_term_grades: {
         Args: { cancellation_reason: string; term_grade_set_id: string }
+        Returns: string
+      }
+      cancel_report_card_batch: {
+        Args: { cancellation_reason: string; report_card_batch_id: string }
         Returns: string
       }
       complete_student_enrollment: {
@@ -3650,6 +5009,13 @@ export type Database = {
         Returns: {
           corrected_session_id: string
           replacement_session_id: string
+        }[]
+      }
+      correct_report_card: {
+        Args: { correction_reason: string; report_card_id: string }
+        Returns: {
+          corrected_report_card_id: string
+          replacement_report_card_id: string
         }[]
       }
       correct_student_enrollment: {
@@ -3809,6 +5175,25 @@ export type Database = {
         Returns: {
           guardian_id: string
           student_guardian_id: string
+        }[]
+      }
+      create_report_card: {
+        Args: {
+          academic_term_id: string
+          section_id: string
+          student_id: string
+        }
+        Returns: string
+      }
+      create_report_card_batch: {
+        Args: {
+          academic_term_id: string
+          section_id: string
+          students: Database["public"]["CompositeTypes"]["report_card_batch_student_input"][]
+        }
+        Returns: {
+          report_card_batch_id: string
+          report_card_count: number
         }[]
       }
       create_room: {
@@ -3973,6 +5358,10 @@ export type Database = {
       }
       finalize_assessment: { Args: { id: string }; Returns: string }
       finalize_attendance_session: { Args: { id: string }; Returns: string }
+      finalize_report_card: {
+        Args: { report_card_id: string }
+        Returns: string
+      }
       finalize_term_grades: {
         Args: { term_grade_set_id: string }
         Returns: string
@@ -4004,6 +5393,7 @@ export type Database = {
         Returns: string
       }
       publish_assessment: { Args: { id: string }; Returns: string }
+      publish_report_card: { Args: { report_card_id: string }; Returns: string }
       publish_term_grades: {
         Args: { term_grade_set_id: string }
         Returns: string
@@ -4042,6 +5432,10 @@ export type Database = {
         Args: { id: string }
         Returns: string
       }
+      review_report_card_batch: {
+        Args: { report_card_batch_id: string }
+        Returns: string
+      }
       revise_grade_scale: {
         Args: {
           id: string
@@ -4057,6 +5451,27 @@ export type Database = {
           replacement_grade_scale_id: string
           replacement_include_unpublished_finalized: boolean
           replacement_require_weights_total_100: boolean
+        }
+        Returns: string
+      }
+      revoke_report_card_signoff: {
+        Args: { id: string; reason: string }
+        Returns: string
+      }
+      save_report_card_comment: {
+        Args: {
+          body: string
+          comment_type: Database["public"]["Enums"]["report_card_comment_type"]
+          report_card_id: string
+          subject_id: string
+        }
+        Returns: string
+      }
+      sign_report_card: {
+        Args: {
+          report_card_id: string
+          signoff_type: Database["public"]["Enums"]["report_card_signoff_type"]
+          subject_id: string
         }
         Returns: string
       }
@@ -4385,6 +5800,10 @@ export type Database = {
         }
         Returns: string
       }
+      withdraw_report_card_comment: {
+        Args: { id: string; reason: string }
+        Returns: string
+      }
       withdraw_student_enrollment: {
         Args: { ended_on: string; id: string; reason: string }
         Returns: string
@@ -4420,6 +5839,21 @@ export type Database = {
       membership_status: "invited" | "active" | "suspended" | "left"
       outbox_status: "pending" | "processing" | "processed" | "failed"
       record_status: "active" | "inactive" | "archived"
+      report_card_batch_status: "draft" | "reviewed" | "cancelled"
+      report_card_comment_status: "active" | "withdrawn"
+      report_card_comment_type: "overall" | "subject"
+      report_card_signoff_status: "active" | "revoked"
+      report_card_signoff_type:
+        | "subject_teacher"
+        | "homeroom_teacher"
+        | "administrator_reviewer"
+        | "administrator_correction_certification"
+      report_card_status:
+        | "draft"
+        | "finalized"
+        | "published"
+        | "corrected"
+        | "cancelled"
       role_assignment_status: "active" | "inactive"
       section_placement_status:
         | "active"
@@ -4469,6 +5903,9 @@ export type Database = {
         upper_bound: number | null
         label: string | null
         result_state: Database["public"]["Enums"]["grade_result_state"] | null
+      }
+      report_card_batch_student_input: {
+        student_id: string | null
       }
     }
   }
@@ -4622,6 +6059,23 @@ export const Constants = {
       membership_status: ["invited", "active", "suspended", "left"],
       outbox_status: ["pending", "processing", "processed", "failed"],
       record_status: ["active", "inactive", "archived"],
+      report_card_batch_status: ["draft", "reviewed", "cancelled"],
+      report_card_comment_status: ["active", "withdrawn"],
+      report_card_comment_type: ["overall", "subject"],
+      report_card_signoff_status: ["active", "revoked"],
+      report_card_signoff_type: [
+        "subject_teacher",
+        "homeroom_teacher",
+        "administrator_reviewer",
+        "administrator_correction_certification",
+      ],
+      report_card_status: [
+        "draft",
+        "finalized",
+        "published",
+        "corrected",
+        "cancelled",
+      ],
       role_assignment_status: ["active", "inactive"],
       section_placement_status: [
         "active",
