@@ -98,3 +98,11 @@ null-subject lead/co homeroom teachers have broader reviewed contextual reads.
 Whole-card lifecycle is administrative, correction requires manage plus correct, and
 successors carry an atomic administrator correction certification. Portal users see
 only their own live published card and no provenance.
+
+Transcripts v1.1 adds forced-RLS, SELECT-only transcript and calculation-policy
+tables plus typed commands. Teaching relationships grant no transcript access.
+Management owns construction and issue; correction requires manage plus correct,
+and reviewer and issuer must differ. Active students and active portal-enabled
+guardians see only their current issued read model. Audit omits DOB and integration
+payloads exclude identity display, grade, GPA, credit, exclusion, reason, and
+fingerprint data.

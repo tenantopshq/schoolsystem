@@ -51,3 +51,8 @@ wrappers. Draft work blocks incompatible close/archive operations, issued cards 
 scope/date destruction, and term dates remain fixed while any non-cancelled card
 references them. Parent corrections remain append-only and make drafts stale rather
 than rewriting snapshots.
+
+Transcripts v1.1 consume only the live `published` head and its immutable subject
+grade snapshots. Report-card correction makes an issued transcript derived-stale;
+it never mutates that transcript. New transcript versions select the corrected live
+successor.

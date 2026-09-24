@@ -154,3 +154,9 @@ comment; this relationship grants no broader SIS or assessment mutation access.
 
 Term-grade portal visibility reuses those active relationships and exposes only the
 applicable current published grade child, never provenance or classmates.
+
+Transcript issuance snapshots student number, display name, and date of birth.
+Later SIS edits do not rewrite issued identity. Active students and active linked
+guardians with portal access may read only the current issued transcript; lifecycle
+inactivation ends self-service while authorized administrators retain history. DOB
+is excluded from transcript read models, audit snapshots, and outbox payloads.

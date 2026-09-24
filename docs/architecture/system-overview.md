@@ -75,3 +75,9 @@ Report Cards v1.0 consumes finalized term-grade and attendance heads into immuta
 provenance-complete term snapshots. It owns lifecycle, comments, attribution
 sign-offs, numbering, linear correction lineage, and bounded review batches, but not
 rendering or delivery.
+
+Transcripts v1.1 consumes only live published report-card heads into permanent
+student-and-issuing-school lineages. Versions freeze selected period and subject-grade
+facts, optional versioned credit/GPA calculations, identity, provenance, and
+school-scoped numbering. Source correction derives staleness but never rewrites an
+issued version; rebuild, supersession, and correction append history.

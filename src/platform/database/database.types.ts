@@ -4901,13 +4901,1212 @@ export type Database = {
           },
         ]
       }
+      transcript_calculation_policies: {
+        Row: {
+          activated_at: string | null
+          activated_by: string | null
+          created_at: string
+          created_by: string
+          decimal_places: number
+          gpa_scale: number
+          id: string
+          include_fail_in_gpa: boolean
+          include_incomplete_in_gpa: boolean
+          include_withdrawn_in_gpa: boolean
+          name: string
+          organization_id: string
+          policy_lineage_id: string
+          retired_at: string | null
+          retired_by: string | null
+          school_id: string
+          status: Database["public"]["Enums"]["transcript_policy_status"]
+          supersedes_policy_id: string | null
+          updated_at: string
+          updated_by: string
+          version: number
+        }
+        Insert: {
+          activated_at?: string | null
+          activated_by?: string | null
+          created_at?: string
+          created_by: string
+          decimal_places: number
+          gpa_scale: number
+          id?: string
+          include_fail_in_gpa: boolean
+          include_incomplete_in_gpa?: boolean
+          include_withdrawn_in_gpa?: boolean
+          name: string
+          organization_id: string
+          policy_lineage_id: string
+          retired_at?: string | null
+          retired_by?: string | null
+          school_id: string
+          status?: Database["public"]["Enums"]["transcript_policy_status"]
+          supersedes_policy_id?: string | null
+          updated_at?: string
+          updated_by: string
+          version: number
+        }
+        Update: {
+          activated_at?: string | null
+          activated_by?: string | null
+          created_at?: string
+          created_by?: string
+          decimal_places?: number
+          gpa_scale?: number
+          id?: string
+          include_fail_in_gpa?: boolean
+          include_incomplete_in_gpa?: boolean
+          include_withdrawn_in_gpa?: boolean
+          name?: string
+          organization_id?: string
+          policy_lineage_id?: string
+          retired_at?: string | null
+          retired_by?: string | null
+          school_id?: string
+          status?: Database["public"]["Enums"]["transcript_policy_status"]
+          supersedes_policy_id?: string | null
+          updated_at?: string
+          updated_by?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transcript_calculation_polici_organization_id_supersedes_p_fkey"
+            columns: ["organization_id", "supersedes_policy_id"]
+            isOneToOne: false
+            referencedRelation: "transcript_calculation_policies"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "transcript_calculation_policies_organization_id_school_id_fkey"
+            columns: ["organization_id", "school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      transcript_entry_snapshots: {
+        Row: {
+          academic_term_id: string
+          attempted_credits: number | null
+          created_at: string
+          created_by: string
+          earned_credits: number | null
+          grade_label: string
+          grade_points: number | null
+          grade_scale_band_id: string
+          grade_scale_id: string
+          id: string
+          organization_id: string
+          quality_points: number | null
+          raw_percentage: number
+          report_card_grade_snapshot_id: string
+          report_card_id: string
+          result_state: Database["public"]["Enums"]["transcript_result_state"]
+          rounded_percentage: number
+          school_id: string
+          sequence: number
+          source_term_grade_fingerprint: string
+          student_id: string
+          subject_code: string
+          subject_id: string
+          subject_name: string
+          term_grade_calculation_id: string
+          term_grade_record_id: string
+          term_grade_set_id: string
+          term_grading_configuration_id: string
+          transcript_id: string
+          transcript_period_snapshot_id: string
+        }
+        Insert: {
+          academic_term_id: string
+          attempted_credits?: number | null
+          created_at?: string
+          created_by: string
+          earned_credits?: number | null
+          grade_label: string
+          grade_points?: number | null
+          grade_scale_band_id: string
+          grade_scale_id: string
+          id?: string
+          organization_id: string
+          quality_points?: number | null
+          raw_percentage: number
+          report_card_grade_snapshot_id: string
+          report_card_id: string
+          result_state: Database["public"]["Enums"]["transcript_result_state"]
+          rounded_percentage: number
+          school_id: string
+          sequence: number
+          source_term_grade_fingerprint: string
+          student_id: string
+          subject_code: string
+          subject_id: string
+          subject_name: string
+          term_grade_calculation_id: string
+          term_grade_record_id: string
+          term_grade_set_id: string
+          term_grading_configuration_id: string
+          transcript_id: string
+          transcript_period_snapshot_id: string
+        }
+        Update: {
+          academic_term_id?: string
+          attempted_credits?: number | null
+          created_at?: string
+          created_by?: string
+          earned_credits?: number | null
+          grade_label?: string
+          grade_points?: number | null
+          grade_scale_band_id?: string
+          grade_scale_id?: string
+          id?: string
+          organization_id?: string
+          quality_points?: number | null
+          raw_percentage?: number
+          report_card_grade_snapshot_id?: string
+          report_card_id?: string
+          result_state?: Database["public"]["Enums"]["transcript_result_state"]
+          rounded_percentage?: number
+          school_id?: string
+          sequence?: number
+          source_term_grade_fingerprint?: string
+          student_id?: string
+          subject_code?: string
+          subject_id?: string
+          subject_name?: string
+          term_grade_calculation_id?: string
+          term_grade_record_id?: string
+          term_grade_set_id?: string
+          term_grading_configuration_id?: string
+          transcript_id?: string
+          transcript_period_snapshot_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transcript_entry_snapshots_organization_id_school_id_stude_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "academic_term_id",
+              "report_card_id",
+              "report_card_grade_snapshot_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "report_card_grade_snapshots"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "academic_term_id",
+              "report_card_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "transcript_entry_snapshots_organization_id_school_id_subje_fkey"
+            columns: ["organization_id", "school_id", "subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "transcript_entry_snapshots_organization_id_transcript_id_a_fkey"
+            columns: [
+              "organization_id",
+              "transcript_id",
+              "academic_term_id",
+              "transcript_period_snapshot_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "transcript_period_snapshots"
+            referencedColumns: [
+              "organization_id",
+              "transcript_id",
+              "academic_term_id",
+              "id",
+            ]
+          },
+        ]
+      }
+      transcript_exclusions: {
+        Row: {
+          academic_term_id: string
+          created_at: string
+          excluded_by: string
+          exclusion_type: Database["public"]["Enums"]["transcript_exclusion_type"]
+          id: string
+          organization_id: string
+          reason: string
+          report_card_grade_snapshot_id: string | null
+          report_card_id: string | null
+          school_id: string
+          student_id: string
+          subject_id: string | null
+          transcript_id: string
+        }
+        Insert: {
+          academic_term_id: string
+          created_at?: string
+          excluded_by: string
+          exclusion_type: Database["public"]["Enums"]["transcript_exclusion_type"]
+          id?: string
+          organization_id: string
+          reason: string
+          report_card_grade_snapshot_id?: string | null
+          report_card_id?: string | null
+          school_id: string
+          student_id: string
+          subject_id?: string | null
+          transcript_id: string
+        }
+        Update: {
+          academic_term_id?: string
+          created_at?: string
+          excluded_by?: string
+          exclusion_type?: Database["public"]["Enums"]["transcript_exclusion_type"]
+          id?: string
+          organization_id?: string
+          reason?: string
+          report_card_grade_snapshot_id?: string | null
+          report_card_id?: string | null
+          school_id?: string
+          student_id?: string
+          subject_id?: string | null
+          transcript_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transcript_exclusions_organization_id_school_id_student_i_fkey1"
+            columns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "academic_term_id",
+              "report_card_id",
+              "report_card_grade_snapshot_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "report_card_grade_snapshots"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "academic_term_id",
+              "report_card_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "transcript_exclusions_organization_id_school_id_student_id_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "transcript_current_versions"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "transcript_exclusions_organization_id_school_id_student_id_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "transcript_entry_read_model"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_id",
+            ]
+          },
+          {
+            foreignKeyName: "transcript_exclusions_organization_id_school_id_student_id_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "transcript_period_read_model"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_id",
+            ]
+          },
+          {
+            foreignKeyName: "transcript_exclusions_organization_id_school_id_student_id_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "transcripts"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "transcript_exclusions_organization_id_school_id_subject_id_fkey"
+            columns: ["organization_id", "school_id", "subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+        ]
+      }
+      transcript_gpa_bands: {
+        Row: {
+          created_at: string
+          created_by: string
+          grade_points: number
+          id: string
+          lower_bound: number
+          organization_id: string
+          result_state: Database["public"]["Enums"]["transcript_result_state"]
+          school_id: string
+          sequence: number
+          transcript_calculation_policy_id: string
+          upper_bound: number
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          grade_points: number
+          id?: string
+          lower_bound: number
+          organization_id: string
+          result_state: Database["public"]["Enums"]["transcript_result_state"]
+          school_id: string
+          sequence: number
+          transcript_calculation_policy_id: string
+          upper_bound: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          grade_points?: number
+          id?: string
+          lower_bound?: number
+          organization_id?: string
+          result_state?: Database["public"]["Enums"]["transcript_result_state"]
+          school_id?: string
+          sequence?: number
+          transcript_calculation_policy_id?: string
+          upper_bound?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transcript_gpa_bands_organization_id_school_id_transcript__fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "transcript_calculation_policy_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "transcript_calculation_policies"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+        ]
+      }
+      transcript_lineages: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          organization_id: string
+          school_id: string
+          student_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          organization_id: string
+          school_id: string
+          student_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          organization_id?: string
+          school_id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transcript_lineages_organization_id_school_id_fkey"
+            columns: ["organization_id", "school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "transcript_lineages_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      transcript_number_counters: {
+        Row: {
+          next_number: number
+          organization_id: string
+          school_id: string
+          updated_at: string
+        }
+        Insert: {
+          next_number: number
+          organization_id: string
+          school_id: string
+          updated_at?: string
+        }
+        Update: {
+          next_number?: number
+          organization_id?: string
+          school_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transcript_number_counters_organization_id_school_id_fkey"
+            columns: ["organization_id", "school_id"]
+            isOneToOne: true
+            referencedRelation: "schools"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      transcript_period_snapshots: {
+        Row: {
+          academic_term_id: string
+          academic_term_name: string
+          academic_term_sequence: number
+          academic_year_id: string
+          academic_year_name: string
+          campus_code: string
+          campus_id: string
+          campus_name: string
+          created_at: string
+          created_by: string
+          grade_level_code: string
+          grade_level_id: string
+          grade_level_name: string
+          id: string
+          organization_id: string
+          report_card_id: string
+          report_card_lineage_id: string
+          report_card_number: number
+          report_card_version: number
+          school_id: string
+          section_code: string
+          section_id: string
+          section_name: string
+          sequence: number
+          source_report_card_fingerprint: string
+          student_id: string
+          term_end_date: string
+          term_start_date: string
+          transcript_id: string
+        }
+        Insert: {
+          academic_term_id: string
+          academic_term_name: string
+          academic_term_sequence: number
+          academic_year_id: string
+          academic_year_name: string
+          campus_code: string
+          campus_id: string
+          campus_name: string
+          created_at?: string
+          created_by: string
+          grade_level_code: string
+          grade_level_id: string
+          grade_level_name: string
+          id?: string
+          organization_id: string
+          report_card_id: string
+          report_card_lineage_id: string
+          report_card_number: number
+          report_card_version: number
+          school_id: string
+          section_code: string
+          section_id: string
+          section_name: string
+          sequence: number
+          source_report_card_fingerprint: string
+          student_id: string
+          term_end_date: string
+          term_start_date: string
+          transcript_id: string
+        }
+        Update: {
+          academic_term_id?: string
+          academic_term_name?: string
+          academic_term_sequence?: number
+          academic_year_id?: string
+          academic_year_name?: string
+          campus_code?: string
+          campus_id?: string
+          campus_name?: string
+          created_at?: string
+          created_by?: string
+          grade_level_code?: string
+          grade_level_id?: string
+          grade_level_name?: string
+          id?: string
+          organization_id?: string
+          report_card_id?: string
+          report_card_lineage_id?: string
+          report_card_number?: number
+          report_card_version?: number
+          school_id?: string
+          section_code?: string
+          section_id?: string
+          section_name?: string
+          sequence?: number
+          source_report_card_fingerprint?: string
+          student_id?: string
+          term_end_date?: string
+          term_start_date?: string
+          transcript_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transcript_period_snapshots_organization_id_school_id_grad_fkey"
+            columns: ["organization_id", "school_id", "grade_level_id"]
+            isOneToOne: false
+            referencedRelation: "grade_levels"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "transcript_period_snapshots_organization_id_school_id_stu_fkey1"
+            columns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "report_card_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "report_cards"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "academic_year_id",
+              "academic_term_id",
+              "section_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "transcript_period_snapshots_organization_id_school_id_stud_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "transcript_current_versions"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "transcript_period_snapshots_organization_id_school_id_stud_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "transcript_entry_read_model"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_id",
+            ]
+          },
+          {
+            foreignKeyName: "transcript_period_snapshots_organization_id_school_id_stud_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "transcript_period_read_model"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_id",
+            ]
+          },
+          {
+            foreignKeyName: "transcript_period_snapshots_organization_id_school_id_stud_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "transcripts"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "id",
+            ]
+          },
+        ]
+      }
+      transcript_subject_credits: {
+        Row: {
+          attempted_credits: number
+          created_at: string
+          created_by: string
+          earned_credits: number
+          id: string
+          organization_id: string
+          school_id: string
+          subject_id: string
+          transcript_calculation_policy_id: string
+        }
+        Insert: {
+          attempted_credits: number
+          created_at?: string
+          created_by: string
+          earned_credits: number
+          id?: string
+          organization_id: string
+          school_id: string
+          subject_id: string
+          transcript_calculation_policy_id: string
+        }
+        Update: {
+          attempted_credits?: number
+          created_at?: string
+          created_by?: string
+          earned_credits?: number
+          id?: string
+          organization_id?: string
+          school_id?: string
+          subject_id?: string
+          transcript_calculation_policy_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transcript_subject_credits_organization_id_school_id_subje_fkey"
+            columns: ["organization_id", "school_id", "subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "transcript_subject_credits_organization_id_school_id_trans_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "transcript_calculation_policy_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "transcript_calculation_policies"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+        ]
+      }
+      transcripts: {
+        Row: {
+          attempted_credits: number | null
+          cancellation_reason: string | null
+          cancelled_at: string | null
+          cancelled_by: string | null
+          corrected_at: string | null
+          corrected_by: string | null
+          correction_reason: string | null
+          created_at: string
+          created_by: string
+          cumulative_gpa: number | null
+          earned_credits: number | null
+          gpa_decimal_places: number | null
+          gpa_quality_points: number | null
+          gpa_scale: number | null
+          id: string
+          issuance_reason: string | null
+          issued_at: string | null
+          issued_by: string | null
+          organization_id: string
+          policy_lineage_id: string | null
+          policy_name: string | null
+          policy_version: number | null
+          replaces_issued_transcript_id: string | null
+          review_reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          school_code: string
+          school_id: string
+          school_name: string
+          snapshot_taken_at: string
+          source_fingerprint: string
+          status: Database["public"]["Enums"]["transcript_status"]
+          student_date_of_birth: string | null
+          student_display_name: string
+          student_id: string
+          student_number: string
+          superseded_at: string | null
+          superseded_by: string | null
+          supersedes_transcript_id: string | null
+          supersession_reason: string | null
+          transcript_calculation_policy_id: string | null
+          transcript_lineage_id: string
+          transcript_number: number | null
+          updated_at: string
+          updated_by: string
+          version: number
+        }
+        Insert: {
+          attempted_credits?: number | null
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          corrected_at?: string | null
+          corrected_by?: string | null
+          correction_reason?: string | null
+          created_at?: string
+          created_by: string
+          cumulative_gpa?: number | null
+          earned_credits?: number | null
+          gpa_decimal_places?: number | null
+          gpa_quality_points?: number | null
+          gpa_scale?: number | null
+          id?: string
+          issuance_reason?: string | null
+          issued_at?: string | null
+          issued_by?: string | null
+          organization_id: string
+          policy_lineage_id?: string | null
+          policy_name?: string | null
+          policy_version?: number | null
+          replaces_issued_transcript_id?: string | null
+          review_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          school_code: string
+          school_id: string
+          school_name: string
+          snapshot_taken_at?: string
+          source_fingerprint: string
+          status?: Database["public"]["Enums"]["transcript_status"]
+          student_date_of_birth?: string | null
+          student_display_name: string
+          student_id: string
+          student_number: string
+          superseded_at?: string | null
+          superseded_by?: string | null
+          supersedes_transcript_id?: string | null
+          supersession_reason?: string | null
+          transcript_calculation_policy_id?: string | null
+          transcript_lineage_id: string
+          transcript_number?: number | null
+          updated_at?: string
+          updated_by: string
+          version: number
+        }
+        Update: {
+          attempted_credits?: number | null
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          corrected_at?: string | null
+          corrected_by?: string | null
+          correction_reason?: string | null
+          created_at?: string
+          created_by?: string
+          cumulative_gpa?: number | null
+          earned_credits?: number | null
+          gpa_decimal_places?: number | null
+          gpa_quality_points?: number | null
+          gpa_scale?: number | null
+          id?: string
+          issuance_reason?: string | null
+          issued_at?: string | null
+          issued_by?: string | null
+          organization_id?: string
+          policy_lineage_id?: string | null
+          policy_name?: string | null
+          policy_version?: number | null
+          replaces_issued_transcript_id?: string | null
+          review_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          school_code?: string
+          school_id?: string
+          school_name?: string
+          snapshot_taken_at?: string
+          source_fingerprint?: string
+          status?: Database["public"]["Enums"]["transcript_status"]
+          student_date_of_birth?: string | null
+          student_display_name?: string
+          student_id?: string
+          student_number?: string
+          superseded_at?: string | null
+          superseded_by?: string | null
+          supersedes_transcript_id?: string | null
+          supersession_reason?: string | null
+          transcript_calculation_policy_id?: string | null
+          transcript_lineage_id?: string
+          transcript_number?: number | null
+          updated_at?: string
+          updated_by?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transcripts_organization_id_replaces_issued_transcript_id_fkey"
+            columns: ["organization_id", "replaces_issued_transcript_id"]
+            isOneToOne: false
+            referencedRelation: "transcript_current_versions"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_replaces_issued_transcript_id_fkey"
+            columns: ["organization_id", "replaces_issued_transcript_id"]
+            isOneToOne: false
+            referencedRelation: "transcript_entry_read_model"
+            referencedColumns: ["organization_id", "transcript_id"]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_replaces_issued_transcript_id_fkey"
+            columns: ["organization_id", "replaces_issued_transcript_id"]
+            isOneToOne: false
+            referencedRelation: "transcript_period_read_model"
+            referencedColumns: ["organization_id", "transcript_id"]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_replaces_issued_transcript_id_fkey"
+            columns: ["organization_id", "replaces_issued_transcript_id"]
+            isOneToOne: false
+            referencedRelation: "transcripts"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_school_id_fkey"
+            columns: ["organization_id", "school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_school_id_student_id_transcrip_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_lineage_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "transcript_lineages"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_supersedes_transcript_id_fkey"
+            columns: ["organization_id", "supersedes_transcript_id"]
+            isOneToOne: false
+            referencedRelation: "transcript_current_versions"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_supersedes_transcript_id_fkey"
+            columns: ["organization_id", "supersedes_transcript_id"]
+            isOneToOne: false
+            referencedRelation: "transcript_entry_read_model"
+            referencedColumns: ["organization_id", "transcript_id"]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_supersedes_transcript_id_fkey"
+            columns: ["organization_id", "supersedes_transcript_id"]
+            isOneToOne: false
+            referencedRelation: "transcript_period_read_model"
+            referencedColumns: ["organization_id", "transcript_id"]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_supersedes_transcript_id_fkey"
+            columns: ["organization_id", "supersedes_transcript_id"]
+            isOneToOne: false
+            referencedRelation: "transcripts"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_transcript_calculation_policy__fkey"
+            columns: ["organization_id", "transcript_calculation_policy_id"]
+            isOneToOne: false
+            referencedRelation: "transcript_calculation_policies"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
     }
     Views: {
-      [_ in never]: never
+      transcript_current_versions: {
+        Row: {
+          attempted_credits: number | null
+          cumulative_gpa: number | null
+          earned_credits: number | null
+          first_academic_term: string | null
+          first_academic_year: string | null
+          gpa_decimal_places: number | null
+          gpa_quality_points: number | null
+          gpa_scale: number | null
+          id: string | null
+          is_stale: boolean | null
+          issued_at: string | null
+          last_academic_term: string | null
+          last_academic_year: string | null
+          organization_id: string | null
+          policy_name: string | null
+          school_code: string | null
+          school_id: string | null
+          school_name: string | null
+          stale_source_count: number | null
+          student_display_name: string | null
+          student_id: string | null
+          student_number: string | null
+          transcript_lineage_id: string | null
+          transcript_number: number | null
+          version: number | null
+        }
+        Insert: {
+          attempted_credits?: number | null
+          cumulative_gpa?: number | null
+          earned_credits?: number | null
+          first_academic_term?: never
+          first_academic_year?: never
+          gpa_decimal_places?: number | null
+          gpa_quality_points?: number | null
+          gpa_scale?: number | null
+          id?: string | null
+          is_stale?: never
+          issued_at?: string | null
+          last_academic_term?: never
+          last_academic_year?: never
+          organization_id?: string | null
+          policy_name?: string | null
+          school_code?: string | null
+          school_id?: string | null
+          school_name?: string | null
+          stale_source_count?: never
+          student_display_name?: string | null
+          student_id?: string | null
+          student_number?: string | null
+          transcript_lineage_id?: string | null
+          transcript_number?: number | null
+          version?: number | null
+        }
+        Update: {
+          attempted_credits?: number | null
+          cumulative_gpa?: number | null
+          earned_credits?: number | null
+          first_academic_term?: never
+          first_academic_year?: never
+          gpa_decimal_places?: number | null
+          gpa_quality_points?: number | null
+          gpa_scale?: number | null
+          id?: string | null
+          is_stale?: never
+          issued_at?: string | null
+          last_academic_term?: never
+          last_academic_year?: never
+          organization_id?: string | null
+          policy_name?: string | null
+          school_code?: string | null
+          school_id?: string | null
+          school_name?: string | null
+          stale_source_count?: never
+          student_display_name?: string | null
+          student_id?: string | null
+          student_number?: string | null
+          transcript_lineage_id?: string | null
+          transcript_number?: number | null
+          version?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transcripts_organization_id_school_id_fkey"
+            columns: ["organization_id", "school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_school_id_student_id_transcrip_fkey"
+            columns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "transcript_lineage_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "transcript_lineages"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      transcript_entry_read_model: {
+        Row: {
+          academic_term_name: string | null
+          academic_year_name: string | null
+          attempted_credits: number | null
+          cumulative_gpa: number | null
+          earned_credits: number | null
+          entry_sequence: number | null
+          grade_label: string | null
+          grade_points: number | null
+          issued_at: string | null
+          organization_id: string | null
+          period_sequence: number | null
+          quality_points: number | null
+          result_state:
+            | Database["public"]["Enums"]["transcript_result_state"]
+            | null
+          rounded_percentage: number | null
+          school_id: string | null
+          student_id: string | null
+          subject_code: string | null
+          subject_name: string | null
+          total_attempted_credits: number | null
+          total_earned_credits: number | null
+          transcript_id: string | null
+          transcript_number: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transcripts_organization_id_school_id_fkey"
+            columns: ["organization_id", "school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      transcript_period_read_model: {
+        Row: {
+          academic_term_name: string | null
+          academic_term_sequence: number | null
+          academic_year_name: string | null
+          campus_code: string | null
+          campus_name: string | null
+          grade_level_code: string | null
+          grade_level_name: string | null
+          issued_at: string | null
+          organization_id: string | null
+          school_code: string | null
+          school_id: string | null
+          school_name: string | null
+          section_code: string | null
+          section_name: string | null
+          sequence: number | null
+          student_display_name: string | null
+          student_id: string | null
+          student_number: string | null
+          term_end_date: string | null
+          term_start_date: string | null
+          transcript_id: string | null
+          transcript_number: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transcripts_organization_id_school_id_fkey"
+            columns: ["organization_id", "school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "transcripts_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
     }
     Functions: {
       activate_grade_scale: { Args: { id: string }; Returns: string }
       activate_term_grading_configuration: {
+        Args: { id: string }
+        Returns: string
+      }
+      activate_transcript_calculation_policy: {
         Args: { id: string }
         Returns: string
       }
@@ -4971,6 +6170,10 @@ export type Database = {
       }
       cancel_report_card_batch: {
         Args: { cancellation_reason: string; report_card_batch_id: string }
+        Returns: string
+      }
+      cancel_transcript: {
+        Args: { cancellation_reason: string; transcript_id: string }
         Returns: string
       }
       complete_student_enrollment: {
@@ -5073,6 +6276,13 @@ export type Database = {
         Returns: {
           corrected_term_grade_set_id: string
           replacement_term_grade_set_id: string
+        }[]
+      }
+      correct_transcript: {
+        Args: { correction_reason: string; transcript_id: string }
+        Returns: {
+          corrected_transcript_id: string
+          replacement_transcript_id: string
         }[]
       }
       create_academic_term: {
@@ -5343,6 +6553,29 @@ export type Database = {
         }
         Returns: string
       }
+      create_transcript: {
+        Args: {
+          exclusions?: Database["public"]["CompositeTypes"]["transcript_exclusion_input"][]
+          school_id: string
+          student_id: string
+          terms: Database["public"]["CompositeTypes"]["transcript_term_input"][]
+        }
+        Returns: string
+      }
+      create_transcript_calculation_policy: {
+        Args: {
+          bands: Database["public"]["CompositeTypes"]["transcript_gpa_band_input"][]
+          decimal_places: number
+          gpa_scale: number
+          include_fail_in_gpa: boolean
+          include_incomplete_in_gpa: boolean
+          include_withdrawn_in_gpa: boolean
+          name: string
+          school_id: string
+          subject_credits: Database["public"]["CompositeTypes"]["transcript_subject_credit_input"][]
+        }
+        Returns: string
+      }
       end_teaching_assignment: {
         Args: { ended_on: string; id: string; reason: string }
         Returns: string
@@ -5364,6 +6597,10 @@ export type Database = {
       }
       finalize_term_grades: {
         Args: { term_grade_set_id: string }
+        Returns: string
+      }
+      issue_transcript: {
+        Args: { issuance_reason: string; transcript_id: string }
         Returns: string
       }
       link_guardian_to_student: {
@@ -5412,6 +6649,15 @@ export type Database = {
           to_assignment_id: string
         }[]
       }
+      rebuild_transcript: {
+        Args: {
+          exclusions?: Database["public"]["CompositeTypes"]["transcript_exclusion_input"][]
+          rebuild_reason?: string
+          terms: Database["public"]["CompositeTypes"]["transcript_term_input"][]
+          transcript_id: string
+        }
+        Returns: string
+      }
       recalculate_draft_term_grades: {
         Args: { id: string }
         Returns: {
@@ -5432,8 +6678,20 @@ export type Database = {
         Args: { id: string }
         Returns: string
       }
+      retire_transcript_calculation_policy: {
+        Args: { id: string }
+        Returns: string
+      }
+      return_transcript_to_draft: {
+        Args: { reason: string; transcript_id: string }
+        Returns: string
+      }
       review_report_card_batch: {
         Args: { report_card_batch_id: string }
+        Returns: string
+      }
+      review_transcript: {
+        Args: { review_reason: string; transcript_id: string }
         Returns: string
       }
       revise_grade_scale: {
@@ -5451,6 +6709,20 @@ export type Database = {
           replacement_grade_scale_id: string
           replacement_include_unpublished_finalized: boolean
           replacement_require_weights_total_100: boolean
+        }
+        Returns: string
+      }
+      revise_transcript_calculation_policy: {
+        Args: {
+          id: string
+          replacement_bands: Database["public"]["CompositeTypes"]["transcript_gpa_band_input"][]
+          replacement_decimal_places: number
+          replacement_gpa_scale: number
+          replacement_include_fail_in_gpa: boolean
+          replacement_include_incomplete_in_gpa: boolean
+          replacement_include_withdrawn_in_gpa: boolean
+          replacement_name: string
+          replacement_subject_credits: Database["public"]["CompositeTypes"]["transcript_subject_credit_input"][]
         }
         Returns: string
       }
@@ -5574,6 +6846,20 @@ export type Database = {
           id: string
           include_unpublished_finalized: boolean
           require_weights_total_100: boolean
+        }
+        Returns: string
+      }
+      update_draft_transcript_calculation_policy: {
+        Args: {
+          bands: Database["public"]["CompositeTypes"]["transcript_gpa_band_input"][]
+          decimal_places: number
+          gpa_scale: number
+          id: string
+          include_fail_in_gpa: boolean
+          include_incomplete_in_gpa: boolean
+          include_withdrawn_in_gpa: boolean
+          name: string
+          subject_credits: Database["public"]["CompositeTypes"]["transcript_subject_credit_input"][]
         }
         Returns: string
       }
@@ -5883,6 +7169,22 @@ export type Database = {
         | "cancelled"
       term_grade_publication_state: "unpublished" | "published"
       term_grading_configuration_status: "draft" | "active" | "retired"
+      transcript_exclusion_type: "term" | "subject"
+      transcript_policy_status: "draft" | "active" | "retired"
+      transcript_result_state:
+        | "pass"
+        | "fail"
+        | "incomplete"
+        | "withdrawn"
+        | "transferred"
+        | "non_credit"
+      transcript_status:
+        | "draft"
+        | "reviewed"
+        | "issued"
+        | "superseded"
+        | "corrected"
+        | "cancelled"
     }
     CompositeTypes: {
       assessment_result_input: {
@@ -5906,6 +7208,28 @@ export type Database = {
       }
       report_card_batch_student_input: {
         student_id: string | null
+      }
+      transcript_exclusion_input: {
+        academic_term_id: string | null
+        subject_id: string | null
+        reason: string | null
+      }
+      transcript_gpa_band_input: {
+        sequence: number | null
+        lower_bound: number | null
+        upper_bound: number | null
+        result_state:
+          | Database["public"]["Enums"]["transcript_result_state"]
+          | null
+        grade_points: number | null
+      }
+      transcript_subject_credit_input: {
+        subject_id: string | null
+        attempted_credits: number | null
+        earned_credits: number | null
+      }
+      transcript_term_input: {
+        academic_term_id: string | null
       }
     }
   }
@@ -6110,6 +7434,24 @@ export const Constants = {
       ],
       term_grade_publication_state: ["unpublished", "published"],
       term_grading_configuration_status: ["draft", "active", "retired"],
+      transcript_exclusion_type: ["term", "subject"],
+      transcript_policy_status: ["draft", "active", "retired"],
+      transcript_result_state: [
+        "pass",
+        "fail",
+        "incomplete",
+        "withdrawn",
+        "transferred",
+        "non_credit",
+      ],
+      transcript_status: [
+        "draft",
+        "reviewed",
+        "issued",
+        "superseded",
+        "corrected",
+        "cancelled",
+      ],
     },
   },
 } as const
