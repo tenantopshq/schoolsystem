@@ -81,3 +81,9 @@ student-and-issuing-school lineages. Versions freeze selected period and subject
 facts, optional versioned credit/GPA calculations, identity, provenance, and
 school-scoped numbering. Source correction derives staleness but never rewrites an
 issued version; rebuild, supersession, and correction append history.
+
+Student Promotion & Progression v1.2 owns advisory, approved, and executed year-end
+decisions and controlled batches. Enrollment remains authoritative: a narrow private
+enrollment service applies completion/withdrawal and optional destination enrollment/
+placement atomically with progression audit and outbox effects. Historical academic
+artifacts and prior enrollment/placement rows are never rewritten.

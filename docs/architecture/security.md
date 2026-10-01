@@ -106,3 +106,10 @@ and reviewer and issuer must differ. Active students and active portal-enabled
 guardians see only their current issued read model. Audit omits DOB and integration
 payloads exclude identity display, grade, GPA, credit, exclusion, reason, and
 fingerprint data.
+
+Progression v1.2 adds forced-RLS, SELECT-only decision, eligibility, and batch tables;
+private idempotency receipts; and scoped view/manage/approve/execute/correct/cancel
+permissions. Creator, approver, and executor separation protects year-end effects.
+Cross-school transfer checks both scopes. Families see only the safe executed-outcome
+view. Eligibility details, reasons, fingerprints, PII, and raw failures are excluded
+from integration payloads. SQLSTATE `40001` alone is retryable with the same request ID.

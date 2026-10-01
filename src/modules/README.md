@@ -4,5 +4,5 @@ Each directory under `modules` owns its application rules and public service int
 
 Current boundaries include `organizations`, `identity`, `academics`, `audit`,
 `students`, `enrollments`, `teaching-assignments`, `attendance`, `assessments`,
-`term-grades`, `report-cards`, and `transcripts`. New domains are added beside them,
-not inside the UI layer.
+`term-grades`, `report-cards`, `transcripts`, and `progression`. New domains are added
+beside them, not inside the UI layer.

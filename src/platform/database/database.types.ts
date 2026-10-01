@@ -1557,6 +1557,633 @@ export type Database = {
         }
         Relationships: []
       }
+      progression_batch_items: {
+        Row: {
+          attempt_count: number
+          batch_id: string
+          created_at: string
+          created_by: string
+          decision_id: string
+          id: string
+          last_attempted_at: string | null
+          last_error_category: string | null
+          last_error_code: string | null
+          organization_id: string
+          source_enrollment_id: string
+          student_id: string
+        }
+        Insert: {
+          attempt_count?: number
+          batch_id: string
+          created_at?: string
+          created_by: string
+          decision_id: string
+          id?: string
+          last_attempted_at?: string | null
+          last_error_category?: string | null
+          last_error_code?: string | null
+          organization_id: string
+          source_enrollment_id: string
+          student_id: string
+        }
+        Update: {
+          attempt_count?: number
+          batch_id?: string
+          created_at?: string
+          created_by?: string
+          decision_id?: string
+          id?: string
+          last_attempted_at?: string | null
+          last_error_category?: string | null
+          last_error_code?: string | null
+          organization_id?: string
+          source_enrollment_id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "progression_batch_items_organization_id_batch_id_fkey"
+            columns: ["organization_id", "batch_id"]
+            isOneToOne: false
+            referencedRelation: "progression_batch_progress"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_batch_items_organization_id_batch_id_fkey"
+            columns: ["organization_id", "batch_id"]
+            isOneToOne: false
+            referencedRelation: "progression_batches"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_batch_items_organization_id_decision_id_fkey"
+            columns: ["organization_id", "decision_id"]
+            isOneToOne: false
+            referencedRelation: "progression_decisions"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_batch_items_organization_id_decision_id_fkey"
+            columns: ["organization_id", "decision_id"]
+            isOneToOne: false
+            referencedRelation: "student_progression_outcomes"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_batch_items_organization_id_source_enrollment__fkey"
+            columns: ["organization_id", "source_enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "student_enrollments"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_batch_items_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      progression_batches: {
+        Row: {
+          approval_reason: string | null
+          approved_at: string | null
+          approved_by: string | null
+          completed_at: string | null
+          completed_by_command_id: string | null
+          created_at: string
+          created_by: string
+          id: string
+          organization_id: string
+          source_academic_year_id: string
+          source_school_id: string
+          status: Database["public"]["Enums"]["progression_batch_status"]
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          approval_reason?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          completed_at?: string | null
+          completed_by_command_id?: string | null
+          created_at?: string
+          created_by: string
+          id?: string
+          organization_id: string
+          source_academic_year_id: string
+          source_school_id: string
+          status?: Database["public"]["Enums"]["progression_batch_status"]
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          approval_reason?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          completed_at?: string | null
+          completed_by_command_id?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          organization_id?: string
+          source_academic_year_id?: string
+          source_school_id?: string
+          status?: Database["public"]["Enums"]["progression_batch_status"]
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "progression_batches_organization_id_source_school_id_fkey"
+            columns: ["organization_id", "source_school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_batches_organization_id_source_school_id_sourc_fkey"
+            columns: [
+              "organization_id",
+              "source_school_id",
+              "source_academic_year_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "academic_years"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+        ]
+      }
+      progression_decision_evidence: {
+        Row: {
+          academic_term_id: string
+          academic_year_id: string
+          created_at: string
+          created_by: string
+          eligibility_evaluation_id: string
+          id: string
+          organization_id: string
+          progression_decision_id: string
+          report_card_id: string
+          report_card_lineage_id: string
+          report_card_version: number
+          source_fingerprint: string
+          student_id: string
+        }
+        Insert: {
+          academic_term_id: string
+          academic_year_id: string
+          created_at?: string
+          created_by: string
+          eligibility_evaluation_id: string
+          id?: string
+          organization_id: string
+          progression_decision_id: string
+          report_card_id: string
+          report_card_lineage_id: string
+          report_card_version: number
+          source_fingerprint: string
+          student_id: string
+        }
+        Update: {
+          academic_term_id?: string
+          academic_year_id?: string
+          created_at?: string
+          created_by?: string
+          eligibility_evaluation_id?: string
+          id?: string
+          organization_id?: string
+          progression_decision_id?: string
+          report_card_id?: string
+          report_card_lineage_id?: string
+          report_card_version?: number
+          source_fingerprint?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "progression_decision_evidence_organization_id_progression__fkey"
+            columns: [
+              "organization_id",
+              "progression_decision_id",
+              "student_id",
+              "eligibility_evaluation_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "progression_eligibility_evaluations"
+            referencedColumns: [
+              "organization_id",
+              "progression_decision_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "progression_decision_evidence_organization_id_report_card__fkey"
+            columns: ["organization_id", "report_card_id"]
+            isOneToOne: false
+            referencedRelation: "report_cards"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      progression_decisions: {
+        Row: {
+          approval_reason: string | null
+          approved_at: string | null
+          approved_by: string | null
+          batch_id: string | null
+          cancellation_reason: string | null
+          cancelled_at: string | null
+          cancelled_by: string | null
+          corrected_at: string | null
+          corrected_by: string | null
+          correction_reason: string | null
+          created_at: string
+          created_by: string
+          current_eligibility_evaluation_id: string | null
+          destination_academic_year_id: string | null
+          destination_campus_id: string | null
+          destination_enrolled_on: string | null
+          destination_enrollment_id: string | null
+          destination_grade_level_id: string | null
+          destination_placement_id: string | null
+          destination_school_id: string | null
+          destination_section_id: string | null
+          disposition: Database["public"]["Enums"]["progression_disposition"]
+          eligibility_override_reason: string | null
+          executed_at: string | null
+          executed_by: string | null
+          id: string
+          lineage_id: string
+          organization_id: string
+          result_source_enrollment_id: string | null
+          result_source_placement_id: string | null
+          source_academic_year_id: string
+          source_campus_id: string | null
+          source_end_on: string
+          source_enrollment_id: string
+          source_grade_level_id: string
+          source_placement_id: string | null
+          source_school_id: string
+          status: Database["public"]["Enums"]["progression_decision_status"]
+          student_id: string
+          supersedes_decision_id: string | null
+          updated_at: string
+          updated_by: string
+          version: number
+        }
+        Insert: {
+          approval_reason?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          batch_id?: string | null
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          corrected_at?: string | null
+          corrected_by?: string | null
+          correction_reason?: string | null
+          created_at?: string
+          created_by: string
+          current_eligibility_evaluation_id?: string | null
+          destination_academic_year_id?: string | null
+          destination_campus_id?: string | null
+          destination_enrolled_on?: string | null
+          destination_enrollment_id?: string | null
+          destination_grade_level_id?: string | null
+          destination_placement_id?: string | null
+          destination_school_id?: string | null
+          destination_section_id?: string | null
+          disposition: Database["public"]["Enums"]["progression_disposition"]
+          eligibility_override_reason?: string | null
+          executed_at?: string | null
+          executed_by?: string | null
+          id?: string
+          lineage_id: string
+          organization_id: string
+          result_source_enrollment_id?: string | null
+          result_source_placement_id?: string | null
+          source_academic_year_id: string
+          source_campus_id?: string | null
+          source_end_on: string
+          source_enrollment_id: string
+          source_grade_level_id: string
+          source_placement_id?: string | null
+          source_school_id: string
+          status?: Database["public"]["Enums"]["progression_decision_status"]
+          student_id: string
+          supersedes_decision_id?: string | null
+          updated_at?: string
+          updated_by: string
+          version: number
+        }
+        Update: {
+          approval_reason?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          batch_id?: string | null
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          corrected_at?: string | null
+          corrected_by?: string | null
+          correction_reason?: string | null
+          created_at?: string
+          created_by?: string
+          current_eligibility_evaluation_id?: string | null
+          destination_academic_year_id?: string | null
+          destination_campus_id?: string | null
+          destination_enrolled_on?: string | null
+          destination_enrollment_id?: string | null
+          destination_grade_level_id?: string | null
+          destination_placement_id?: string | null
+          destination_school_id?: string | null
+          destination_section_id?: string | null
+          disposition?: Database["public"]["Enums"]["progression_disposition"]
+          eligibility_override_reason?: string | null
+          executed_at?: string | null
+          executed_by?: string | null
+          id?: string
+          lineage_id?: string
+          organization_id?: string
+          result_source_enrollment_id?: string | null
+          result_source_placement_id?: string | null
+          source_academic_year_id?: string
+          source_campus_id?: string | null
+          source_end_on?: string
+          source_enrollment_id?: string
+          source_grade_level_id?: string
+          source_placement_id?: string | null
+          source_school_id?: string
+          status?: Database["public"]["Enums"]["progression_decision_status"]
+          student_id?: string
+          supersedes_decision_id?: string | null
+          updated_at?: string
+          updated_by?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "progression_current_evaluation_fk"
+            columns: [
+              "organization_id",
+              "id",
+              "student_id",
+              "current_eligibility_evaluation_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "progression_eligibility_evaluations"
+            referencedColumns: [
+              "organization_id",
+              "progression_decision_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "progression_decisions_destination_school_id_destination_ca_fkey"
+            columns: ["destination_school_id", "destination_campus_id"]
+            isOneToOne: false
+            referencedRelation: "campuses"
+            referencedColumns: ["school_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_destination_campus_i_fkey"
+            columns: ["organization_id", "destination_campus_id"]
+            isOneToOne: false
+            referencedRelation: "campuses"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_destination_enrollme_fkey"
+            columns: ["organization_id", "destination_enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "student_enrollments"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_destination_placemen_fkey"
+            columns: ["organization_id", "destination_placement_id"]
+            isOneToOne: false
+            referencedRelation: "student_section_placements"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_destination_school__fkey1"
+            columns: [
+              "organization_id",
+              "destination_school_id",
+              "destination_academic_year_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "academic_years"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_destination_school__fkey2"
+            columns: [
+              "organization_id",
+              "destination_school_id",
+              "destination_grade_level_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "grade_levels"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_destination_school__fkey3"
+            columns: [
+              "organization_id",
+              "destination_school_id",
+              "destination_campus_id",
+              "destination_academic_year_id",
+              "destination_section_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "campus_id",
+              "academic_year_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_destination_school_i_fkey"
+            columns: ["organization_id", "destination_school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_result_source_enroll_fkey"
+            columns: ["organization_id", "result_source_enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "student_enrollments"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_result_source_placem_fkey"
+            columns: ["organization_id", "result_source_placement_id"]
+            isOneToOne: false
+            referencedRelation: "student_section_placements"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_source_placement_id_fkey"
+            columns: ["organization_id", "source_placement_id"]
+            isOneToOne: false
+            referencedRelation: "student_section_placements"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_source_school_id_so_fkey1"
+            columns: [
+              "organization_id",
+              "source_school_id",
+              "source_grade_level_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "grade_levels"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_source_school_id_so_fkey2"
+            columns: [
+              "organization_id",
+              "source_school_id",
+              "source_academic_year_id",
+              "batch_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "progression_batch_progress"
+            referencedColumns: [
+              "organization_id",
+              "source_school_id",
+              "source_academic_year_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_source_school_id_so_fkey2"
+            columns: [
+              "organization_id",
+              "source_school_id",
+              "source_academic_year_id",
+              "batch_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "progression_batches"
+            referencedColumns: [
+              "organization_id",
+              "source_school_id",
+              "source_academic_year_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_source_school_id_sou_fkey"
+            columns: [
+              "organization_id",
+              "source_school_id",
+              "source_academic_year_id",
+              "student_id",
+              "source_enrollment_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "student_enrollments"
+            referencedColumns: [
+              "organization_id",
+              "school_id",
+              "academic_year_id",
+              "student_id",
+              "id",
+            ]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_supersedes_decision__fkey"
+            columns: ["organization_id", "supersedes_decision_id"]
+            isOneToOne: false
+            referencedRelation: "progression_decisions"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_supersedes_decision__fkey"
+            columns: ["organization_id", "supersedes_decision_id"]
+            isOneToOne: false
+            referencedRelation: "student_progression_outcomes"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
+      progression_eligibility_evaluations: {
+        Row: {
+          evaluated_at: string
+          evaluated_by: string
+          id: string
+          organization_id: string
+          progression_decision_id: string
+          sequence: number
+          source_fingerprint: string
+          state: Database["public"]["Enums"]["progression_eligibility_state"]
+          student_id: string
+        }
+        Insert: {
+          evaluated_at?: string
+          evaluated_by: string
+          id?: string
+          organization_id: string
+          progression_decision_id: string
+          sequence: number
+          source_fingerprint: string
+          state: Database["public"]["Enums"]["progression_eligibility_state"]
+          student_id: string
+        }
+        Update: {
+          evaluated_at?: string
+          evaluated_by?: string
+          id?: string
+          organization_id?: string
+          progression_decision_id?: string
+          sequence?: number
+          source_fingerprint?: string
+          state?: Database["public"]["Enums"]["progression_eligibility_state"]
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "progression_eligibility_evalu_organization_id_progression__fkey"
+            columns: ["organization_id", "progression_decision_id"]
+            isOneToOne: false
+            referencedRelation: "progression_decisions"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_eligibility_evalu_organization_id_progression__fkey"
+            columns: ["organization_id", "progression_decision_id"]
+            isOneToOne: false
+            referencedRelation: "student_progression_outcomes"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_eligibility_evaluat_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
       report_card_attendance_snapshots: {
         Row: {
           absent_count: number
@@ -5897,6 +6524,160 @@ export type Database = {
       }
     }
     Views: {
+      progression_batch_progress: {
+        Row: {
+          approved_count: number | null
+          cancelled_count: number | null
+          executed_count: number | null
+          id: string | null
+          organization_id: string | null
+          outcome:
+            | Database["public"]["Enums"]["progression_batch_outcome"]
+            | null
+          pending_count: number | null
+          retryable_failed_last_attempt_count: number | null
+          source_academic_year_id: string | null
+          source_school_id: string | null
+          status: Database["public"]["Enums"]["progression_batch_status"] | null
+          total_count: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "progression_batches_organization_id_source_school_id_fkey"
+            columns: ["organization_id", "source_school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_batches_organization_id_source_school_id_sourc_fkey"
+            columns: [
+              "organization_id",
+              "source_school_id",
+              "source_academic_year_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "academic_years"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+        ]
+      }
+      student_progression_outcomes: {
+        Row: {
+          destination_academic_year_id: string | null
+          destination_campus_id: string | null
+          destination_enrolled_on: string | null
+          destination_grade_level_id: string | null
+          destination_school_id: string | null
+          disposition:
+            | Database["public"]["Enums"]["progression_disposition"]
+            | null
+          id: string | null
+          organization_id: string | null
+          source_academic_year_id: string | null
+          source_end_on: string | null
+          source_grade_level_id: string | null
+          source_school_id: string | null
+          student_id: string | null
+        }
+        Insert: {
+          destination_academic_year_id?: string | null
+          destination_campus_id?: string | null
+          destination_enrolled_on?: string | null
+          destination_grade_level_id?: string | null
+          destination_school_id?: string | null
+          disposition?:
+            | Database["public"]["Enums"]["progression_disposition"]
+            | null
+          id?: string | null
+          organization_id?: string | null
+          source_academic_year_id?: string | null
+          source_end_on?: string | null
+          source_grade_level_id?: string | null
+          source_school_id?: string | null
+          student_id?: string | null
+        }
+        Update: {
+          destination_academic_year_id?: string | null
+          destination_campus_id?: string | null
+          destination_enrolled_on?: string | null
+          destination_grade_level_id?: string | null
+          destination_school_id?: string | null
+          disposition?:
+            | Database["public"]["Enums"]["progression_disposition"]
+            | null
+          id?: string | null
+          organization_id?: string | null
+          source_academic_year_id?: string | null
+          source_end_on?: string | null
+          source_grade_level_id?: string | null
+          source_school_id?: string | null
+          student_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "progression_decisions_destination_school_id_destination_ca_fkey"
+            columns: ["destination_school_id", "destination_campus_id"]
+            isOneToOne: false
+            referencedRelation: "campuses"
+            referencedColumns: ["school_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_destination_campus_i_fkey"
+            columns: ["organization_id", "destination_campus_id"]
+            isOneToOne: false
+            referencedRelation: "campuses"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_destination_school__fkey1"
+            columns: [
+              "organization_id",
+              "destination_school_id",
+              "destination_academic_year_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "academic_years"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_destination_school__fkey2"
+            columns: [
+              "organization_id",
+              "destination_school_id",
+              "destination_grade_level_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "grade_levels"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_destination_school_i_fkey"
+            columns: ["organization_id", "destination_school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["organization_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_source_school_id_so_fkey1"
+            columns: [
+              "organization_id",
+              "source_school_id",
+              "source_grade_level_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "grade_levels"
+            referencedColumns: ["organization_id", "school_id", "id"]
+          },
+          {
+            foreignKeyName: "progression_decisions_organization_id_student_id_fkey"
+            columns: ["organization_id", "student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["organization_id", "id"]
+          },
+        ]
+      }
       transcript_current_versions: {
         Row: {
           attempted_credits: number | null
@@ -6110,6 +6891,18 @@ export type Database = {
         Args: { id: string }
         Returns: string
       }
+      approve_progression_batch: {
+        Args: { approval_reason: string; batch_id: string; request_id: string }
+        Returns: string
+      }
+      approve_progression_decision: {
+        Args: {
+          approval_reason: string
+          progression_decision_id: string
+          request_id: string
+        }
+        Returns: string
+      }
       archive_attendance_absence_reason: {
         Args: { id: string }
         Returns: string
@@ -6166,6 +6959,22 @@ export type Database = {
       }
       cancel_draft_term_grades: {
         Args: { cancellation_reason: string; term_grade_set_id: string }
+        Returns: string
+      }
+      cancel_progression_batch: {
+        Args: {
+          batch_id: string
+          cancellation_reason: string
+          request_id: string
+        }
+        Returns: string
+      }
+      cancel_progression_decision: {
+        Args: {
+          cancellation_reason: string
+          progression_decision_id: string
+          request_id: string
+        }
         Returns: string
       }
       cancel_report_card_batch: {
@@ -6387,6 +7196,55 @@ export type Database = {
           student_guardian_id: string
         }[]
       }
+      create_progression_batch: {
+        Args: {
+          items: Database["public"]["CompositeTypes"]["progression_batch_decision_input"][]
+          request_id: string
+          source_academic_year_id: string
+          source_school_id: string
+        }
+        Returns: Database["public"]["CompositeTypes"]["progression_batch_create_result"]
+        SetofOptions: {
+          from: "*"
+          to: "progression_batch_create_result"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      create_progression_correction: {
+        Args: {
+          correction_reason: string
+          destination_academic_year_id: string
+          destination_campus_id: string
+          destination_enrolled_on: string
+          destination_grade_level_id: string
+          destination_school_id: string
+          destination_section_id: string
+          disposition: Database["public"]["Enums"]["progression_disposition"]
+          eligibility_override_reason: string
+          executed_decision_id: string
+          request_id: string
+          source_end_on: string
+        }
+        Returns: string
+      }
+      create_progression_decision: {
+        Args: {
+          destination_academic_year_id: string
+          destination_campus_id: string
+          destination_enrolled_on: string
+          destination_grade_level_id: string
+          destination_school_id: string
+          destination_section_id: string
+          disposition: Database["public"]["Enums"]["progression_disposition"]
+          eligibility_override_reason?: string
+          request_id: string
+          source_end_on: string
+          source_enrollment_id: string
+          student_id: string
+        }
+        Returns: string
+      }
       create_report_card: {
         Args: {
           academic_term_id: string
@@ -6589,6 +7447,26 @@ export type Database = {
         }
         Returns: string
       }
+      execute_progression_batch_item: {
+        Args: { batch_id: string; decision_id: string; request_id: string }
+        Returns: Database["public"]["CompositeTypes"]["progression_batch_item_result"]
+        SetofOptions: {
+          from: "*"
+          to: "progression_batch_item_result"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      execute_progression_decision: {
+        Args: { progression_decision_id: string; request_id: string }
+        Returns: Database["public"]["CompositeTypes"]["progression_execution_result"]
+        SetofOptions: {
+          from: "*"
+          to: "progression_execution_result"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       finalize_assessment: { Args: { id: string }; Returns: string }
       finalize_attendance_session: { Args: { id: string }; Returns: string }
       finalize_report_card: {
@@ -6671,6 +7549,10 @@ export type Database = {
           id: string
           results: Database["public"]["CompositeTypes"]["assessment_result_input"][]
         }
+        Returns: string
+      }
+      refresh_progression_eligibility: {
+        Args: { progression_decision_id: string; request_id: string }
         Returns: string
       }
       retire_grade_scale: { Args: { id: string }; Returns: string }
@@ -7124,6 +8006,27 @@ export type Database = {
       grade_scale_status: "draft" | "active" | "retired"
       membership_status: "invited" | "active" | "suspended" | "left"
       outbox_status: "pending" | "processing" | "processed" | "failed"
+      progression_batch_outcome:
+        | "completed_successfully"
+        | "completed_with_exceptions"
+      progression_batch_status: "draft" | "approved" | "completed"
+      progression_decision_status:
+        | "pending"
+        | "approved"
+        | "executed"
+        | "cancelled"
+        | "corrected"
+      progression_disposition:
+        | "promotion"
+        | "retention"
+        | "graduation"
+        | "transfer"
+        | "withdrawal"
+      progression_eligibility_state:
+        | "eligible"
+        | "not_eligible"
+        | "incomplete"
+        | "stale"
       record_status: "active" | "inactive" | "archived"
       report_card_batch_status: "draft" | "reviewed" | "cancelled"
       report_card_comment_status: "active" | "withdrawn"
@@ -7205,6 +8108,39 @@ export type Database = {
         upper_bound: number | null
         label: string | null
         result_state: Database["public"]["Enums"]["grade_result_state"] | null
+      }
+      progression_batch_create_result: {
+        batch_id: string | null
+        decision_ids: string[] | null
+      }
+      progression_batch_decision_input: {
+        student_id: string | null
+        source_enrollment_id: string | null
+        disposition:
+          | Database["public"]["Enums"]["progression_disposition"]
+          | null
+        source_end_on: string | null
+        destination_school_id: string | null
+        destination_campus_id: string | null
+        destination_academic_year_id: string | null
+        destination_grade_level_id: string | null
+        destination_section_id: string | null
+        destination_enrolled_on: string | null
+        eligibility_override_reason: string | null
+      }
+      progression_batch_item_result: {
+        decision_id: string | null
+        executed: boolean | null
+        retryable: boolean | null
+        error_code: string | null
+        error_category: string | null
+      }
+      progression_execution_result: {
+        decision_id: string | null
+        source_enrollment_id: string | null
+        source_placement_id: string | null
+        destination_enrollment_id: string | null
+        destination_placement_id: string | null
       }
       report_card_batch_student_input: {
         student_id: string | null
@@ -7382,6 +8318,31 @@ export const Constants = {
       grade_scale_status: ["draft", "active", "retired"],
       membership_status: ["invited", "active", "suspended", "left"],
       outbox_status: ["pending", "processing", "processed", "failed"],
+      progression_batch_outcome: [
+        "completed_successfully",
+        "completed_with_exceptions",
+      ],
+      progression_batch_status: ["draft", "approved", "completed"],
+      progression_decision_status: [
+        "pending",
+        "approved",
+        "executed",
+        "cancelled",
+        "corrected",
+      ],
+      progression_disposition: [
+        "promotion",
+        "retention",
+        "graduation",
+        "transfer",
+        "withdrawal",
+      ],
+      progression_eligibility_state: [
+        "eligible",
+        "not_eligible",
+        "incomplete",
+        "stale",
+      ],
       record_status: ["active", "inactive", "archived"],
       report_card_batch_status: ["draft", "reviewed", "cancelled"],
       report_card_comment_status: ["active", "withdrawn"],
