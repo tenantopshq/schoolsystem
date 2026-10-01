@@ -74,3 +74,10 @@ correction does not rewrite, invalidate, or get blocked by an assessment snapsho
 Term grades consume that preserved assessment snapshot provenance rather than
 current enrollment or placement heads. Later correction never rewrites a grade
 calculation or source row.
+
+Progression v1.2 invokes one enrollment-owned private execution service for atomic
+year-end completion/withdrawal, destination enrollment, optional placement, and
+append-preserving correction. The helper is unavailable to browser and service roles,
+uses existing enrollment/date/capacity invariants, and does not broaden ordinary
+enrollment authorization. Progression never writes enrollment tables outside that
+reviewed service boundary.

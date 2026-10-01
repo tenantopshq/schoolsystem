@@ -588,6 +588,9 @@ insert into public.academic_years(id,organization_id,school_id,name,start_date,e
  ('77600000-0000-0000-0000-000000000004','72000000-0000-0000-0000-000000000001','73000000-0000-0000-0000-000000000001','Transition Closed','2035-01-01','2035-12-31','closed');
 insert into public.academic_terms(id,organization_id,academic_year_id,name,sequence,start_date,end_date,status)
 values ('77610000-0000-0000-0000-000000000001','72000000-0000-0000-0000-000000000001','77600000-0000-0000-0000-000000000003','Active Term',1,'2034-01-01','2034-12-31','active');
+create temporary table denied_transition_side_effect_baseline(audit_count bigint,outbox_count bigint) on commit drop;
+insert into denied_transition_side_effect_baseline
+select count(*) filter(where action='academic_year.status_changed'),(select count(*) from public.event_outbox where event_type='academic_year.status_changed') from public.audit_log;
 set local role authenticated; select set_config('request.jwt.claims','{"sub":"71000000-0000-0000-0000-000000000001","role":"authenticated"}',true);
 select throws_ok($$select public.transition_academic_year_status('77600000-0000-0000-0000-000000000099','active')$$,'P0002','academic year not found','year transition rejects a missing target deliberately');
 reset role; update public.schools set status='inactive' where id='73000000-0000-0000-0000-000000000001'; set local role authenticated; select set_config('request.jwt.claims','{"sub":"71000000-0000-0000-0000-000000000001","role":"authenticated"}',true);
@@ -612,8 +615,8 @@ select set_config('request.jwt.claims','{"sub":"71000000-0000-0000-0000-00000000
 select throws_ok($$select public.transition_academic_year_status('77000000-0000-0000-0000-000000000003','closed')$$,'42501','academic_periods.manage permission is required','organization manager cannot transition another tenant year');
 reset role;
 select ok((select status='draft' from public.academic_years where id='77600000-0000-0000-0000-000000000001') and (select status='active' from public.academic_years where id='77000000-0000-0000-0000-000000000005'),'denied and illegal transitions leave year status unchanged');
-select is((select count(*)::int from public.audit_log where action='academic_year.status_changed'),0,'denied transitions leave no audit rows');
-select is((select count(*)::int from public.event_outbox where event_type='academic_year.status_changed'),0,'denied transitions leave no outbox events');
+select ok((select audit_count=(select count(*) from public.audit_log where action='academic_year.status_changed') from denied_transition_side_effect_baseline),'denied transitions leave no audit rows');
+select ok((select outbox_count=(select count(*) from public.event_outbox where event_type='academic_year.status_changed') from denied_transition_side_effect_baseline),'denied transitions leave no outbox events');
 set local role authenticated; select set_config('request.jwt.claims','{"sub":"71000000-0000-0000-0000-000000000006","role":"authenticated"}',true);
 select lives_ok($$select public.transition_academic_year_status('77600000-0000-0000-0000-000000000001','active')$$,'school manager activates own school year');
 select set_config('request.jwt.claims','{"sub":"71000000-0000-0000-0000-000000000001","role":"authenticated"}',true);
