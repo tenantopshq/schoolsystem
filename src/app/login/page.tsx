@@ -1,0 +1,2 @@
+import { signIn } from "./actions";
+export default async function Login({searchParams}:{searchParams:Promise<{error?:string}>}){const q=await searchParams;return <main className="auth-card"><h1>Sign in</h1>{q.error&&<p role="alert">Email or password is incorrect.</p>}<form action={signIn}><label>Email<input name="email" type="email" autoComplete="email" required/></label><label>Password<input name="password" type="password" autoComplete="current-password" required/></label><button type="submit">Sign in</button></form></main>}

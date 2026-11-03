@@ -1,0 +1,3 @@
+"use server";
+import { redirect } from "next/navigation";import { adminContextSchema } from "@/modules/organizations";import { setSelectedContext } from "@/modules/organizations/application/context";
+export async function selectContext(form:FormData){try{const raw=String(form.get("context")??"");const parsed=adminContextSchema.safeParse(JSON.parse(raw));if(!parsed.success)redirect("/select-context?error=invalid");await setSelectedContext(parsed.data);}catch(error){if(error instanceof Error&&error.message==="NEXT_REDIRECT")throw error;redirect("/select-context?error=invalid");}redirect("/admin/students");}

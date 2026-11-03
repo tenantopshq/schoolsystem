@@ -45,6 +45,20 @@ student's stored scope after active links are cleared.
 
 ## Public command inventory
 
+### v1.3 student administration
+
+The browser uses only `create_student_v1_3`, `update_student_v1_3`, and
+`archive_student_v1_3`. Caller request UUIDs are bound to actor, tenant, command,
+and a SHA-256 argument hash. Identical replay returns the original result without a
+second mutation, audit row, or event; conflicting reuse is rejected. Original
+student RPC signatures remain, but browser execution is revoked. `service_role`
+retains a temporary, documented compatibility grant through v1.3 for trusted
+integrations and must migrate before removal in v1.4.
+
+`get_my_admin_contexts`, `search_students`, and `get_student_admin_detail` are
+allowlisted definer-owned read models that explicitly re-check effective RBAC scope.
+They never return document storage paths or replace command authorization.
+
 | Aggregate | RPCs |
 |---|---|
 | Student | `create_student`, `update_student`, `archive_student` |

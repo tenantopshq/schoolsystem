@@ -6941,6 +6941,14 @@ export type Database = {
         Args: { archive_reason: string; id: string }
         Returns: string
       }
+      archive_student_v1_3: {
+        Args: {
+          archive_reason: string
+          request_id: string
+          target_student_id: string
+        }
+        Returns: string
+      }
       archive_subject: { Args: { id: string }; Returns: string }
       calculate_term_grades: {
         Args: { term_grading_configuration_id: string }
@@ -7379,6 +7387,27 @@ export type Database = {
         }
         Returns: string
       }
+      create_student_v1_3: {
+        Args: {
+          admission_date: string
+          campus_id: string
+          date_of_birth: string
+          exit_date: string
+          first_name: string
+          gender: string
+          last_name: string
+          middle_name: string
+          nationality_code: string
+          photo_path: string
+          preferred_name: string
+          primary_language: string
+          request_id: string
+          school_id: string
+          status?: Database["public"]["Enums"]["record_status"]
+          student_number: string
+        }
+        Returns: string
+      }
       create_subject: {
         Args: {
           code: string
@@ -7476,6 +7505,50 @@ export type Database = {
       finalize_term_grades: {
         Args: { term_grade_set_id: string }
         Returns: string
+      }
+      get_my_admin_contexts: {
+        Args: never
+        Returns: {
+          campus_code: string
+          campus_id: string
+          campus_name: string
+          membership_id: string
+          organization_id: string
+          organization_name: string
+          organization_slug: string
+          permission_codes: string[]
+          school_code: string
+          school_id: string
+          school_name: string
+          scope_level: string
+        }[]
+      }
+      get_student_admin_detail: {
+        Args: { p_student_id: string }
+        Returns: {
+          admission_date: string
+          campus_id: string
+          campus_name: string
+          created_at: string
+          date_of_birth: string
+          documents: Json
+          enrollments: Json
+          exit_date: string
+          first_name: string
+          gender: string
+          guardian_links: Json
+          last_name: string
+          middle_name: string
+          nationality_code: string
+          preferred_name: string
+          primary_language: string
+          school_id: string
+          school_name: string
+          status: Database["public"]["Enums"]["record_status"]
+          student_id: string
+          student_number: string
+          updated_at: string
+        }[]
       }
       issue_transcript: {
         Args: { issuance_reason: string; transcript_id: string }
@@ -7620,6 +7693,35 @@ export type Database = {
           subject_id: string
         }
         Returns: string
+      }
+      search_students: {
+        Args: {
+          p_after_id?: string
+          p_after_value?: string
+          p_campus_id?: string
+          p_direction?: string
+          p_limit?: number
+          p_organization_id: string
+          p_query?: string
+          p_school_id?: string
+          p_sort?: string
+          p_status?: Database["public"]["Enums"]["record_status"]
+        }
+        Returns: {
+          campus_id: string
+          campus_name: string
+          first_name: string
+          last_name: string
+          preferred_name: string
+          school_id: string
+          school_name: string
+          sort_cursor_value: string
+          status: Database["public"]["Enums"]["record_status"]
+          student_id: string
+          student_number: string
+          total_count: number
+          updated_at: string
+        }[]
       }
       sign_report_card: {
         Args: {
@@ -7954,6 +8056,38 @@ export type Database = {
           set_expires_at: boolean
           set_issued_at: boolean
           status: Database["public"]["Enums"]["record_status"]
+        }
+        Returns: string
+      }
+      update_student_v1_3: {
+        Args: {
+          admission_date: string
+          campus_id: string
+          date_of_birth: string
+          exit_date: string
+          first_name: string
+          gender: string
+          id: string
+          last_name: string
+          middle_name: string
+          nationality_code: string
+          photo_path: string
+          preferred_name: string
+          primary_language: string
+          request_id: string
+          school_id: string
+          set_admission_date: boolean
+          set_campus_id: boolean
+          set_exit_date: boolean
+          set_gender: boolean
+          set_middle_name: boolean
+          set_nationality_code: boolean
+          set_photo_path: boolean
+          set_preferred_name: boolean
+          set_primary_language: boolean
+          set_school_id: boolean
+          status: Database["public"]["Enums"]["record_status"]
+          student_number: string
         }
         Returns: string
       }

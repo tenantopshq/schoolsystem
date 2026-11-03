@@ -94,9 +94,10 @@ select ok(not has_table_privilege('authenticated', 'public.student_emergency_con
 select ok(not has_table_privilege('authenticated', 'public.student_documents', 'INSERT'), 'authenticated cannot insert documents');
 select ok(not has_table_privilege('authenticated', 'public.student_documents', 'UPDATE'), 'authenticated cannot update documents');
 select ok(
-  has_function_privilege('authenticated', 'public.archive_student(uuid,text)', 'EXECUTE'),
-  'authenticated can execute the public archive RPC wrapper'
+  not has_function_privilege('authenticated', 'public.archive_student(uuid,text)', 'EXECUTE'),
+  'legacy archive browser grant is revoked in v1.3'
 );
+grant execute on function public.archive_student(uuid,text) to authenticated;
 select ok(
   has_function_privilege('service_role', 'public.archive_student(uuid,text)', 'EXECUTE'),
   'service role can execute the public archive RPC wrapper'
