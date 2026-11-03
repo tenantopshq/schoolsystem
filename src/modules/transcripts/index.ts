@@ -71,10 +71,10 @@ const policyContent = {
   subjectCredits: z.array(transcriptSubjectCreditSchema).max(1_000),
 } as const;
 
-const validatePolicy = <T extends z.ZodRawShape>(shape: T) => z.object(shape).strict().superRefine((value, context) => {
-  const bands = value.bands as z.infer<typeof transcriptGpaBandSchema>[];
-  const scale = value.gpaScale as number;
-  const subjects = value.subjectCredits as z.infer<typeof transcriptSubjectCreditSchema>[];
+const policyContentSchema = z.object(policyContent).strict().superRefine((value, context) => {
+  const bands = value.bands;
+  const scale = value.gpaScale;
+  const subjects = value.subjectCredits;
   const subjectIds = new Set<string>();
   subjects.forEach((credit, index) => {
     if (subjectIds.has(credit.subjectId)) context.addIssue({ code: "custom", path: ["subjectCredits", index], message: "duplicate subject credit" });
@@ -91,9 +91,9 @@ const validatePolicy = <T extends z.ZodRawShape>(shape: T) => z.object(shape).st
   if (bands.at(-1)?.upperBound !== 100) context.addIssue({ code: "custom", path: ["bands"], message: "bands must end at 100" });
 });
 
-export const createTranscriptCalculationPolicySchema = validatePolicy({ schoolId: uuid, ...policyContent });
-export const updateDraftTranscriptCalculationPolicySchema = validatePolicy({ id: uuid, ...policyContent });
-export const reviseTranscriptCalculationPolicySchema = validatePolicy({ id: uuid, ...policyContent });
+export const createTranscriptCalculationPolicySchema = policyContentSchema.safeExtend({ schoolId: uuid });
+export const updateDraftTranscriptCalculationPolicySchema = policyContentSchema.safeExtend({ id: uuid });
+export const reviseTranscriptCalculationPolicySchema = policyContentSchema.safeExtend({ id: uuid });
 const transcriptPolicyIdSchema = z.object({ id: uuid }).strict();
 export const activateTranscriptCalculationPolicySchema = transcriptPolicyIdSchema.extend({}).strict();
 export const retireTranscriptCalculationPolicySchema = transcriptPolicyIdSchema.extend({}).strict();

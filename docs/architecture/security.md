@@ -1,5 +1,12 @@
 # Security model
 
+## Administrative UI boundary (v1.3)
+
+Definer-owned UI read RPCs apply explicit RBAC checks and return allowlisted shapes.
+The signed context cookie is a preference and is revalidated against current
+membership on every server request. Student writes use caller-keyed replay-safe
+commands; ordinary application code never receives service-role credentials.
+
 Authorization combines:
 
 1. membership in an organization;

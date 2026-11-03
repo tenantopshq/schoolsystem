@@ -1,0 +1,1 @@
+"use client";export default function ErrorState({reset}:{reset:()=>void}){return <div role="alert"><h1>Students unavailable</h1><p>Try again. If the problem continues, contact support.</p><button onClick={reset}>Try again</button></div>}

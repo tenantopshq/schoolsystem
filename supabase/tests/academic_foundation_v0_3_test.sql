@@ -78,7 +78,7 @@ select ok(not exists(
  )
 ),'public mutation wrappers accept no tenant, attribution, audit/event, or arbitrary jsonb inputs');
 select ok(not exists(select 1 from (values ('staff_profiles'),('buildings'),('rooms'),('grade_levels'),('subjects'),('sections'),('academic_years'),('academic_terms')) t(table_name) where has_table_privilege('authenticated','public.'||t.table_name,'INSERT,UPDATE,DELETE,TRUNCATE') or has_table_privilege('anon','public.'||t.table_name,'INSERT,UPDATE,DELETE,TRUNCATE')),'ordinary roles have no direct mutation privilege on academic tables');
-select ok(has_function_privilege('authenticated','public.archive_student(uuid,text)','EXECUTE') and has_function_privilege('service_role','public.archive_student(uuid,text)','EXECUTE'),'existing SIS public RPC grants are preserved');
+select ok(not has_function_privilege('authenticated','public.archive_student(uuid,text)','EXECUTE') and has_function_privilege('service_role','public.archive_student(uuid,text)','EXECUTE'),'legacy SIS RPC retains only the v1.3 trusted compatibility grant');
 select ok(has_function_privilege('authenticated','app_auth.can_view_student(uuid,uuid)','EXECUTE') and has_function_privilege('service_role','app_auth.can_view_student(uuid,uuid)','EXECUTE'),'existing SIS helper grants are preserved');
 
 insert into auth.users(id,instance_id,aud,role,email,encrypted_password,created_at,updated_at) values

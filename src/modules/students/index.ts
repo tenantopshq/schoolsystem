@@ -259,9 +259,28 @@ export type SisPermissionCode = (typeof sisPermissionCodes)[number];
 
 export type SisCommandErrorCode = "22023" | "23503" | "23505" | "40001" | "42501" | "P0002";
 
+export const studentDirectoryQuerySchema = z.object({ q:z.string().trim().max(100).default(""), status:z.enum(["active","inactive","archived","all"]).default("active"), school:z.string().uuid().nullable().default(null), campus:z.string().uuid().nullable().default(null), sort:z.enum(["name","student_number","updated"]).default("name"), dir:z.enum(["asc","desc"]).default("asc"), after:z.string().max(1000).nullable().default(null) }).strict();
+export type StudentDirectoryQuery=z.infer<typeof studentDirectoryQuerySchema>;
+export function parseStudentDirectoryQuery(raw:Record<string,string|undefined>):StudentDirectoryQuery{const pick=<T>(schema:z.ZodType<T>,value:string|undefined,fallback:T)=>{const result=schema.safeParse(value);return result.success?result.data:fallback;};return{q:pick(z.string().trim().max(100),raw.q,""),status:pick(z.enum(["active","inactive","archived","all"]),raw.status,"active"),school:pick(z.string().uuid(),raw.school,null),campus:pick(z.string().uuid(),raw.campus,null),sort:pick(z.enum(["name","student_number","updated"]),raw.sort,"name"),dir:pick(z.enum(["asc","desc"]),raw.dir,"asc"),after:pick(z.string().max(1000),raw.after,null)};}
+export const studentDirectoryItemSchema=z.object({id:uuidSchema,studentNumber:z.string(),firstName:z.string(),lastName:z.string(),preferredName:z.string().nullable(),status:studentStatusSchema,schoolId:uuidSchema,schoolName:z.string(),campusId:uuidSchema.nullable(),campusName:z.string().nullable(),updatedAt:z.iso.datetime()}).strict();
+export type StudentDirectoryItem=z.infer<typeof studentDirectoryItemSchema>;
+export type StudentDirectoryPage={items:StudentDirectoryItem[];nextCursor:string|null;totalCount:number};
+export const studentPlacementSchema=z.object({id:uuidSchema,campus_id:uuidSchema,campus_name:z.string(),section_id:uuidSchema,section_name:z.string(),starts_on:dateSchema,ends_on:dateSchema.nullable(),status:z.enum(["active","withdrawn","completed","transferred","corrected"]),end_reason:z.string().nullable(),transfer_to_placement_id:uuidSchema.nullable(),supersedes_placement_id:uuidSchema.nullable()}).strict();
+export const studentEnrollmentSchema=z.object({id:uuidSchema,academic_year_id:uuidSchema,academic_year_name:z.string(),grade_level_id:uuidSchema,grade_level_name:z.string(),enrolled_on:dateSchema,scheduled_end_on:dateSchema,ended_on:dateSchema.nullable(),status:z.enum(["active","withdrawn","completed","corrected"]),end_reason:z.string().nullable(),supersedes_enrollment_id:uuidSchema.nullable(),placements:z.array(studentPlacementSchema)}).strict();
+export const studentGuardianLinkSchema=z.object({link_id:uuidSchema,guardian_id:uuidSchema,first_name:z.string(),middle_name:z.string().nullable(),last_name:z.string(),relationship_type:z.string(),is_primary:z.boolean(),has_portal_access:z.boolean(),status:studentStatusSchema}).strict();
+export const studentDocumentMetadataSchema=z.object({id:uuidSchema,document_type:z.string(),title:z.string(),mime_type:z.string().nullable(),file_size:z.number().int().nullable(),issued_at:dateSchema.nullable(),expires_at:dateSchema.nullable(),visibility:studentDocumentVisibilitySchema,status:studentStatusSchema}).strict();
+export const studentAdminDetailSchema=z.object({id:uuidSchema,studentNumber:z.string(),firstName:z.string(),middleName:z.string().nullable(),lastName:z.string(),preferredName:z.string().nullable(),dateOfBirth:dateSchema,gender:z.string().nullable(),nationalityCode:z.string().nullable(),primaryLanguage:z.string().nullable(),admissionDate:dateSchema.nullable(),exitDate:dateSchema.nullable(),status:studentStatusSchema,schoolId:uuidSchema,schoolName:z.string(),campusId:uuidSchema.nullable(),campusName:z.string().nullable(),createdAt:z.iso.datetime(),updatedAt:z.iso.datetime(),enrollments:z.array(studentEnrollmentSchema),guardianLinks:z.array(studentGuardianLinkSchema),documents:z.array(studentDocumentMetadataSchema)}).strict();
+export type StudentPlacement=z.infer<typeof studentPlacementSchema>;
+export type StudentEnrollment=z.infer<typeof studentEnrollmentSchema>;
+export type StudentGuardianLink=z.infer<typeof studentGuardianLinkSchema>;
+export type StudentDocumentMetadata=z.infer<typeof studentDocumentMetadataSchema>;
+export type StudentAdminDetail=z.infer<typeof studentAdminDetailSchema>;
+export interface StudentReadService { search(context:{organizationId:string;schoolId:string|null;campusId:string|null},query:StudentDirectoryQuery):Promise<StudentDirectoryPage>; get(id:string):Promise<StudentAdminDetail|null>; }
+export interface ReplaySafeStudentCommandService { create(requestId:string,input:CreateStudentInput):Promise<string>; update(requestId:string,input:UpdateStudentInput):Promise<string>; archive(requestId:string,input:ArchiveStudentInput):Promise<string>; }
+
 /** A 40001 result means authoritative scope or guardian links changed while locking. */
 export const isRetryableSisCommandError = (error: { code?: string } | null | undefined) =>
-  error?.code === "40001";
+  error?.code === "40001" || error?.code === "40P01";
 
 export interface SisCommandService {
   createStudent(input: CreateStudentInput): Promise<string>;

@@ -1,5 +1,11 @@
 # System overview
 
+The administrative App Router shell uses Server Components for reads and server
+actions for commands. React consumes public identity, organization, and student
+contracts; only private infrastructure adapters import generated database types or
+call Supabase RPCs. Migration 014 supplies context, directory, detail, and
+replay-safe student command interfaces.
+
 The platform starts as a modular monolith: one deployable Next.js application and one PostgreSQL database, with business domains isolated behind TypeScript module boundaries. This keeps transactions and operations simple while preserving a path to extract workers or services if measured scale requires it.
 
 ## Dependency direction
