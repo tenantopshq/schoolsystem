@@ -40,7 +40,7 @@ export default async function AdminLayout({ children }: Readonly<{ children: Rea
           </form>
         </div>
       </header>
-      <AdminNavigation />
+      <AdminNavigation permissionCodes={context.permissionCodes} />
       <main id="content" className="admin-content">{children}</main>
     </div>
   );

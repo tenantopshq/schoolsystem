@@ -7,6 +7,7 @@ export default async function AdminOverview() {
   if (!context) redirect("/select-context");
 
   const canViewStudents = context.permissionCodes.includes("students.view");
+  const canViewStaff = context.permissionCodes.some((code) => code === "staff_profiles.view" || code === "staff_profiles.manage");
 
   return (
     <>
@@ -32,12 +33,23 @@ export default async function AdminOverview() {
               </span>
               <span className="module-arrow" aria-hidden="true">→</span>
             </Link>
-          ) : (
+          ) : null}
+          {canViewStaff ? (
+            <Link className="module-card" href="/admin/staff">
+              <span className="module-icon" aria-hidden="true">SF</span>
+              <span>
+                <strong>Staff</strong>
+                <small>Browse staff employment profiles in this context.</small>
+              </span>
+              <span className="module-arrow" aria-hidden="true">→</span>
+            </Link>
+          ) : null}
+          {!canViewStudents && !canViewStaff ? (
             <div className="empty-state">
               <h3>No modules available</h3>
               <p>Your current permissions do not provide access to an administrative module.</p>
             </div>
-          )}
+          ) : null}
         </div>
       </section>
     </>
