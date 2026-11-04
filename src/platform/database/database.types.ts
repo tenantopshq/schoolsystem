@@ -7523,6 +7523,34 @@ export type Database = {
           scope_level: string
         }[]
       }
+      get_staff_admin_detail: {
+        Args: {
+          p_campus_id?: string
+          p_organization_id: string
+          p_school_id?: string
+          p_staff_profile_id: string
+        }
+        Returns: {
+          campus_id: string
+          campus_name: string
+          created_at: string
+          department: string
+          display_name: string
+          employment_type: string
+          first_name: string
+          hire_date: string
+          job_title: string
+          last_name: string
+          middle_name: string
+          school_id: string
+          school_name: string
+          staff_number: string
+          staff_profile_id: string
+          status: Database["public"]["Enums"]["record_status"]
+          termination_date: string
+          updated_at: string
+        }[]
+      }
       get_student_admin_detail: {
         Args: { p_student_id: string }
         Returns: {
@@ -7693,6 +7721,37 @@ export type Database = {
           subject_id: string
         }
         Returns: string
+      }
+      search_staff_profiles: {
+        Args: {
+          p_after_id?: string
+          p_after_value?: string
+          p_campus_id?: string
+          p_limit?: number
+          p_organization_id: string
+          p_query?: string
+          p_school_id?: string
+          p_status?: Database["public"]["Enums"]["record_status"]
+        }
+        Returns: {
+          campus_id: string
+          campus_name: string
+          department: string
+          display_name: string
+          employment_type: string
+          first_name: string
+          job_title: string
+          last_name: string
+          middle_name: string
+          school_id: string
+          school_name: string
+          sort_cursor_value: string
+          staff_number: string
+          staff_profile_id: string
+          status: Database["public"]["Enums"]["record_status"]
+          total_count: number
+          updated_at: string
+        }[]
       }
       search_students: {
         Args: {
