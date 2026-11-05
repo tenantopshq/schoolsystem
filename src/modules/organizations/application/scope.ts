@@ -1,6 +1,6 @@
 import type { AdminContext } from "../index";
 
-export type ContextTarget = { organizationId: string; schoolId: string; campusId: string | null };
+export type ContextTarget = { organizationId: string; schoolId: string | null; campusId: string | null };
 
 export function selectedContextContains(selected: AdminContext, target: ContextTarget): boolean {
   if (target.organizationId !== selected.organizationId) return false;
@@ -9,7 +9,7 @@ export function selectedContextContains(selected: AdminContext, target: ContextT
   return true;
 }
 
-function matchingContext(contexts: AdminContext[], organizationId: string, schoolId: string, campusId: string | null) {
+function matchingContext(contexts: AdminContext[], organizationId: string, schoolId: string | null, campusId: string | null) {
   return contexts.find((context) =>
     context.organizationId === organizationId && context.schoolId === schoolId && context.campusId === campusId,
   );

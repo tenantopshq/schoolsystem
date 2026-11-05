@@ -6917,6 +6917,14 @@ export type Database = {
       archive_section: { Args: { p_id: string }; Returns: string }
       archive_section_v0_8_impl: { Args: { id: string }; Returns: string }
       archive_staff_profile: { Args: { id: string }; Returns: string }
+      archive_staff_profile_v1_5: {
+        Args: {
+          archive_reason: string
+          request_id: string
+          target_staff_profile_id: string
+        }
+        Returns: string
+      }
       archive_student: {
         Args: { archive_reason: string; target_student_id: string }
         Returns: string
@@ -7307,6 +7315,21 @@ export type Database = {
           hire_date?: string
           job_title?: string
           membership_id: string
+          school_id: string
+          staff_number: string
+          status?: Database["public"]["Enums"]["record_status"]
+        }
+        Returns: string
+      }
+      create_staff_profile_v1_5: {
+        Args: {
+          campus_id: string
+          department?: string
+          employment_type: string
+          hire_date?: string
+          job_title?: string
+          membership_id: string
+          request_id: string
           school_id: string
           staff_number: string
           status?: Database["public"]["Enums"]["record_status"]
@@ -7722,6 +7745,22 @@ export type Database = {
         }
         Returns: string
       }
+      search_eligible_staff_members: {
+        Args: {
+          p_campus_id?: string
+          p_limit?: number
+          p_organization_id: string
+          p_query?: string
+          p_school_id?: string
+        }
+        Returns: {
+          display_name: string
+          first_name: string
+          last_name: string
+          membership_id: string
+          middle_name: string
+        }[]
+      }
       search_staff_profiles: {
         Args: {
           p_after_id?: string
@@ -7994,6 +8033,28 @@ export type Database = {
           hire_date?: string
           id: string
           job_title?: string
+          school_id?: string
+          set_campus_id?: boolean
+          set_department?: boolean
+          set_hire_date?: boolean
+          set_job_title?: boolean
+          set_school_id?: boolean
+          set_termination_date?: boolean
+          staff_number: string
+          status: Database["public"]["Enums"]["record_status"]
+          termination_date?: string
+        }
+        Returns: string
+      }
+      update_staff_profile_v1_5: {
+        Args: {
+          campus_id?: string
+          department?: string
+          employment_type: string
+          hire_date?: string
+          id: string
+          job_title?: string
+          request_id: string
           school_id?: string
           set_campus_id?: boolean
           set_department?: boolean
