@@ -21,6 +21,9 @@ export default async function StaffDetail({ params }: { params: Promise<{ staffI
     <Link className="back-link" href="/admin/staff">← Back to staff</Link>
     <div className="title-row"><div><p className="eyebrow">Staff profile</p><h1>{formatStaffName(staff)}</h1><p>{staff.staffNumber}</p></div><div>{context.permissionCodes.includes("staff_profiles.manage")&&staff.status!=="archived"&&<Link className="button" href={`/admin/staff/${staff.id}/edit`}>Edit</Link>} <span className={`status ${staff.status}`}>{staff.status}</span></div></div>
     <section aria-labelledby="employment-heading"><h2 id="employment-heading">Employment details</h2><dl>
+      <dt>Work email</dt><dd>{staff.workEmail ?? "—"}</dd>
+      <dt>Phone</dt><dd>{staff.phone ?? "—"}</dd>
+      <dt>Platform access</dt><dd>{staff.accessState.replace("_", " ")}</dd>
       <dt>Job title</dt><dd>{staff.jobTitle ?? "—"}</dd>
       <dt>Department</dt><dd>{staff.department ?? "—"}</dd>
       <dt>Employment type</dt><dd>{staff.employmentType}</dd>

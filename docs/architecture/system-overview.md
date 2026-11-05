@@ -27,6 +27,12 @@ private dispatchers, while period commands implement equivalent validation direc
 Each successful mutation emits one correlated audit record and transactional outbox
 event for downstream modules.
 
+Staff v1.7 separates employment identity from authentication. A staff profile owns
+its names and work contact fields and has an optional, tenant-composite membership
+link. The link is unique when present and append-only through the public command
+boundary. Staff reads derive current access state from membership without granting
+access, provisioning users, or rewriting the employment record.
+
 The SIS module exposes 21 typed student/guardian/child-record RPCs. Ordinary clients
 retain SELECT-only table access; private command helpers derive tenant and actor,
 lock authoritative scope parent-first, enforce transition-only lifecycle changes,

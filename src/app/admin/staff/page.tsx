@@ -22,8 +22,8 @@ export default async function StaffDirectory({ searchParams }: { searchParams: P
     </form>
     <p>{page.totalCount} staff profiles</p>
     {page.items.length === 0 ? <div className="empty-state"><h2>No staff found</h2><p>No staff profiles match these filters in the current context.</p></div> : <>
-      <div className="table-wrap"><table><thead><tr><th>Name</th><th>Staff number</th><th>Role</th><th>Department</th><th>Home context</th><th>Status</th></tr></thead><tbody>
-        {page.items.map((staff) => <tr key={staff.id}><td><Link href={`/admin/staff/${staff.id}`}>{formatStaffName(staff)}</Link></td><td>{staff.staffNumber}</td><td>{staff.jobTitle ?? staff.employmentType}</td><td>{staff.department ?? "—"}</td><td>{staff.campusName ?? staff.schoolName ?? "Organization"}</td><td><span className={`status ${staff.status}`}>{staff.status}</span></td></tr>)}
+      <div className="table-wrap"><table><thead><tr><th>Name</th><th>Staff number</th><th>Role</th><th>Department</th><th>Home context</th><th>Access</th><th>Status</th></tr></thead><tbody>
+        {page.items.map((staff) => <tr key={staff.id}><td><Link href={`/admin/staff/${staff.id}`}>{formatStaffName(staff)}</Link></td><td>{staff.staffNumber}</td><td>{staff.jobTitle ?? staff.employmentType}</td><td>{staff.department ?? "—"}</td><td>{staff.campusName ?? staff.schoolName ?? "Organization"}</td><td><span className={`status ${staff.accessState}`}>{staff.accessState.replace("_"," ")}</span></td><td><span className={`status ${staff.status}`}>{staff.status}</span></td></tr>)}
       </tbody></table></div>
       {page.nextCursor && <Link className="pagination-link" href={`?${new URLSearchParams({ ...canonical, after: page.nextCursor })}`}>Next page</Link>}
     </>}

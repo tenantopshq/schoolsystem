@@ -2,13 +2,23 @@ import { z } from "zod";
 import type { AdminContextSelection } from "@/modules/organizations";
 
 const recordStatusSchema = z.enum(["active", "inactive", "archived"]);
+const accessStateSchema = z.enum(["no_access", "invited", "active", "suspended"]);
 export const staffProfileIdSchema = z.string().uuid();
 const nullableText = (max: number) => z.string().trim().min(1).max(max).nullable();
+const identityFields = {
+  firstName: z.string().trim().min(1).max(100),
+  middleName: nullableText(100),
+  lastName: z.string().trim().min(1).max(100),
+  displayName: nullableText(200),
+  workEmail: z.string().trim().email().max(320).nullable(),
+  phone: nullableText(40),
+};
 
 export const createStaffProfileSchema = z.object({
-  membershipId: z.string().uuid(),
+  membershipId: z.string().uuid().nullable(),
   schoolId: z.string().uuid().nullable(),
   campusId: z.string().uuid().nullable(),
+  ...identityFields,
   staffNumber: z.string().trim().min(1).max(48),
   employmentType: z.string().trim().min(1).max(40),
   jobTitle: nullableText(120),
@@ -19,6 +29,9 @@ export const createStaffProfileSchema = z.object({
 
 export const updateStaffProfileSchema = z.object({
   id: z.string().uuid(),
+  membershipId: z.string().uuid().nullable(),
+  linkMembership: z.boolean(),
+  ...identityFields,
   staffNumber: z.string().trim().min(1).max(48),
   employmentType: z.string().trim().min(1).max(40),
   jobTitle: nullableText(120),
@@ -54,6 +67,10 @@ export const staffDirectoryItemSchema = z.object({
   middleName: z.string().nullable(),
   lastName: z.string().nullable(),
   displayName: z.string().nullable(),
+  workEmail: z.string().nullable(),
+  phone: z.string().nullable(),
+  accessState: accessStateSchema,
+  organizationMembershipId: z.string().uuid().nullable(),
   jobTitle: z.string().nullable(),
   department: z.string().nullable(),
   employmentType: z.string(),
@@ -80,6 +97,7 @@ export type CreateStaffProfileInput = z.infer<typeof createStaffProfileSchema>;
 export type UpdateStaffProfileInput = z.infer<typeof updateStaffProfileSchema>;
 export type ArchiveStaffProfileInput = z.infer<typeof archiveStaffProfileSchema>;
 export type EligibleStaffMember = z.infer<typeof eligibleStaffMemberSchema>;
+export type StaffAccessState = z.infer<typeof accessStateSchema>;
 
 export interface StaffReadService {
   search(context: AdminContextSelection, query: StaffDirectoryQuery): Promise<StaffDirectoryPage>;
@@ -88,7 +106,7 @@ export interface StaffReadService {
 
 export interface StaffCommandService {
   eligibleMembers(context: AdminContextSelection, query?: string): Promise<EligibleStaffMember[]>;
-  create(requestId: string, input: CreateStaffProfileInput): Promise<string>;
+  create(requestId: string, context: AdminContextSelection, input: CreateStaffProfileInput): Promise<string>;
   update(requestId: string, input: UpdateStaffProfileInput): Promise<string>;
   archive(requestId: string, input: ArchiveStaffProfileInput): Promise<string>;
 }

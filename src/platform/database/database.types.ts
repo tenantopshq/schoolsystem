@@ -3985,54 +3985,72 @@ export type Database = {
           created_at: string
           created_by: string | null
           department: string | null
+          display_name: string | null
           employment_type: string
+          first_name: string
           hire_date: string | null
           id: string
           job_title: string | null
+          last_name: string
+          middle_name: string | null
           organization_id: string
-          organization_membership_id: string
+          organization_membership_id: string | null
+          phone: string | null
           school_id: string | null
           staff_number: string
           status: Database["public"]["Enums"]["record_status"]
           termination_date: string | null
           updated_at: string
           updated_by: string | null
+          work_email: string | null
         }
         Insert: {
           campus_id?: string | null
           created_at?: string
           created_by?: string | null
           department?: string | null
+          display_name?: string | null
           employment_type: string
+          first_name: string
           hire_date?: string | null
           id?: string
           job_title?: string | null
+          last_name: string
+          middle_name?: string | null
           organization_id: string
-          organization_membership_id: string
+          organization_membership_id?: string | null
+          phone?: string | null
           school_id?: string | null
           staff_number: string
           status?: Database["public"]["Enums"]["record_status"]
           termination_date?: string | null
           updated_at?: string
           updated_by?: string | null
+          work_email?: string | null
         }
         Update: {
           campus_id?: string | null
           created_at?: string
           created_by?: string | null
           department?: string | null
+          display_name?: string | null
           employment_type?: string
+          first_name?: string
           hire_date?: string | null
           id?: string
           job_title?: string | null
+          last_name?: string
+          middle_name?: string | null
           organization_id?: string
-          organization_membership_id?: string
+          organization_membership_id?: string | null
+          phone?: string | null
           school_id?: string | null
           staff_number?: string
           status?: Database["public"]["Enums"]["record_status"]
           termination_date?: string | null
           updated_at?: string
           updated_by?: string | null
+          work_email?: string | null
         }
         Relationships: [
           {
@@ -4045,7 +4063,7 @@ export type Database = {
           {
             foreignKeyName: "staff_profiles_organization_id_organization_membership_id_fkey"
             columns: ["organization_id", "organization_membership_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "organization_memberships"
             referencedColumns: ["organization_id", "id"]
           },
@@ -7348,6 +7366,28 @@ export type Database = {
         }
         Returns: string
       }
+      create_staff_profile_v1_7: {
+        Args: {
+          campus_id: string
+          department?: string
+          display_name: string
+          employment_type: string
+          first_name: string
+          hire_date?: string
+          job_title?: string
+          last_name: string
+          membership_id: string
+          middle_name: string
+          organization_id: string
+          phone: string
+          request_id: string
+          school_id: string
+          staff_number: string
+          status?: Database["public"]["Enums"]["record_status"]
+          work_email: string
+        }
+        Returns: string
+      }
       create_student: {
         Args: {
           admission_date: string
@@ -7591,6 +7631,7 @@ export type Database = {
           p_staff_profile_id: string
         }
         Returns: {
+          access_state: string
           campus_id: string
           campus_name: string
           created_at: string
@@ -7602,6 +7643,8 @@ export type Database = {
           job_title: string
           last_name: string
           middle_name: string
+          organization_membership_id: string
+          phone: string
           school_id: string
           school_name: string
           staff_number: string
@@ -7609,6 +7652,7 @@ export type Database = {
           status: Database["public"]["Enums"]["record_status"]
           termination_date: string
           updated_at: string
+          work_email: string
         }[]
       }
       get_student_admin_detail: {
@@ -7857,6 +7901,7 @@ export type Database = {
           p_status?: Database["public"]["Enums"]["record_status"]
         }
         Returns: {
+          access_state: string
           campus_id: string
           campus_name: string
           department: string
@@ -7866,6 +7911,8 @@ export type Database = {
           job_title: string
           last_name: string
           middle_name: string
+          organization_membership_id: string
+          phone: string
           school_id: string
           school_name: string
           sort_cursor_value: string
@@ -7874,6 +7921,7 @@ export type Database = {
           status: Database["public"]["Enums"]["record_status"]
           total_count: number
           updated_at: string
+          work_email: string
         }[]
       }
       search_students: {
@@ -8158,6 +8206,28 @@ export type Database = {
           staff_number: string
           status: Database["public"]["Enums"]["record_status"]
           termination_date?: string
+        }
+        Returns: string
+      }
+      update_staff_profile_v1_7: {
+        Args: {
+          department?: string
+          display_name: string
+          employment_type: string
+          first_name: string
+          hire_date?: string
+          id: string
+          job_title?: string
+          last_name: string
+          membership_id: string
+          middle_name: string
+          phone: string
+          request_id: string
+          set_membership_id: boolean
+          staff_number: string
+          status: Database["public"]["Enums"]["record_status"]
+          termination_date?: string
+          work_email: string
         }
         Returns: string
       }

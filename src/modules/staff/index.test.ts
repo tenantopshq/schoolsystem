@@ -16,12 +16,14 @@ describe("staff public boundary", () => {
   });
 
   it("validates scoped staff creation and bounded employment fields", () => {
-    expect(createStaffProfileSchema.safeParse({ membershipId:"10000000-0000-4000-8000-000000000001",schoolId:null,campusId:"20000000-0000-4000-8000-000000000001",staffNumber:"S1",employmentType:"employee",jobTitle:null,department:null,hireDate:null,status:"active" }).success).toBe(false);
-    expect(createStaffProfileSchema.safeParse({ membershipId:"10000000-0000-4000-8000-000000000001",schoolId:"20000000-0000-4000-8000-000000000001",campusId:null,staffNumber:"S1",employmentType:"employee",jobTitle:"Teacher",department:null,hireDate:"2026-08-01",status:"active" }).success).toBe(true);
+    const identity={firstName:"Ada",middleName:null,lastName:"Lovelace",displayName:null,workEmail:"ada@school.test",phone:null};
+    expect(createStaffProfileSchema.safeParse({ ...identity,membershipId:null,schoolId:null,campusId:"20000000-0000-4000-8000-000000000001",staffNumber:"S1",employmentType:"employee",jobTitle:null,department:null,hireDate:null,status:"active" }).success).toBe(false);
+    expect(createStaffProfileSchema.safeParse({ ...identity,membershipId:null,schoolId:"20000000-0000-4000-8000-000000000001",campusId:null,staffNumber:"S1",employmentType:"employee",jobTitle:"Teacher",department:null,hireDate:"2026-08-01",status:"active" }).success).toBe(true);
+    expect(createStaffProfileSchema.safeParse({ ...identity,membershipId:"10000000-0000-4000-8000-000000000001",schoolId:null,campusId:null,staffNumber:"S2",employmentType:"employee",jobTitle:null,department:null,hireDate:null,status:"active" }).success).toBe(true);
   });
 
   it("rejects invalid employment dates and unbounded archive reasons", () => {
-    expect(updateStaffProfileSchema.safeParse({id:"10000000-0000-4000-8000-000000000001",staffNumber:"S1",employmentType:"employee",jobTitle:null,department:null,hireDate:"2026-08-02",terminationDate:"2026-08-01",status:"inactive"}).success).toBe(false);
+    expect(updateStaffProfileSchema.safeParse({id:"10000000-0000-4000-8000-000000000001",membershipId:null,linkMembership:false,firstName:"Ada",middleName:null,lastName:"Lovelace",displayName:null,workEmail:null,phone:null,staffNumber:"S1",employmentType:"employee",jobTitle:null,department:null,hireDate:"2026-08-02",terminationDate:"2026-08-01",status:"inactive"}).success).toBe(false);
     expect(archiveStaffProfileSchema.safeParse({targetStaffProfileId:"10000000-0000-4000-8000-000000000001",archiveReason:"x".repeat(501)}).success).toBe(false);
   });
 

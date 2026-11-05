@@ -35,6 +35,14 @@ owners, empty search paths, schema-qualified references, and explicit signature
 grants. Authenticated users retain SELECT-only table access through forced,
 operation-specific RLS and cannot mutate academic tables directly.
 
+Real Staff Records v1.7 keeps `staff_profiles` under the same forced-RLS,
+command-only boundary while allowing a null membership link. Create authorization
+comes from the selected authoritative organization/school/campus scope, never from
+the optional target membership. Linking locks and validates an active membership in
+the stored organization, is unique when non-null, and cannot be cleared or replaced
+through v1.7 commands. Create, update, and access-link events share their transaction
+with the staff row and correlated audit/outbox records.
+
 SIS Command Layer v0.4 applies the command-only boundary to students, guardians,
 relationships, identifiers, addresses, emergency contacts, and document metadata.
 Its 21 typed public RPCs accept no organization, actor, identity-link, audit/event,
