@@ -7,6 +7,7 @@ Current boundaries include `organizations`, `identity`, `academics`, `audit`,
 `term-grades`, `report-cards`, `transcripts`, and `progression`. New domains are added
 beside them, not inside the UI layer.
 
-The `staff` module owns the v1.4 read-only staff directory presentation contracts
-and its Supabase adapter. Identity details remain owned by identity; the staff
-adapter consumes only the database's allowlisted staff-read RPC projection.
+The `staff` module owns the v1.5 staff directory and employment-profile command
+contracts plus its Supabase adapter. Identity invitation and membership lifecycle
+remain owned by identity; the staff adapter consumes only allowlisted read and
+eligible-member projections.

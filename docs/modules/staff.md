@@ -1,6 +1,6 @@
 # Staff administration
 
-## Public UI boundary (v1.4)
+## Public UI boundary (v1.5)
 
 The staff administration UI is read-only. `search_staff_profiles` and
 `get_staff_admin_detail` are definer-owned, authenticated RPCs that enforce
@@ -13,10 +13,16 @@ avatar paths, role assignments, permissions, audit attribution, and authenticati
 data. The selected signed application context further narrows directory and detail
 access; it never expands database authorization.
 
-Staff creation and mutation remain on the existing academic command boundary and
-are not exposed through v1.4. A future write UI must coordinate identity invitation,
-membership lifecycle, and employment-profile creation rather than treating those as
-independent browser operations.
+Staff managers may create an employment profile for an existing active organization
+membership, update its employment metadata, or archive it. Identity invitation and
+membership lifecycle remain owned by the identity module and are deliberately not
+performed by the staff module. Names are immutable from the staff UI.
+
+The v1.5 command RPCs wrap the existing academic command boundary with private,
+actor-scoped replay receipts. Existing scope, parent-status, dependency, audit, and
+outbox invariants continue to be enforced by the academic command layer. Archive
+requires a bounded reason and records that reason in an additional atomic audit and
+outbox event.
 
 ## Pagination and filtering
 
@@ -31,4 +37,15 @@ requests one extra row to determine whether another page exists.
 - Anonymous, inactive-membership, missing-permission, cross-tenant, and wrong-campus reads are denied.
 - Directory and detail responses contain only documented columns.
 - Direct table mutation remains unavailable to browser roles.
-- No audit or outbox record is created because v1.4 adds no write operation.
+- `staff_profiles.manage` is required for eligible-member search and all writes.
+- Creation is limited to active organization memberships without a staff profile.
+- Updates require authority over the authoritative home scope; browser forms do not move scope.
+- Archive remains terminal and is blocked by active dependent records.
+- Write commands are replay-safe and emit audit/outbox records in the same transaction.
+
+## Deferred identity workflow
+
+Inviting a new person, creating an authentication user, activating a membership,
+and assigning roles are separate identity-administration operations. Until that UI
+exists, an organization member must already exist before a staff manager can create
+their employment profile.

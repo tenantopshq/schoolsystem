@@ -14,7 +14,7 @@ export default async function StaffDirectory({ searchParams }: { searchParams: P
   const canonical = Object.fromEntries(Object.entries({ q: query.q, status: query.status }).filter((entry): entry is [string, string] => typeof entry[1] === "string"));
 
   return <>
-    <div className="title-row"><div><p className="eyebrow">People</p><h1>Staff</h1></div></div>
+    <div className="title-row"><div><p className="eyebrow">People</p><h1>Staff</h1></div>{context.permissionCodes.includes("staff_profiles.manage")&&<Link className="button" href="/admin/staff/new">New staff profile</Link>}</div>
     <form method="get" className="filters">
       <label>Search<input name="q" defaultValue={query.q} placeholder="Name, number, title, or department" /></label>
       <label>Status<select name="status" defaultValue={query.status}><option value="active">Active</option><option value="inactive">Inactive</option><option value="archived">Archived</option><option value="all">All</option></select></label>
