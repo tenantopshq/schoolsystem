@@ -2,7 +2,7 @@
 
 ## Public UI boundary (v1.5)
 
-The staff administration UI is read-only. `search_staff_profiles` and
+The staff administration read boundary uses `search_staff_profiles` and
 `get_staff_admin_detail` are definer-owned, authenticated RPCs that enforce
 `staff_profiles.view` or `staff_profiles.manage` at the requested or authoritative
 staff home scope. They return an allowlisted projection of employment data and

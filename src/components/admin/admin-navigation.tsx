@@ -7,6 +7,7 @@ const items = [
   { href: "/admin", label: "Overview", exact: true },
   { href: "/admin/students", label: "Students", exact: false, permissions: ["students.view"] },
   { href: "/admin/staff", label: "Staff", exact: false, permissions: ["staff_profiles.view", "staff_profiles.manage"] },
+  { href: "/admin/access", label: "Access", exact: false, permissions: ["memberships.view", "memberships.manage", "roles.view", "roles.manage"] },
 ] as const;
 
 export function AdminNavigation({ permissionCodes = [] }: { permissionCodes?: string[] }) {

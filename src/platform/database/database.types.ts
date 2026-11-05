@@ -6958,6 +6958,18 @@ export type Database = {
         Returns: string
       }
       archive_subject: { Args: { id: string }; Returns: string }
+      assign_access_role_v1_6: {
+        Args: {
+          ends_at: string
+          request_id: string
+          starts_at: string
+          target_campus_id: string
+          target_membership_id: string
+          target_role_id: string
+          target_school_id: string
+        }
+        Returns: string
+      }
       calculate_term_grades: {
         Args: { term_grading_configuration_id: string }
         Returns: {
@@ -7486,6 +7498,14 @@ export type Database = {
         }
         Returns: string
       }
+      end_access_role_assignment_v1_6: {
+        Args: {
+          reason: string
+          request_id: string
+          target_assignment_id: string
+        }
+        Returns: string
+      }
       end_teaching_assignment: {
         Args: { ended_on: string; id: string; reason: string }
         Returns: string
@@ -7528,6 +7548,23 @@ export type Database = {
       finalize_term_grades: {
         Args: { term_grade_set_id: string }
         Returns: string
+      }
+      get_access_member: {
+        Args: { p_membership_id: string }
+        Returns: {
+          display_name: string
+          email: string
+          first_name: string
+          joined_at: string
+          last_name: string
+          left_at: string
+          membership_id: string
+          membership_status: Database["public"]["Enums"]["membership_status"]
+          middle_name: string
+          organization_id: string
+          staff_number: string
+          staff_profile_id: string
+        }[]
       }
       get_my_admin_contexts: {
         Args: never
@@ -7618,6 +7655,33 @@ export type Database = {
           student_id: string
         }
         Returns: string
+      }
+      list_access_assignments: {
+        Args: { p_membership_id: string }
+        Returns: {
+          assignment_id: string
+          campus_id: string
+          campus_name: string
+          ends_at: string
+          permission_codes: string[]
+          role_code: string
+          role_id: string
+          role_name: string
+          school_id: string
+          school_name: string
+          starts_at: string
+          status: Database["public"]["Enums"]["role_assignment_status"]
+        }[]
+      }
+      list_access_roles: {
+        Args: { p_organization_id: string }
+        Returns: {
+          code: string
+          description: string
+          name: string
+          permission_codes: string[]
+          role_id: string
+        }[]
       }
       open_attendance_session: {
         Args: { section_id: string; session_date: string }
@@ -7745,6 +7809,26 @@ export type Database = {
         }
         Returns: string
       }
+      search_access_members: {
+        Args: {
+          p_limit?: number
+          p_organization_id: string
+          p_query?: string
+          p_status?: Database["public"]["Enums"]["membership_status"]
+        }
+        Returns: {
+          assignment_count: number
+          display_name: string
+          email: string
+          first_name: string
+          last_name: string
+          membership_id: string
+          membership_status: Database["public"]["Enums"]["membership_status"]
+          middle_name: string
+          staff_number: string
+          staff_profile_id: string
+        }[]
+      }
       search_eligible_staff_members: {
         Args: {
           p_campus_id?: string
@@ -7859,6 +7943,15 @@ export type Database = {
         Args: {
           id: string
           status: Database["public"]["Enums"]["academic_period_status"]
+        }
+        Returns: string
+      }
+      transition_access_membership_v1_6: {
+        Args: {
+          new_status: Database["public"]["Enums"]["membership_status"]
+          reason: string
+          request_id: string
+          target_membership_id: string
         }
         Returns: string
       }

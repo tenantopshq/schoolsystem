@@ -11,3 +11,6 @@ The `staff` module owns the v1.5 staff directory and employment-profile command
 contracts plus its Supabase adapter. Identity invitation and membership lifecycle
 remain owned by identity; the staff adapter consumes only allowlisted read and
 eligible-member projections.
+
+The `identity-access` module owns the v1.6 allowlisted membership directory,
+membership lifecycle commands, and scoped role-assignment boundary.
