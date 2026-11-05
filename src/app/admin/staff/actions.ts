@@ -9,7 +9,6 @@ import { SupabaseStaffService } from "@/modules/staff/infrastructure/supabase-st
 import { errorCode,runReplaySafe,validationState,type SafeActionState } from "@/modules/students/application/action-support";
 
 export type StaffActionState=SafeActionState;
-export const initialStaffActionState:StaffActionState={status:"idle",fieldErrors:{},values:{}};
 const text=(form:FormData,key:string)=>String(form.get(key)??"").trim();
 const nullable=(form:FormData,key:string)=>text(form,key)||null;
 const values=(form:FormData)=>Object.fromEntries([...form.entries()].filter((entry):entry is [string,string]=>typeof entry[1]==="string"&&entry[0]!=="requestId"));

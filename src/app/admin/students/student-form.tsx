@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
 import { useActionState } from "react";
-import { createStudent,initialStudentActionState,updateStudent,type StudentActionState } from "./actions";
+import { createStudent,updateStudent,type StudentActionState } from "./actions";
 
 type Values=Record<string,string>;
+const initialStudentActionState:StudentActionState={status:"idle",fieldErrors:{},values:{}};
 export function StudentForm({mode,requestId,scope,initial={}}:{mode:"create"|"update";requestId:string;scope:{id?:string;schoolId?:string;campusId?:string};initial?:Values}){
   const action=mode==="create"?createStudent:updateStudent;
   const [state,formAction,pending]=useActionState<StudentActionState,FormData>(action,initialStudentActionState);

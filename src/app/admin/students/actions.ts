@@ -8,7 +8,6 @@ import { targetHasPermission } from "@/modules/organizations/application/scope";
 import { runReplaySafe,safeFailure,validationState,type SafeActionState } from "@/modules/students/application/action-support";
 
 export type StudentActionState=SafeActionState;
-export const initialStudentActionState:StudentActionState={status:"idle",fieldErrors:{},values:{}};
 const text=(f:FormData,k:string)=>String(f.get(k)??"").trim();
 const nullable=(f:FormData,k:string)=>text(f,k)||null;
 const values=(f:FormData)=>Object.fromEntries([...f.entries()].filter((entry):entry is [string,string]=>typeof entry[1]==="string"&&entry[0]!=="requestId"));
