@@ -3683,6 +3683,7 @@ export type Database = {
           name: string
           organization_id: string
           status: Database["public"]["Enums"]["record_status"]
+          system_role_key: string | null
           updated_at: string
           updated_by: string | null
         }
@@ -3696,6 +3697,7 @@ export type Database = {
           name: string
           organization_id: string
           status?: Database["public"]["Enums"]["record_status"]
+          system_role_key?: string | null
           updated_at?: string
           updated_by?: string | null
         }
@@ -3709,6 +3711,7 @@ export type Database = {
           name?: string
           organization_id?: string
           status?: Database["public"]["Enums"]["record_status"]
+          system_role_key?: string | null
           updated_at?: string
           updated_by?: string | null
         }
@@ -6988,6 +6991,14 @@ export type Database = {
         }
         Returns: string
       }
+      bootstrap_organization_v1_8: {
+        Args: {
+          organization_name: string
+          organization_slug: string
+          request_id: string
+        }
+        Returns: string
+      }
       calculate_term_grades: {
         Args: { term_grading_configuration_id: string }
         Returns: {
@@ -7241,6 +7252,25 @@ export type Database = {
           guardian_id: string
           student_guardian_id: string
         }[]
+      }
+      create_onboarding_campus_v1_8: {
+        Args: {
+          campus_code: string
+          campus_name: string
+          organization_id: string
+          request_id: string
+          school_id: string
+        }
+        Returns: string
+      }
+      create_onboarding_school_v1_8: {
+        Args: {
+          organization_id: string
+          request_id: string
+          school_code: string
+          school_name: string
+        }
+        Returns: string
       }
       create_progression_batch: {
         Args: {
@@ -7623,6 +7653,22 @@ export type Database = {
           scope_level: string
         }[]
       }
+      get_my_organization_onboarding_state_v1_8: {
+        Args: { p_organization_id: string; p_school_id?: string }
+        Returns: {
+          membership_id: string
+          organization_id: string
+          organization_name: string
+          organization_slug: string
+          selected_campus_code: string
+          selected_campus_id: string
+          selected_campus_name: string
+          selected_school_code: string
+          selected_school_id: string
+          selected_school_name: string
+          stage: string
+        }[]
+      }
       get_staff_admin_detail: {
         Args: {
           p_campus_id?: string
@@ -7725,6 +7771,28 @@ export type Database = {
           name: string
           permission_codes: string[]
           role_id: string
+        }[]
+      }
+      list_my_owned_onboarding_organizations_v1_8: {
+        Args: never
+        Returns: {
+          campus_count: number
+          is_complete: boolean
+          organization_id: string
+          organization_name: string
+          organization_slug: string
+          school_count: number
+          updated_at: string
+        }[]
+      }
+      list_my_owned_onboarding_schools_v1_8: {
+        Args: { p_organization_id: string }
+        Returns: {
+          campus_count: number
+          school_code: string
+          school_id: string
+          school_name: string
+          updated_at: string
         }[]
       }
       open_attendance_session: {

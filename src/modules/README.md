@@ -7,6 +7,10 @@ Current boundaries include `organizations`, `identity`, `academics`, `audit`,
 `term-grades`, `report-cards`, `transcripts`, and `progression`. New domains are added
 beside them, not inside the UI layer.
 
+The `organizations` module owns v1.8 tenant bootstrap, resumable first-school and
+first-campus onboarding, protected owner-role contracts, and signed administrative
+context selection.
+
 The `staff` module owns the v1.7 staff directory and employment-profile command
 contracts plus its Supabase adapter. Staff records own employment identity/contact
 data and may optionally link once to an active compatible membership. Identity

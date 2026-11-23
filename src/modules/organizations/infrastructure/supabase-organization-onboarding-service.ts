@@ -1,0 +1,19 @@
+import { z } from "zod";
+import { createSupabaseServerClient } from "@/platform/database/supabase-server";
+import type { Database } from "@/platform/database/database.types";
+import { organizationOnboardingStateSchema,ownedOnboardingOrganizationSchema,ownedOnboardingSchoolSchema,type CampusOnboardingInput,type OrganizationOnboardingInput,type OrganizationOnboardingService,type SchoolOnboardingInput } from "../index";
+
+type Functions=Database["public"]["Functions"];
+type OnboardingRpcName="list_my_owned_onboarding_organizations_v1_8"|"list_my_owned_onboarding_schools_v1_8"|"get_my_organization_onboarding_state_v1_8"|"bootstrap_organization_v1_8"|"create_onboarding_school_v1_8"|"create_onboarding_campus_v1_8";
+type RpcInvoker=(name:OnboardingRpcName,args:unknown)=>Promise<unknown>;
+async function callRpc(name:OnboardingRpcName,args:unknown){const db=await createSupabaseServerClient();const{data,error}=await(db.rpc as unknown as(name:string,args:unknown)=>Promise<{data:unknown;error:Error|null}>)(name,args);if(error)throw error;return data;}
+export class SupabaseOrganizationOnboardingService implements OrganizationOnboardingService{
+ constructor(private readonly invoke:RpcInvoker=callRpc){}
+ private async rpc<N extends OnboardingRpcName>(name:N,args:Functions[N]["Args"]){return await this.invoke(name,args) as Functions[N]["Returns"]}
+ async listOrganizations(){const rows=await this.rpc("list_my_owned_onboarding_organizations_v1_8",undefined as never);return rows.map(row=>ownedOnboardingOrganizationSchema.parse({organizationId:row.organization_id,organizationName:row.organization_name,organizationSlug:row.organization_slug,schoolCount:row.school_count,campusCount:row.campus_count,isComplete:row.is_complete,updatedAt:row.updated_at}));}
+ async listSchools(organizationId:string){const rows=await this.rpc("list_my_owned_onboarding_schools_v1_8",{p_organization_id:z.string().uuid().parse(organizationId)});return rows.map(row=>ownedOnboardingSchoolSchema.parse({schoolId:row.school_id,schoolName:row.school_name,schoolCode:row.school_code,campusCount:row.campus_count,updatedAt:row.updated_at}));}
+ async getState(organizationId:string,schoolId?:string|null){const organization=z.string().uuid().parse(organizationId);const args=schoolId?{p_organization_id:organization,p_school_id:z.string().uuid().parse(schoolId)}:{p_organization_id:organization};const rows=await this.rpc("get_my_organization_onboarding_state_v1_8",args);const row=rows[0];return row?organizationOnboardingStateSchema.parse({organizationId:row.organization_id,organizationName:row.organization_name,organizationSlug:row.organization_slug,membershipId:row.membership_id,selectedSchoolId:row.selected_school_id??null,selectedSchoolName:row.selected_school_name??null,selectedSchoolCode:row.selected_school_code??null,selectedCampusId:row.selected_campus_id??null,selectedCampusName:row.selected_campus_name??null,selectedCampusCode:row.selected_campus_code??null,stage:row.stage}):null;}
+ async bootstrap(requestId:string,input:OrganizationOnboardingInput){return z.string().uuid().parse(await this.rpc("bootstrap_organization_v1_8",{request_id:z.string().uuid().parse(requestId),organization_name:input.name,organization_slug:input.slug}));}
+ async createSchool(requestId:string,input:SchoolOnboardingInput){return z.string().uuid().parse(await this.rpc("create_onboarding_school_v1_8",{request_id:z.string().uuid().parse(requestId),organization_id:input.organizationId,school_name:input.name,school_code:input.code}));}
+ async createCampus(requestId:string,input:CampusOnboardingInput){return z.string().uuid().parse(await this.rpc("create_onboarding_campus_v1_8",{request_id:z.string().uuid().parse(requestId),organization_id:input.organizationId,school_id:input.schoolId,campus_name:input.name,campus_code:input.code}));}
+}

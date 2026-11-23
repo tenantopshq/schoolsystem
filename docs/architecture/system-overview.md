@@ -8,6 +8,13 @@ replay-safe student command interfaces.
 
 The platform starts as a modular monolith: one deployable Next.js application and one PostgreSQL database, with business domains isolated behind TypeScript module boundaries. This keeps transactions and operations simple while preserving a path to extract workers or services if measured scale requires it.
 
+Organization Onboarding v1.8 provides the authenticated tenant bootstrap boundary.
+It creates an organization, active creator membership, protected owner role and
+fixed permission grants, organization-wide assignment, audit record, and outbox
+event atomically. Replay-safe school and campus commands then establish the first
+operational context. Multi-organization resumption always reauthorizes the selected
+organization and school from `auth.uid()` and active ownership.
+
 ## Dependency direction
 
 `app → modules → platform/shared`

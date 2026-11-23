@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AdminNavigation } from "@/components/admin/admin-navigation";
 import { resolveSelectedContext } from "@/modules/organizations/application/context";
+import { SupabaseAdminContextService } from "@/modules/organizations/infrastructure/supabase-admin-context-service";
 import { createSupabaseServerClient } from "@/platform/database/supabase-server";
 import { signOut } from "../login/actions";
 
@@ -14,7 +15,10 @@ export default async function AdminLayout({ children }: Readonly<{ children: Rea
   if (!user) redirect("/login");
 
   const context = await resolveSelectedContext();
-  if (!context) redirect("/select-context");
+  if (!context) {
+    const contexts = await new SupabaseAdminContextService().listMine();
+    redirect(contexts.length === 0 ? "/onboarding" : "/select-context");
+  }
 
   const scopeLabel = context.campusName ? "Campus context" : context.schoolName ? "School context" : "Organization context";
 

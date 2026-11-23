@@ -1,0 +1,5 @@
+import Link from "next/link";
+import { SupabaseOrganizationOnboardingService } from "@/modules/organizations/infrastructure/supabase-organization-onboarding-service";
+import { chooseOrganization } from "./actions";
+import { OnboardingError,OnboardingShell,requireOnboardingUser } from "./support";
+export default async function OnboardingPage({searchParams}:{searchParams:Promise<{error?:string}>}){await requireOnboardingUser();const organizations=await new SupabaseOrganizationOnboardingService().listOrganizations();const{error}=await searchParams;return <OnboardingShell title="Choose an organization"><OnboardingError code={error}/><p>Resume an organization or start another one.</p>{organizations.length>0&&<ul>{organizations.map(o=><li key={o.organizationId}><form action={chooseOrganization}><input type="hidden" name="organizationId" value={o.organizationId}/><button type="submit">{o.organizationName} — {o.isComplete?"Complete":"Continue setup"}</button></form></li>)}</ul>}<Link className="primary-button" href="/onboarding/organization">Create organization</Link></OnboardingShell>;}

@@ -15,6 +15,15 @@ Authorization combines:
 4. contextual relationships added by each later domain; and
 5. PostgreSQL RLS for every tenant-owned table.
 
+Organization bootstrap is the sole pre-membership exception. The v1.8 bootstrap
+RPC derives its actor from `auth.uid()` and atomically establishes the tenant and
+its first authorization graph. Inputs are normalized and hashed before the replay
+receipt is claimed. The `ORGANIZATION_OWNER` definition and exact permission set are
+protected by immediate and deferred database triggers attached to both role and
+role-permission mutations; direct browser mutation remains revoked. School and
+campus onboarding requires the active organization-wide protected owner assignment
+plus scoped `schools.manage` and forced RLS.
+
 RLS policies are operation-specific. Helper functions live in the private `app_auth` schema, use an empty `search_path`, and are not executable by anonymous users. Functions that bypass caller RLS must be small, stable, reviewed, and covered by adversarial tests.
 
 The initial policies intentionally give only platform-management permissions access to foundation records. Teacher, guardian, and student relationship policies arrive with their domain tables.

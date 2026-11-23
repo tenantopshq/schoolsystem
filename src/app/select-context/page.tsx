@@ -16,6 +16,7 @@ export default async function SelectContext({
   if (!user) redirect("/login");
 
   const contexts = await new SupabaseAdminContextService().listMine();
+  if (contexts.length === 0) redirect("/onboarding");
   const query = await searchParams;
 
   return (
@@ -24,9 +25,6 @@ export default async function SelectContext({
       {query.error && (
         <p role="alert">That context is invalid or no longer available.</p>
       )}
-      {contexts.length === 0 ? (
-        <p role="alert">No active administrative context is available.</p>
-      ) : (
         <form action={selectContext}>
           <label>
             Organization, school and campus
@@ -52,7 +50,6 @@ export default async function SelectContext({
           </label>
           <button>Continue</button>
         </form>
-      )}
     </main>
   );
 }
